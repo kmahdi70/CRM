@@ -1,0 +1,79 @@
+
+    <div class="col-12">
+        <hr>
+    </div>
+    <div class="col-md-12 col-lg-1 form-group text-right">
+        <label for="title">عنوان</label>
+        <select class="form-control p-0" id="title">
+            <option value="">آقای</option>
+            <option value="">خانم</option>
+        </select>
+    </div>
+    <div class="col-md-12 col-lg-2 form-group text-right">
+        <label for="fn">نام</label>
+        <input type="text" class="form-control text-right rtl" autocomplete="off" id="fn" name="fn" placeholder="نام">
+    </div>
+    <div class="col-md-12 col-lg-2 form-group text-right">
+        <label for="ln">نام خانوادگی</label>
+        <input type="text" class="form-control text-right rtl" autocomplete="off" id="ln" name="ln" placeholder="نام خانوادگی">
+    </div>
+    <div class="col-md-12 col-lg-5 form-group text-right">
+        <label for="post">سمت</label>
+        <input type="text" class="form-control text-right rtl" autocomplete="off" id="post" name="post" placeholder="سمت">
+    </div>
+    <div class="col-md-12 col-lg-2 form-group text-right">
+        <label for="department">بخش</label>
+        <select class="form-control" name="department" id="department">
+            <option value="0">انتخاب دپارتمان</option>
+            <?php
+                                            foreach ($Department as $row){
+                                                ?>
+            <option value="<?php echo $row->DID; ?>"><?php echo $row->Title; ?></option>
+            <?php
+                                            }
+                                            ?>
+        </select>
+    </div>
+    <div class="col-md-12 col-lg-2 form-group text-right">
+        <button type="button" onclick="Add_Tell(this);" class="btn btn-outline-info p-0"><i class="fas fa-plus fa-lg fa-fw position-relative" style="top: 2px"></i></button>
+        <label for="tcode">تلفن</label>
+        <div class="input-group ltr mb-1">
+            <div class="input-group-prepend">
+                <span class="input-group-text"><input class="input-group-text p-0 border-0" placeholder="کد" id="tcode" name="tcode[]" size="1"></span>
+            </div>
+            <input type="text" class="form-control p-1" placeholder="تلفن" name="tell[]">
+        </div>
+    </div>
+    <div class="col-md-12 col-lg-1 form-group text-right p-lg-0">
+        <button type="button" onclick="Add_Int(this);" class="btn btn-outline-info p-0"><i class="fas fa-plus fa-lg fa-fw position-relative" style="top: 2px"></i></button>
+        <label for="int">داخلی</label>
+        <input type="text" class="form-control ltr text-left mb-1" placeholder="داخلی" id="int" name="int[]">
+    </div>
+    <div class="col-md-12 col-lg-2 form-group text-right">
+        <button type="button" onclick="Add_Fax(this);" class="btn btn-outline-info p-0"><i class="fas fa-plus fa-lg fa-fw position-relative" style="top: 2px"></i></button>
+        <label for="fcode">فکس</label>
+        <div class="input-group ltr mb-1">
+            <div class="input-group-prepend">
+                <span class="input-group-text"><input class="input-group-text p-0 border-0" placeholder="کد" id="fcode" name="fcode" size="1"></span>
+            </div>
+            <input type="text" class="form-control p-1" placeholder="فکس" id="fax" name="fax[]">
+        </div>
+    </div>
+    <div class="col-md-12 col-lg-2 form-group text-right">
+        <button type="button" onclick="Add_Email(this);" class="btn btn-outline-info p-0"><i class="fas fa-plus fa-lg fa-fw position-relative" style="top: 2px"></i></button>
+        <label for="a_email">ایمیل</label>
+        <input type="text" class="form-control ltr text-left mb-1" placeholder="ایمیل" id="a_email" name="a_email[]">
+    </div>
+    <div class="col-md-12 col-lg-2 form-group text-right">
+        <button type="button" onclick="Add_Mobile(this);" class="btn btn-outline-info p-0"><i class="fas fa-plus fa-lg fa-fw position-relative" style="top: 2px"></i></button>
+        <label for="mobile">همراه</label>
+        <input type="text" class="form-control ltr text-left mb-1" placeholder="همراه" id="mobile" name="mobile[]">
+    </div>
+    <div class="col-md-12 col-lg-2 form-group text-right">
+        <label for="desc">توضیحات</label>
+        <input type="text" class="form-control text-right rtl" autocomplete="off" id="desc" name="desc" value="<?php echo set_value('desc'); ?>" placeholder="توضیحات">
+    </div>
+    <div class="col-md-12 col-lg-1 form-group Add_Agent">
+        <label for="desc">جدید</label>
+        <button type="button" onclick="Add_Agent();" data-toggle="tooltip" title="افزودن پرسنل" class="btn btn-outline-success"><i class="fas fa-plus fa-lg fa-fw" style="top: 2px;position: relative"></i></button>
+    </div>

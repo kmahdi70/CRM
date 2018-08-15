@@ -1,0 +1,73 @@
+@font-face {
+    font-family: Vazir;
+    src: url('../vazir/Vazir.eot');
+    src: url('../vazir/Vazir.eot?#iefix') format('embedded-opentype'),
+    url('../vazir/Vazir.woff') format('woff'),
+    url('../vazir/Vazir.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: VazirB;
+    src: url('../vazir/Vazir-Bold.eot');
+    src: url('../vazir/Vazir-Bold.eot?#iefix') format('embedded-opentype'),
+    url('../vazir/Vazir-Bold.woff') format('woff'),
+    url('../vazir/Vazir-Bold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: VazirL;
+    src: url('../vazir/Vazir-Light.eot');
+    src: url('../vazir/Vazir-Light.eot?#iefix') format('embedded-opentype'),
+    url('../vazir/Vazir-Light.woff') format('woff'),
+    url('../vazir/Vazir-Light.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: VazirT;
+    src: url('../vazir/Vazir-Thin.eot');
+    src: url('../vazir/Vazir-Thin.eot?#iefix') format('embedded-opentype'),
+    url('../vazir/Vazir-Thin.woff') format('woff'),
+    url('../vazir/Vazir-Thin.ttf') format('truetype');
+}
+body *:not(i){
+    font-family: 'Vazir', sans-serif;
+}
+.rtl {
+    direction: rtl !important;
+}
+.ltr {
+    direction: ltr !important;
+}
+.Form *:not(i), #System_Message *, #PTime{
+	font-size: 11px;
+}
+
+.Form{
+    box-shadow: 0 0 8px #d0d0d0;
+}
+body {
+    padding-top: 6rem;
+}
+.V{
+    font-family: 'Vazir', sans-serif !important;
+}
+.SMenu{
+    color: rgba(180,180,180,1) !important;
+}
+.SMenu:hover{
+    color: #dddddd !important;
+}
+.F {
+    color: #ff574d;
+}
+.modal *{
+    font-family: 'Vazir', sans-serif !important;
+}
+#ConfirmDell .close{
+}
+.B{
+    border: 1px solid #000;
+}
+.Links a{
+   margin-bottom: 3px;
+}
