@@ -464,14 +464,13 @@ class Company_model extends CI_Model{
             $this->db->select('company.CID,
                                 company.`Name`,
                                 company.`Brand`,
-                                company.Register,
-                                company.Type,
-                                company.CEO,
-                                category.Title as `Cat`,
-                                subcategory.Title as `Sub`');
+                                subcategory.Title as `Sub`,
+                                company.Category as `Type`,
+                                category.Title as `Cat`');
             $this->db->from('company');
-            $this->db->join('category','company.Category_ID = category.CID');
+            $this->db->join('company_agent','company_agent.Company_ID = company.CID');
             $this->db->join('subcategory','company.SubCategory_ID = subcategory.SCID');
+            $this->db->join('category','subcategory.Category_ID = category.CID');
             $query = $this->db->get();
             $arr = array();
             foreach ($query->result() as $Res){
@@ -480,7 +479,7 @@ class Company_model extends CI_Model{
                     $Res->Brand,
                     $Res->Cat,
                     $Res->Sub,
-                    $Res->CEO,
+                    $Res->Type,
                     $this->Button($Res->CID));
             }
 
