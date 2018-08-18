@@ -23,12 +23,12 @@ $this->load->view($menu.'_menu');
         <div class="col-12 text-center">
             <div class="card Form">
                 <div class="card-header text-right Panel_Title">
-                    <strong>ورود اطلاعات </strong><i class="far fa-folder-open Panel_Icon"></i>
+                    <strong>ویرایش اطلاعات </strong><i class="far fa-folder-open Panel_Icon"></i>
                 </div>
                 <div class="card-body Panel_Body">
                     <div class="row rtl">
                         <div class="col-12 form-group">
-                            <a href="<?php echo base_url() . 'company_edit'; ?>" class="btn btn-outline-primary">شرکت</a>
+                            <a href="<?php echo base_url() . 'company_find'; ?>" class="btn btn-outline-primary">شرکت</a>
                             <a href="" class="btn btn-outline-primary">گروه</a>
                             <a href="" class="btn btn-outline-primary">زیرگروه</a>
                             <a href="" class="btn btn-outline-primary">دپارتمان</a>

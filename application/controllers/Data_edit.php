@@ -12,7 +12,7 @@ class Data_edit extends CI_Controller {
 
     public function index($Msg=0)
     {
-        $data['Title'] = 'CRM - ورود اطلاعات';
+        $data['Title'] = 'CRM - ویرایش اطلاعات';
         $data['Msg'] = $Msg;
         $this->load->view('data_edit', $data);
 	}

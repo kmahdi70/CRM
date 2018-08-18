@@ -358,6 +358,14 @@ class Company_model extends CI_Model{
         return $query->result();
     }
 
+    public function get_company_details($cid){
+        if($cid AND $cid != 0){
+
+        }
+
+        return $query->result();
+    }
+
     public function dell_agent(){
         $aid = $this->input->post('AID');
         if($this->db->delete('company_agent', array('AID' => $aid))){
@@ -460,21 +468,23 @@ class Company_model extends CI_Model{
     }
 
     public function list_company(){
-
             $this->db->select('company.CID,
                                 company.`Name`,
                                 company.`Brand`,
                                 subcategory.Title as `Sub`,
                                 company.Category as `Type`,
-                                category.Title as `Cat`');
+                                category.Title as `Cat`,
+                                company.`Created` as `Date`');
             $this->db->from('company');
-            $this->db->join('company_agent','company_agent.Company_ID = company.CID');
             $this->db->join('subcategory','company.SubCategory_ID = subcategory.SCID');
             $this->db->join('category','subcategory.Category_ID = category.CID');
+            $this->db->order_by('Date');
             $query = $this->db->get();
             $arr = array();
+            $i=1;
             foreach ($query->result() as $Res){
                 $arr['data'][] = array(
+                    $i++,
                     $Res->Name,
                     $Res->Brand,
                     $Res->Cat,
@@ -482,13 +492,12 @@ class Company_model extends CI_Model{
                     $Res->Type,
                     $this->Button($Res->CID));
             }
-
         return json_encode($arr);
 
     }
     public function Button($id){
         return ('<span class="btn" data-toggle="tooltip" title="ویرایش" id="DellSpan" style="padding: 0;">
-                     <a href="'.base_url().'company_details/update/'.$id.'"><i class="far fa-edit fa-fw fa-2x"></i></a>
+                     <a href="'.base_url().'company_edit/'.$id.'"><i class="far fa-edit fa-fw fa-2x"></i></a>
                  </span>
                  <span class="btn" data-toggle="tooltip" title="حذف" id="DellSpan" onclick="ConfirmDelete(\''.$id.'\');" style="padding: 0;">
                     <i class="far fa-trash-alt fa-fw fa-2x text-danger" data-toggle="modal" data-target="#ConfirmDell"></i>
