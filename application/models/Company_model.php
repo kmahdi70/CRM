@@ -360,10 +360,63 @@ class Company_model extends CI_Model{
 
     public function get_company_details($cid){
         if($cid AND $cid != 0){
-
+            $this->db->select('company.*,category.CID as `cat`');
+            $this->db->from('company');
+            $this->db->join('subcategory','company.SubCategory_ID = subcategory.SCID');
+            $this->db->join('category','subcategory.Category_ID = category.CID');
+            $this->db->where('company.CID',$cid);
+            $query = $this->db->get();
+            return $query->row();
         }
+    }
 
+    public function get_company_labels($cid){
+        if($cid AND $cid != 0){
+            $this->db->select('company_label.Label_ID,labels.Title');
+            $this->db->from('company_label');
+            $this->db->join('labels','company_label.Label_ID = labels.LID');
+            $this->db->where('company_label.Company_ID',$cid);
+            $query = $this->db->get();
+            return $query->result();
+        }
+    }
+
+    public function get_company_addresses($cid){
+        if($cid AND $cid != 0){
+            $this->db->select('company_address.Address,
+                                company_address.Company_ID,
+                                county.`name`,
+                                province.`name`,
+                                province.id,
+                                county.id,
+                                county.province_id');
+            $this->db->from('company_address');
+            $this->db->join('county','company_address.County_ID = county.id');
+            $this->db->join('province','county.province_id = province.id');
+            $this->db->where('company_address.Company_ID',$cid);
+            $query = $this->db->get();
+            return $query->result();
+        }
+    }
+
+    public function get_company_city($pid){
+        $query = $this->db->get_where('county',array('province_id' => $pid));
         return $query->result();
+    }
+
+
+    public function get_company_tells($cid){
+         if($cid AND $cid != 0){
+             $query = $this->db->get_where('Company_tell',array('Company_ID'=>$cid));
+             return $query->result();
+        }
+    }
+
+    public function get_company_faxes($cid){
+         if($cid AND $cid != 0){
+             $query = $this->db->get_where('Company_fax',array('Company_ID'=>$cid));
+             return $query->result();
+        }
     }
 
     public function dell_agent(){

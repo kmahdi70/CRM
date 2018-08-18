@@ -11,4 +11,12 @@ class Agent_model extends CI_Model{
         return $query->result();
     }
 
+    public function get_company_agents($cid){
+
+
+        $query = $this->db->get_where('company_agent',array('Company_ID' => $cid));
+        return $query->result();
+    }
+
+
 }

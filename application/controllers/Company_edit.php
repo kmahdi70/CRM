@@ -9,15 +9,57 @@ class Company_edit extends CI_Controller {
         if(! $this->session->userdata('UID') OR $this->session->userdata('PROJECT') != 'CRM')
             redirect(base_url() . 'login');
 
+        $this->load->model('address_model');
+        $this->load->model('category_model');
+        $this->load->model('agent_model');
         $this->load->model('company_model');
+        $this->load->model('label_model');
     }
     public function index($cid,$Msg=0)
     {
         $data['Title'] = 'CRM - ویرایش شرکت';
         $data['Msg'] = $Msg;
 
-        $res = $this->company_model->get_company_details($cid);
+        $res = $this->category_model->get_category();
+        $data['Category'] = $res;
 
-        $this->load->view('company_edit', $data);
+        $res = $this->company_model->get_company_labels($cid);
+        $data['Label'] = $res;
+
+        $res = $this->company_model->get_company_tells($cid);
+        $data['Tell'] = $res;
+
+        $res = $this->company_model->get_company_faxes($cid);
+        $data['Fax'] = $res;
+
+        $res = $this->company_model->get_company_addresses($cid);
+        $data['Address'] = $res;
+
+        $city = array();
+        foreach($res as $add){
+            $PID = $add->province_id;
+            $city[] = $this->company_model->get_company_city($PID);
+        }
+        $data['City'] = $city;
+
+        $res = $this->address_model->get_province();
+        $data['Province'] = $res;
+
+        $res = $this->label_model->get_company_labels();
+        $data['Company_Label'] = $res;
+
+        $res1 = $this->company_model->get_company_details($cid);
+        $data['Company'] = $res1;
+
+
+        $Cat = $res1->cat;
+        $res = $this->category_model->get_subcat($Cat);
+        $data['SubCategory'] = $res;
+
+        if($res1->Category == 'شخص حقیقی')
+            $this->load->view('company_edit_real', $data);
+        if($res1->Category == 'شخص حقوقی')
+            $this->load->view('company_edit_legal', $data);
+
     }
 }

@@ -48,7 +48,6 @@ class Category_model extends CI_Model{
         if($cid != 0)
             $this->db->where('Category_ID',$cid);
         $query = $this->db->get();
-
         return $query->result();
     }
 

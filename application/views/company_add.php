@@ -144,7 +144,7 @@ $this->load->view($menu.'_menu');
                                 </div>
                                 <div class="col-md-12 col-lg-2 form-group text-right">
                                     <label for="province">استان</label>
-                                    <select class="form-control" onchange="FeedCounty(this.value);" id="province">
+                                    <select class="form-control" onchange="FeedCounty(this.value,this);" id="province">
                                         <option value="0">انتخاب استان</option>
                                         <?php
                                         foreach ($Province as $row){
@@ -370,7 +370,7 @@ $this->load->view($menu.'_menu');
                                 </div>
                                 <div class="col-md-12 col-lg-2 form-group text-right">
                                     <label for="province">استان</label>
-                                    <select class="form-control" onchange="FeedCounty(this.value);" id="province">
+                                    <select class="form-control" onchange="FeedCounty(this.value,this);" id="province">
                                         <option value="0">انتخاب استان</option>
                                         <?php
                                         foreach ($Province as $row){
@@ -484,15 +484,16 @@ $this->load->view($menu.'_menu');
             }
         });
     }
-    function FeedCounty(val) {
+    function FeedCounty(val,obj) {
+        var Add = $(obj).parent().parent();
         var URL = '<?php print(base_url().'company_details/get_county');?>';
         $.post(URL, {PID:val}, function (res, ret) {
             if(ret == 'success'){
-                $('#Address_0 #city').html('<option value="0">انتخاب شهرستان</option>');
+                $(Add).find('#city').html('<option value="0">انتخاب شهرستان</option>');
                 if(res){
                     var Json = $.parseJSON(res);
                     $(Json).each(function(k,v){
-                        $('#Address_0 #city').append('<option value="'+v['id']+'">'+v['name']+'</option>');
+                        $(Add).find('#city').append('<option value="'+v['id']+'">'+v['name']+'</option>');
                     });
                 }
             }
