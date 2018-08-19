@@ -46,6 +46,16 @@ $this->load->view($menu.'_menu');
                             <label for="category">نوع شرکت</label>
                             <input type="text" id="category" class="form-control" readonly value="<?php echo $Company->Category; ?>">
                         </div>
+                        <div class="position-absolute" style="left: 15px;display: none" onclick="Delete_Label(this);" id="Delete_Label_Icon">
+                            <button type="button" class="btn btn-outline-danger p-0">
+                                <i class="fas fa-times fa-lg fa-fw position-relative" style="top: 2px"></i>
+                            </button>
+                        </div>
+                        <div class="position-absolute" style="left: 15px;display: none" onclick="Delete_Tell(this);" id="Delete_Tell_Icon">
+                            <button type="button" class="btn btn-outline-danger p-0">
+                                <i class="fas fa-times fa-lg fa-fw position-relative" style="top: 2px"></i>
+                            </button>
+                        </div>
                         <!--***************************************************************************** Agent_Base Start -->
                         <div class="row" id="Agent_Base" style="display: none;">
                             <div class="col-12">
@@ -236,19 +246,41 @@ $this->load->view($menu.'_menu');
                                 <label for="label_0">برچسب</label>
                                 <?php
                                 $len = count($Label);
-                                for($i_label=0;$i_label<$len;$i_label++){
+                                if($len == 0){
+                                    $i_label = 0;
                                     ?>
-                                    <select class="form-control p-1 mb-1" id="label_<?php echo $i_label;?>">
-                                        <option value="0">انتخاب برچسب</option>
-                                        <?php
-                                        foreach ($Company_Label as $row){
+                                    <div class="position-absolute" style="left: 15px;display: none" onclick="Delete_Label(this);" id="del_label_0">
+                                        <button type="button" class="btn btn-outline-danger p-0">
+                                            <i class="fas fa-times fa-lg fa-fw position-relative" style="top: 2px"></i>
+                                        </button>
+                                    </div>
+
+                                    <?php
+                                }
+                                else {
+                                    for ($i_label = 0; $i_label < $len; $i_label++) {
+                                        if ($i_label > 0) {
                                             ?>
-                                            <option value="<?php echo $row->LID; ?>" <?php if($row->LID == $Label[$i_label]->Label_ID) echo 'selected'; ?>><?php echo $row->Title; ?></option>
+                                            <div class="position-absolute" style="left: 15px;display: none" onclick="Delete_Label(this);" id="del_label_<?php echo $i_label; ?>">
+                                                <button type="button" class="btn btn-outline-danger p-0">
+                                                    <i class="fas fa-times fa-lg fa-fw position-relative" style="top: 2px"></i>
+                                                </button>
+                                            </div>
                                             <?php
                                         }
                                         ?>
-                                    </select>
-                                <?php
+                                        <select class="form-control p-1 mb-1" id="label_<?php echo $i_label; ?>" onmouseover="Show_Delete(this);">
+                                            <option value="0">انتخاب برچسب</option>
+                                            <?php
+                                            foreach ($Company_Label as $row) {
+                                                ?>
+                                                <option value="<?php echo $row->LID; ?>" <?php if ($row->LID == $Label[$i_label]->Label_ID) echo 'selected'; ?>><?php echo $row->Title; ?></option>
+                                                <?php
+                                            }
+                                            ?>
+                                        </select>
+                                        <?php
+                                    }
                                 }
                                 ?>
                             </div>
@@ -257,25 +289,49 @@ $this->load->view($menu.'_menu');
                                 <label for="ctcode_0">تلفن</label>
                                 <?php
                                 $len = count($Tell);
-                                for($i_ctell=0; $i_ctell<$len; $i_ctell++){
+                                if($len == 0){
+                                    $i_ctell = 0;
                                     ?>
                                     <div class="input-group ltr mb-1">
                                         <div class="input-group-prepend">
-                                            <span class="input-group-text"><input class="input-group-text p-0 border-0" placeholder="کد" id="ctcode_<?php echo $i_ctell; ?>" size="1" value="<?php echo $Tell[$i_ctell]->Code;?>"></span>
+                                                <span class="input-group-text">
+                                                    <input class="input-group-text p-0 border-0" placeholder="کد" id="ctcode_0" size="1">
+                                                </span>
                                         </div>
-                                        <input type="text" class="form-control p-1" placeholder="تلفن" id="ctell_<?php echo $i_ctell;?>" value="<?php echo $Tell[$i_ctell]->Tell;?>">
+                                        <input type="text" class="form-control p-1" placeholder="تلفن" id="ctell_0">
                                     </div>
-                                <?php
+                                    <?php
+                                }
+                                else {
+                                    for ($i_ctell = 0; $i_ctell < $len; $i_ctell++) {
+                                        ?>
+                                        <div class="input-group ltr mb-1">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <input class="input-group-text p-0 border-0" placeholder="کد" id="ctcode_<?php echo $i_ctell; ?>" size="1" value="<?php echo $Tell[$i_ctell]->Code; ?>">
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control p-1" placeholder="تلفن" id="ctell_<?php echo $i_ctell; ?>" value="<?php echo $Tell[$i_ctell]->Tell; ?>">
+                                        </div>
+                                        <?php
+                                    }
                                 }
                                 ?>
                             </div>
                             <div class="col-md-12 col-lg-2 form-group text-right">
                                 <label for="ttitle_0">توضیحات</label>
                                 <?php
-                                for($i_ctell=0; $i_ctell<$len; $i_ctell++) {
+                                if($len == 0){
                                     ?>
-                                    <input type="text" class="form-control text-right rtl mb-1" autocomplete="off" id="ttitle_<?php echo $i_ctell; ?>" placeholder="توضیحات" value="<?php echo $Tell[$i_ctell]->Title;?>">
+                                    <input type="text" class="form-control text-right rtl mb-1" autocomplete="off" id="ttitle_0" placeholder="توضیحات">
                                     <?php
+                                }
+                                else {
+                                    for ($i_ctell = 0; $i_ctell < $len; $i_ctell++) {
+                                        ?>
+                                        <input type="text" class="form-control text-right rtl mb-1" autocomplete="off" id="ttitle_<?php echo $i_ctell; ?>" placeholder="توضیحات" value="<?php echo $Tell[$i_ctell]->Title; ?>">
+                                        <?php
+                                    }
                                 }
                                 ?>
                             </div>
@@ -284,132 +340,374 @@ $this->load->view($menu.'_menu');
                                 <label for="cfcode_0">فکس</label>
                                 <?php
                                 $len = count($Fax);
-                                for($i_cfax=0; $i_cfax<$len; $i_cfax++){
+                                if($len == 0){
+                                    $i_cfax = 0;
                                     ?>
                                     <div class="input-group ltr mb-1">
                                         <div class="input-group-prepend">
-                                            <span class="input-group-text"><input class="input-group-text p-0 border-0" placeholder="کد" id="cfcode_<?php echo $i_cfax;?>" size="1" value="<?php echo $Fax[$i_cfax]->Code;?>"></span>
+                                            <span class="input-group-text"><input class="input-group-text p-0 border-0" placeholder="کد" id="cfcode_0" size="1"></span>
                                         </div>
-                                        <input type="text" class="form-control p-1" placeholder="فکس" id="cfax_<?php echo $i_cfax;?>" value="<?php echo $Fax[$i_cfax]->Fax;?>">
+                                        <input type="text" class="form-control p-1" placeholder="فکس" id="cfax_0">
                                     </div>
                                     <?php
                                 }
+                                else {
+                                    for ($i_cfax = 0; $i_cfax < $len; $i_cfax++) {
+                                        ?>
+                                        <div class="input-group ltr mb-1">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <input class="input-group-text p-0 border-0" placeholder="کد" id="cfcode_<?php echo $i_cfax; ?>" size="1" value="<?php echo $Fax[$i_cfax]->Code; ?>">
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control p-1" placeholder="فکس" id="cfax_<?php echo $i_cfax; ?>" value="<?php echo $Fax[$i_cfax]->Fax; ?>">
+                                        </div>
+                                        <?php
+                                    }
+                                }
                                 ?>
-
                             </div>
                             <div class="col-md-12 col-lg-2 form-group text-right">
                                 <label for="ftitle_0">توضیحات</label>
                                 <?php
-                                for($i_cfax=0; $i_cfax<$len; $i_cfax++) {
+                                if($len == 0){
                                     ?>
-                                    <input type="text" class="form-control text-right rtl mb-1" autocomplete="off" id="ftitle_<?php echo $i_cfax; ?>" placeholder="توضیحات" value="<?php echo $Fax[$i_cfax]->Title;?>">
+                                    <input type="text" class="form-control text-right rtl mb-1" autocomplete="off" id="ftitle_0" placeholder="توضیحات">
                                     <?php
                                 }
-                                ?>
-
-                            </div>
-                        </div>
-                        <div class="row" id="Agent_0">
-                            <div class="col-12">
-                                <hr>
-                            </div>
-                            <div class="col-md-12 col-lg-1 form-group text-right">
-                                <label for="title">عنوان</label>
-                                <select class="form-control p-0" id="title">
-                                    <option value="آقای">آقای</option>
-                                    <option value="خانم">خانم</option>
-                                </select>
-                            </div>
-                            <div class="col-md-12 col-lg-2 form-group text-right">
-                                <label for="fn">نام</label>
-                                <input type="text" class="form-control text-right rtl" autocomplete="off" id="fn" placeholder="نام">
-                            </div>
-                            <div class="col-md-12 col-lg-2 form-group text-right">
-                                <label for="ln">نام خانوادگی</label>
-                                <input type="text" class="form-control text-right rtl" autocomplete="off" id="ln" placeholder="نام خانوادگی">
-                            </div>
-                            <div class="col-md-12 col-lg-5 form-group text-right">
-                                <label for="post">عنوان شغلی</label>
-                                <input type="text" class="form-control text-right rtl" autocomplete="off" id="post" placeholder="عنوان شغلی">
-                            </div>
-                            <div class="col-md-12 col-lg-2 form-group text-right">
-                                <label for="department">بخش</label>
-                                <select class="form-control" id="department">
-                                    <option value="0">انتخاب دپارتمان</option>
-                                    <?php
-                                    foreach ($Department as $row){
+                                else {
+                                    for ($i_cfax = 0; $i_cfax < $len; $i_cfax++) {
                                         ?>
-                                        <option value="<?php echo $row->DID; ?>" <?php if($row->Title == 'سایر') echo 'selected';?>><?php echo $row->Title; ?></option>
+                                        <input type="text" class="form-control text-right rtl mb-1" autocomplete="off"
+                                               id="ftitle_<?php echo $i_cfax; ?>" placeholder="توضیحات"
+                                               value="<?php echo $Fax[$i_cfax]->Title; ?>">
                                         <?php
                                     }
-                                    ?>
-                                </select>
-                            </div>
-                            <div class="col-md-12 col-lg-2 form-group text-right">
-                                <button type="button" onclick="Add_Tell(this);" class="btn btn-outline-info p-0"><i class="fas fa-plus fa-lg fa-fw position-relative" style="top: 2px"></i></button>
-                                <label for="tcode">تلفن</label>
-                                <div class="input-group ltr mb-1">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><input class="input-group-text p-0 border-0" placeholder="کد" id="tcode_0" size="1"></span>
-                                    </div>
-                                    <input type="text" class="form-control p-1" placeholder="تلفن" id="tell_0">
-                                </div>
-                                <input type="hidden" id="tell_count">
-                            </div>
-                            <div class="col-md-12 col-lg-1 form-group text-right p-lg-0">
-                                <button type="button" onclick="Add_Int(this);" class="btn btn-outline-info p-0"><i class="fas fa-plus fa-lg fa-fw position-relative" style="top: 2px"></i></button>
-                                <label for="int">داخلی</label>
-                                <input type="text" class="form-control ltr text-left mb-1" placeholder="داخلی" id="int_0">
-                                <input type="hidden" id="int_count">
-                            </div>
-                            <div class="col-md-12 col-lg-2 form-group text-right">
-                                <button type="button" onclick="Add_Fax(this);" class="btn btn-outline-info p-0"><i class="fas fa-plus fa-lg fa-fw position-relative" style="top: 2px"></i></button>
-                                <label for="fcode">فکس</label>
-                                <div class="input-group ltr mb-1">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><input class="input-group-text p-0 border-0" placeholder="کد" id="fcode_0" size="1"></span>
-                                    </div>
-                                    <input type="text" class="form-control p-1" placeholder="فکس" id="fax_0">
-                                </div>
-                                <input type="hidden" id="fax_count">
-                            </div>
-                            <div class="col-md-12 col-lg-2 form-group text-right">
-                                <button type="button" onclick="Add_Email(this);" class="btn btn-outline-info p-0"><i class="fas fa-plus fa-lg fa-fw position-relative" style="top: 2px"></i></button>
-                                <label for="a_email">ایمیل</label>
-                                <input type="text" class="form-control ltr text-left mb-1" placeholder="ایمیل" id="a_email_0">
-                                <input type="hidden" id="email_count">
-                            </div>
-                            <div class="col-md-12 col-lg-2 form-group text-right">
-                                <button type="button" onclick="Add_Mobile(this);" class="btn btn-outline-info p-0"><i class="fas fa-plus fa-lg fa-fw position-relative" style="top: 2px"></i></button>
-                                <label for="mobile">همراه</label>
-                                <input type="text" class="form-control ltr text-left mb-1" placeholder="همراه" id="mobile_0">
-                                <input type="hidden" id="mobile_count">
-                            </div>
-                            <div class="col-md-12 col-lg-2 form-group text-right">
-                                <label for="desc">توضیحات</label>
-                                <input type="text" class="form-control text-right rtl" autocomplete="off" id="desc" placeholder="توضیحات">
-                            </div>
-                            <div class="col-md-12 col-lg-1 form-group Add_Agent">
-                                <label for="desc">جدید</label>
-                                <button type="button" onclick="Add_Agent();" data-toggle="tooltip" title="افزودن پرسنل" class="btn btn-outline-success"><i class="fas fa-plus fa-lg fa-fw" style="top: 2px;position: relative"></i></button>
+                                }
+                                ?>
                             </div>
                         </div>
                         <?php
-                        $len = count($Address);
-                        for($i_add=0; $i_add<$len; $i_add++){
+                        $len = count($Agent);
+                        if($len == 0){
+                            $i_agent = 0;
                             ?>
-                            <div class="row" id="Address_<?php echo $i_add;?>">
+                            <div class="row" id="Agent_0">
+                                <div class="col-12">
+                                    <hr>
+                                </div>
+                                <div class="col-md-12 col-lg-1 form-group text-right">
+                                    <label for="title">عنوان</label>
+                                    <select class="form-control p-0" id="title">
+                                        <option value="آقای">آقای</option>
+                                        <option value="خانم">خانم</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-12 col-lg-2 form-group text-right">
+                                    <label for="fn">نام</label>
+                                    <input type="text" class="form-control text-right rtl" autocomplete="off" id="fn" placeholder="نام">
+                                </div>
+                                <div class="col-md-12 col-lg-2 form-group text-right">
+                                    <label for="ln">نام خانوادگی</label>
+                                    <input type="text" class="form-control text-right rtl" autocomplete="off" id="ln" placeholder="نام خانوادگی">
+                                </div>
+                                <div class="col-md-12 col-lg-5 form-group text-right">
+                                    <label for="post">عنوان شغلی</label>
+                                    <input type="text" class="form-control text-right rtl" autocomplete="off" id="post" placeholder="عنوان شغلی">
+                                </div>
+                                <div class="col-md-12 col-lg-2 form-group text-right">
+                                    <label for="department">بخش</label>
+                                    <select class="form-control" id="department">
+                                        <option value="0">انتخاب دپارتمان</option>
+                                        <?php
+                                        foreach ($Department as $row){
+                                            ?>
+                                            <option value="<?php echo $row->DID; ?>" <?php if($row->Title == 'سایر') echo 'selected';?>><?php echo $row->Title; ?></option>
+                                            <?php
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="col-md-12 col-lg-2 form-group text-right">
+                                    <button type="button" onclick="Add_Tell(this);" class="btn btn-outline-info p-0"><i class="fas fa-plus fa-lg fa-fw position-relative" style="top: 2px"></i></button>
+                                    <label for="tcode">تلفن</label>
+                                    <div class="input-group ltr mb-1">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><input class="input-group-text p-0 border-0" placeholder="کد" id="tcode_0" size="1"></span>
+                                        </div>
+                                        <input type="text" class="form-control p-1" placeholder="تلفن" id="tell_0">
+                                    </div>
+                                    <input type="hidden" id="tell_count">
+                                </div>
+                                <div class="col-md-12 col-lg-1 form-group text-right p-lg-0">
+                                    <button type="button" onclick="Add_Int(this);" class="btn btn-outline-info p-0"><i class="fas fa-plus fa-lg fa-fw position-relative" style="top: 2px"></i></button>
+                                    <label for="int">داخلی</label>
+                                    <input type="text" class="form-control ltr text-left mb-1" placeholder="داخلی" id="int_0">
+                                    <input type="hidden" id="int_count">
+                                </div>
+                                <div class="col-md-12 col-lg-2 form-group text-right">
+                                    <button type="button" onclick="Add_Fax(this);" class="btn btn-outline-info p-0"><i class="fas fa-plus fa-lg fa-fw position-relative" style="top: 2px"></i></button>
+                                    <label for="fcode">فکس</label>
+                                    <div class="input-group ltr mb-1">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><input class="input-group-text p-0 border-0" placeholder="کد" id="fcode_0" size="1"></span>
+                                        </div>
+                                        <input type="text" class="form-control p-1" placeholder="فکس" id="fax_0">
+                                    </div>
+                                    <input type="hidden" id="fax_count">
+                                </div>
+                                <div class="col-md-12 col-lg-2 form-group text-right">
+                                    <button type="button" onclick="Add_Email(this);" class="btn btn-outline-info p-0"><i class="fas fa-plus fa-lg fa-fw position-relative" style="top: 2px"></i></button>
+                                    <label for="a_email">ایمیل</label>
+                                    <input type="text" class="form-control ltr text-left mb-1" placeholder="ایمیل" id="a_email_0">
+                                    <input type="hidden" id="email_count">
+                                </div>
+                                <div class="col-md-12 col-lg-2 form-group text-right">
+                                    <button type="button" onclick="Add_Mobile(this);" class="btn btn-outline-info p-0"><i class="fas fa-plus fa-lg fa-fw position-relative" style="top: 2px"></i></button>
+                                    <label for="mobile">همراه</label>
+                                    <input type="text" class="form-control ltr text-left mb-1" placeholder="همراه" id="mobile_0">
+                                    <input type="hidden" id="mobile_count">
+                                </div>
+                                <div class="col-md-12 col-lg-2 form-group text-right">
+                                    <label for="desc">توضیحات</label>
+                                    <input type="text" class="form-control text-right rtl" autocomplete="off" id="desc" placeholder="توضیحات">
+                                </div>
+                                <div class="col-md-12 col-lg-1 form-group Add_Agent">
+                                    <label for="desc">جدید</label>
+                                    <button type="button" onclick="Add_Agent();" data-toggle="tooltip" title="افزودن پرسنل" class="btn btn-outline-success"><i class="fas fa-plus fa-lg fa-fw" style="top: 2px;position: relative"></i></button>
+                                </div>
+                            </div>
+                            <?php
+                        }
+                        else {
+                            for ($i_agent = 0; $i_agent < $len; $i_agent++) {
+                                ?>
+                                <div class="row" id="Agent_<?php echo $i_agent;?>">
+                                    <div class="col-12">
+                                        <hr>
+                                    </div>
+                                    <div class="col-md-12 col-lg-1 form-group text-right">
+                                        <label for="title">عنوان</label>
+                                        <select class="form-control p-0" id="title">
+                                            <option value="آقای" <?php if($Agent[$i_agent]['Agent']->Prefix == "آقای") echo 'selected';?>>آقای</option>
+                                            <option value="خانم" <?php if($Agent[$i_agent]['Agent']->Prefix == "خانم") echo 'selected';?>>خانم</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-12 col-lg-2 form-group text-right">
+                                        <label for="fn">نام</label>
+                                        <input type="text" class="form-control text-right rtl" autocomplete="off" id="fn" placeholder="نام" value="<?php echo $Agent[$i_agent]['Agent']->FN;?>">
+                                    </div>
+                                    <div class="col-md-12 col-lg-2 form-group text-right">
+                                        <label for="ln">نام خانوادگی</label>
+                                        <input type="text" class="form-control text-right rtl" autocomplete="off" id="ln" placeholder="نام خانوادگی" value="<?php echo $Agent[$i_agent]['Agent']->LN;?>">
+                                    </div>
+                                    <div class="col-md-12 col-lg-5 form-group text-right">
+                                        <label for="post">عنوان شغلی</label>
+                                        <input type="text" class="form-control text-right rtl" autocomplete="off" id="post" placeholder="عنوان شغلی" value="<?php echo $Agent[$i_agent]['Agent']->Post;?>">
+                                    </div>
+                                    <div class="col-md-12 col-lg-2 form-group text-right">
+                                        <label for="department">بخش</label>
+                                        <select class="form-control" id="department">
+                                            <option value="0">انتخاب دپارتمان</option>
+                                            <?php
+                                            foreach ($Department as $row) {
+                                                ?>
+                                                <option value="<?php echo $row->DID; ?>" <?php if ($row->DID == $Agent[$i_agent]['Agent']->Department_ID) echo 'selected'; ?>><?php echo $row->Title; ?></option>
+                                                <?php
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-12 col-lg-2 form-group text-right">
+                                        <button type="button" onclick="Add_Tell(this);" class="btn btn-outline-info p-0">
+                                            <i class="fas fa-plus fa-lg fa-fw position-relative" style="top: 2px"></i>
+                                        </button>
+                                        <label for="tcode">تلفن</label>
+                                        <?php
+                                        $len_t = count($Agent[$i_agent]['Tell']);
+                                        if($len_t == 0){
+                                            $i_tell = 0;
+                                            ?>
+                                            <div class="input-group ltr mb-1">
+                                                <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <input class="input-group-text p-0 border-0" placeholder="کد" id="tcode_0" size="1">
+                                                </span>
+                                                </div>
+                                                <input type="text" class="form-control p-1" placeholder="تلفن" id="tell_0">
+                                            </div>
+                                            <?php
+                                        }
+                                        else{
+                                            for($i_tell=0; $i_tell<$len_t; $i_tell++){
+                                                ?>
+                                                <div class="input-group ltr mb-1">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">
+                                                            <input class="input-group-text p-0 border-0" placeholder="کد" id="tcode_<?php echo $i_tell;?>" size="1" value="<?php echo $Agent[$i_agent]['Tell'][$i_tell]->Code; ?>">
+                                                        </span>
+                                                    </div>
+                                                    <input type="text" class="form-control p-1" placeholder="تلفن" id="tell_<?php echo $i_tell;?>" value="<?php echo $Agent[$i_agent]['Tell'][$i_tell]->Tell; ?>">
+                                                </div>
+                                                <?php
+                                            }
+                                        }
+                                        ?>
+                                        <input type="hidden" id="tell_count">
+                                    </div>
+                                    <div class="col-md-12 col-lg-1 form-group text-right p-lg-0">
+                                        <button type="button" onclick="Add_Int(this);" class="btn btn-outline-info p-0">
+                                            <i class="fas fa-plus fa-lg fa-fw position-relative" style="top: 2px"></i>
+                                        </button>
+                                        <label for="int">داخلی</label>
+                                        <?php
+                                        $len_i = count($Agent[$i_agent]['Internal']);
+                                        if($len_i == 0){
+                                            $i_int = 0;
+                                            ?>
+                                            <input type="text" class="form-control ltr text-left mb-1" placeholder="داخلی" id="int_0">
+                                            <?php
+                                        }
+                                        else{
+                                            for($i_int=0; $i_int<$len_i; $i_int++) {
+                                                ?>
+                                                <input type="text" class="form-control ltr text-left mb-1" placeholder="داخلی" id="int_<?php echo $i_int;?>" value="<?php echo $Agent[$i_agent]['Internal'][$i_int]->Internal; ?>">
+                                                <?php
+                                            }
+                                        }
+                                        ?>
+                                        <input type="hidden" id="int_count">
+                                    </div>
+                                    <div class="col-md-12 col-lg-2 form-group text-right">
+                                        <button type="button" onclick="Add_Fax(this);" class="btn btn-outline-info p-0">
+                                            <i class="fas fa-plus fa-lg fa-fw position-relative" style="top: 2px"></i>
+                                        </button>
+                                        <label for="fcode">فکس</label>
+                                        <?php
+                                        $len_f = count($Agent[$i_agent]['Fax']);
+                                        if($len_f == 0){
+                                            $i_fax = 0;
+                                            ?>
+                                            <div class="input-group ltr mb-1">
+                                                <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <input class="input-group-text p-0 border-0" placeholder="کد" id="fcode_0" size="1">
+                                                </span>
+                                                </div>
+                                                <input type="text" class="form-control p-1" placeholder="فکس" id="fax_0">
+                                            </div>
+                                            <?php
+                                        }
+                                        else{
+                                            for($i_fax=0; $i_fax<$len_f; $i_fax++){
+                                                ?>
+                                                <div class="input-group ltr mb-1">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">
+                                                            <input class="input-group-text p-0 border-0" placeholder="کد" id="fcode_<?php echo $i_fax;?>" size="1" value="<?php echo $Agent[$i_agent]['Fax'][$i_fax]->Code; ?>">
+                                                        </span>
+                                                    </div>
+                                                    <input type="text" class="form-control p-1" placeholder="فکس" id="fax_<?php echo $i_fax;?>" value="<?php echo $Agent[$i_agent]['Fax'][$i_fax]->Fax; ?>">
+                                                </div>
+                                                <?php
+                                            }
+                                        }
+                                        ?>
+                                        <input type="hidden" id="fax_count">
+                                    </div>
+                                    <div class="col-md-12 col-lg-2 form-group text-right">
+                                        <button type="button" onclick="Add_Email(this);" class="btn btn-outline-info p-0">
+                                            <i class="fas fa-plus fa-lg fa-fw position-relative" style="top: 2px"></i>
+                                        </button>
+                                        <label for="a_email">ایمیل</label>
+                                        <?php
+                                        $len_e = count($Agent[$i_agent]['Email']);
+                                        if($len_e == 0) {
+                                            $i_email = 0;
+                                            ?>
+                                            <input type="text" class="form-control ltr text-left mb-1" placeholder="ایمیل" id="a_email_0">
+                                            <?php
+                                        }
+                                        else{
+                                            for($i_email=0; $i_email<$len_e; $i_email++){
+                                                ?>
+                                                <input type="text" class="form-control ltr text-left mb-1" placeholder="ایمیل" id="a_email_<?php echo $i_email;?>" value="<?php echo $Agent[$i_agent]['Email'][$i_email]->Email; ?>">
+                                            <?php
+                                            }
+                                        }
+                                        ?>
+                                        <input type="hidden" id="email_count">
+                                    </div>
+                                    <div class="col-md-12 col-lg-2 form-group text-right">
+                                        <button type="button" onclick="Add_Mobile(this);" class="btn btn-outline-info p-0">
+                                            <i class="fas fa-plus fa-lg fa-fw position-relative" style="top: 2px"></i>
+                                        </button>
+                                        <label for="mobile">همراه</label>
+                                        <?php
+                                        $len_m = count($Agent[$i_agent]['Mobile']);
+                                        if($len_m == 0) {
+                                            $i_mobile = 0;
+                                            ?>
+                                            <input type="text" class="form-control ltr text-left mb-1" placeholder="همراه" id="mobile_0">
+                                            <?php
+                                        }
+                                        else{
+                                            for($i_mobile=0; $i_mobile<$len_m; $i_mobile++){
+                                                ?>
+                                                <input type="text" class="form-control ltr text-left mb-1" placeholder="همراه" id="mobile_<?php echo $i_mobile;?>" value="<?php echo $Agent[$i_agent]['Mobile'][$i_mobile]->Mobile; ?>">
+                                                <?php
+                                            }
+                                        }
+                                        ?>
+                                        <input type="hidden" id="mobile_count">
+                                    </div>
+                                    <div class="col-md-12 col-lg-2 form-group text-right">
+                                        <label for="desc">توضیحات</label>
+                                        <input type="text" class="form-control text-right rtl" autocomplete="off" id="desc" placeholder="توضیحات" value="<?php echo $Agent[$i_agent]['Agent']->Description;?>">
+                                    </div>
+                                    <div class="col-md-12 col-lg-1 form-group Add_Agent">
+                                        <?php
+                                        if($i_agent == 0){
+                                            ?>
+                                            <label for="desc">جدید</label>
+                                            <button type="button" onclick="Add_Agent();" data-toggle="tooltip" title="افزودن پرسنل" class="btn btn-outline-success">
+                                                <i class="fas fa-plus fa-lg fa-fw" style="top: 2px;position: relative"></i>
+                                            </button>
+                                            <?php
+                                        }
+                                        else{
+                                            ?>
+                                            <label for="desc">حذف</label>
+                                            <span data-toggle="modal" data-target="#ConfirmDellAgent">
+                                                <button type="button" onclick="ConfirmDelete('<?php echo $i_agent;?>');" data-toggle="tooltip" title="حذف پرسنل" class="btn btn-outline-danger">
+                                                    <i class="far fa-trash-alt fa-lg fa-fw" style="top: 2px;position: relative"></i>
+                                                </button>
+                                            </span>
+                                            <?php
+                                        }
+                                        ?>
+                                    </div>
+                                </div>
+                                <?php
+                            }
+                        }
+                        $len = count($Address);
+                        if($len == 0){
+                            $i_add = 0;
+                            ?>
+                            <div class="row" id="Address_0">
                                 <div class="col-12">
                                     <hr>
                                 </div>
                                 <div class="col-md-12 col-lg-2 form-group text-right">
                                     <label for="province">استان</label>
-                                    <select class="form-control" onchange="FeedCounty(this.value,this);" id="province">
+                                    <select class="form-control" onchange="FeedCounty(this.value,this);"
+                                            id="province">
                                         <option value="0">انتخاب استان</option>
                                         <?php
-                                        foreach ($Province as $row){
+                                        foreach ($Province as $row) {
                                             ?>
-                                            <option value="<?php echo $row->id; ?>" <?php if($Address[$i_add]->province_id == $row->id) echo 'selected';?>><?php echo $row->name; ?></option>
+                                            <option value="<?php echo $row->id; ?>"><?php echo $row->name; ?></option>
                                             <?php
                                         }
                                         ?>
@@ -421,40 +719,91 @@ $this->load->view($menu.'_menu');
                                     <select class="form-control" id="city">
                                         <option value="0">انتخاب شهرستان</option>
                                         <?php
-                                        foreach($City[$i_add] as $county){
+                                        foreach ($City[$i_add] as $county) {
                                             ?>
-                                            <option value="<?php echo $county->id;?>" <?php if($Address[$i_add]->id == $county->id) echo 'selected';?>><?php echo $county->name;?></option>
-                                        <?php
+                                            <option value="<?php echo $county->id; ?>"><?php echo $county->name; ?></option>
+                                            <?php
                                         }
                                         ?>
-
                                     </select>
                                 </div>
                                 <div class="col-md-12 col-lg-7 form-group text-right">
                                     <label for="address">آدرس</label>
                                     <textarea cols="100%" class="form-control text-right rtl" id="address" placeholder="آدرس"></textarea>
                                 </div>
-                                <?php
-                                if($i_add == 0){
-                                    ?>
-                                    <div class="col-md-12 col-lg-1 form-group Add_Address">
-                                        <label for="desc">جدید</label>
-                                        <button type="button" onclick="Add_Address();" data-toggle="tooltip" title="افزودن آدرس" class="btn btn-outline-success"><i class="fas fa-plus fa-lg fa-fw" style="top: 2px;position: relative"></i></button>
-                                    </div>
-                                    <?php
-                                }
-                                else{
-                                    ?>
-                                    <div class="col-md-12 col-lg-1 form-group Add_Address">
-                                        <label for="desc">حذف</label>
-                                        <span data-toggle="modal" data-target="#ConfirmDellAddress"><button type="button" onclick="ConfirmDelete('<?php echo $i_add;?>');" data-toggle="tooltip" title="حذف آدرس" class="btn btn-outline-danger"><i class="far fa-trash-alt fa-lg fa-fw" style="top: 2px;position: relative"></i></button></span>
-                                    </div>
-
-                                <?php
-                                }
-                                ?>
+                                <div class="col-md-12 col-lg-1 form-group Add_Address">
+                                    <label for="desc">جدید</label>
+                                    <button type="button" onclick="Add_Address();" data-toggle="tooltip" title="افزودن آدرس" class="btn btn-outline-success">
+                                        <i class="fas fa-plus fa-lg fa-fw" style="top: 2px;position: relative"></i>
+                                    </button>
+                                </div>
                             </div>
                             <?php
+                        }
+                        else {
+                            for ($i_add = 0; $i_add < $len; $i_add++) {
+                                ?>
+                                <div class="row" id="Address_<?php echo $i_add; ?>">
+                                    <div class="col-12">
+                                        <hr>
+                                    </div>
+                                    <div class="col-md-12 col-lg-2 form-group text-right">
+                                        <label for="province">استان</label>
+                                        <select class="form-control" onchange="FeedCounty(this.value,this);"
+                                                id="province">
+                                            <option value="0">انتخاب استان</option>
+                                            <?php
+                                            foreach ($Province as $row) {
+                                                ?>
+                                                <option value="<?php echo $row->id; ?>" <?php if ($Address[$i_add]->province_id == $row->id) echo 'selected'; ?>><?php echo $row->name; ?></option>
+                                                <?php
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-12 col-lg-2 form-group text-right">
+                                        <label for="city">شهرستان</label>
+                                        <select class="form-control" id="city">
+                                            <option value="0">انتخاب شهرستان</option>
+                                            <?php
+                                            foreach ($City[$i_add] as $county) {
+                                                ?>
+                                                <option value="<?php echo $county->id; ?>" <?php if ($Address[$i_add]->id == $county->id) echo 'selected'; ?>><?php echo $county->name; ?></option>
+                                                <?php
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-12 col-lg-7 form-group text-right">
+                                        <label for="address">آدرس</label>
+                                        <textarea cols="100%" class="form-control text-right rtl" id="address" placeholder="آدرس"><?php echo $Address[$i_add]->Address; ?></textarea>
+                                    </div>
+                                    <?php
+                                    if ($i_add == 0) {
+                                        ?>
+                                        <div class="col-md-12 col-lg-1 form-group Add_Address">
+                                            <label for="desc">جدید</label>
+                                            <button type="button" onclick="Add_Address();" data-toggle="tooltip" title="افزودن آدرس" class="btn btn-outline-success">
+                                                <i class="fas fa-plus fa-lg fa-fw" style="top: 2px;position: relative"></i>
+                                            </button>
+                                        </div>
+                                        <?php
+                                    } else {
+                                        ?>
+                                        <div class="col-md-12 col-lg-1 form-group Add_Address">
+                                            <label for="desc">حذف</label>
+                                            <span data-toggle="modal" data-target="#ConfirmDellAddress">
+                                                <button type="button" onclick="ConfirmDelete('<?php echo $i_add; ?>');" data-toggle="tooltip" title="حذف آدرس" class="btn btn-outline-danger">
+                                                    <i class="far fa-trash-alt fa-lg fa-fw" style="top: 2px;position: relative"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                        <?php
+                                    }
+                                    ?>
+                                </div>
+                                <?php
+                            }
                         }
                         ?>
                         <div class="row">
@@ -508,16 +857,16 @@ $this->load->view($menu.'_menu');
 <script src="<?php echo base_url().'js/bootstrap.min.js'; ?>"></script>
 <script src="<?php echo base_url().'js/functions.js';?>"></script>
 <script>
-    var i_agent=0;
-    var i_label=parseInt('<?php echo $i_label; ?>');
-    var i_tell=0;
-    var i_ctell=parseInt('<?php echo $i_ctell;?>');
-    var i_fax=0;
-    var i_cfax=parseInt('<?php echo $i_cfax;?>');
-    var i_int=0;
-    var i_email=0;
-    var i_mobile=0;
-    var i_address=0;
+    var i_agent=parseInt('<?php echo ($i_agent == 0)?(0):($i_agent-1)?>');
+    var i_label=parseInt('<?php echo ($i_label == 0)?(0):($i_label-1)?>');
+    var i_tell=parseInt('<?php echo ($i_tell == 0)?(0):($i_tell-1)?>');
+    var i_ctell=parseInt('<?php echo ($i_ctell == 0)?(0):($i_ctell-1);?>');
+    var i_fax=parseInt('<?php echo ($i_fax == 0)?(0):($i_fax-1)?>');
+    var i_cfax=parseInt('<?php echo ($i_cfax == 0)?(0):($i_cfax-1);?>');
+    var i_int=parseInt('<?php echo ($i_int == 0)?(0):($i_int-1)?>');
+    var i_email=parseInt('<?php echo ($i_email == 0)?(0):($i_email-1)?>');
+    var i_mobile=parseInt('<?php echo ($i_mobile == 0)?(0):($i_mobile-1)?>');
+    var i_address=parseInt('<?php echo ($i_add == 0)?(0):($i_add-1)?>');
 
     $(document).ready(function(){
         $('[data-toggle="tooltip"]').tooltip();
@@ -525,7 +874,6 @@ $this->load->view($menu.'_menu');
         $('#Real').hide();
         $('#name').focus();
     });
-
     function ConfirmDelete(id){
         $('#DellID').val(id);
     }
@@ -561,11 +909,14 @@ $this->load->view($menu.'_menu');
         var div =$(obj).parent();
         var sel = $(div).children('select').first();
         var val = sel.val();
+        $('#Delete_Label_Icon').clone().appendTo(div);
+
         $(sel).clone().appendTo(div);
         $(div).children('select').last().val(val);
         $(sel).focus();
         i_label++;
-        $(sel).attr('id','label_'+i_label);
+        $(div).children('select').last().attr('id','label_'+i_label);
+        $(div).children('select').last().prev('#Delete_Label_Icon').attr('id','del_label_'+i_label);
     }
     function Add_Tell(obj) {
         var div =$(obj).parent();
@@ -872,6 +1223,13 @@ $this->load->view($menu.'_menu');
                 }
             }
         });
+    }
+    function Show_Delete(obj){
+        $(obj).prev().fadeIn('slow');
+    }
+    function Delete_Label(obj) {
+        $(obj).next().remove();
+        $(obj).remove();
     }
 </script>
 <?php

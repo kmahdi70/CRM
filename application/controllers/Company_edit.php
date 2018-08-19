@@ -12,6 +12,7 @@ class Company_edit extends CI_Controller {
         $this->load->model('address_model');
         $this->load->model('category_model');
         $this->load->model('agent_model');
+        $this->load->model('department_model');
         $this->load->model('company_model');
         $this->load->model('label_model');
     }
@@ -51,6 +52,11 @@ class Company_edit extends CI_Controller {
         $res1 = $this->company_model->get_company_details($cid);
         $data['Company'] = $res1;
 
+        $res = $this->department_model->get_department();
+        $data['Department'] = $res;
+
+        $res = $this->company_model->get_company_agents($cid);
+        $data['Agent'] = $res;
 
         $Cat = $res1->cat;
         $res = $this->category_model->get_subcat($Cat);

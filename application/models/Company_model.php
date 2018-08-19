@@ -399,6 +399,49 @@ class Company_model extends CI_Model{
         }
     }
 
+    public function get_company_agents($cid){
+        if($cid AND $cid != 0){
+            $this->db->select('company_agent.AID,
+                                company_agent.Prefix,
+                                company_agent.FN,
+                                company_agent.LN,
+                                company_agent.Post,
+                                department.Title,
+                                company_agent.Department_ID,
+                                company_agent.Description,
+                                company_agent.Company_ID');
+            $this->db->from('company_agent');
+            $this->db->join('department','company_agent.Department_ID = department.DID');
+            $this->db->where('company_agent.Company_ID',$cid);
+            $query = $this->db->get();
+            $res = $query->result();
+
+            $arr = array();
+
+            foreach ($res as $agent){
+                $AID = $agent->AID;
+
+                $tel = $this->db->get_where('agent_tell',array('Agent_ID' => $AID));
+                $fax = $this->db->get_where('agent_fax',array('Agent_ID' => $AID));
+                $int = $this->db->get_where('agent_internal',array('Agent_ID' => $AID));
+                $mob = $this->db->get_where('agent_mobile',array('Agent_ID' => $AID));
+                $email = $this->db->get_where('agent_email',array('Agent_ID' => $AID));
+
+                $arr[] = array(
+                    'Agent' => $agent,
+                    'Tell' => $tel->result(),
+                    'Fax' => $fax->result(),
+                    'Internal' => $int->result(),
+                    'Mobile' => $mob->result(),
+                    'Email' => $email->result(),
+                    );
+            }
+
+            return $arr;
+        }
+    }
+
+
     public function get_company_city($pid){
         $query = $this->db->get_where('county',array('province_id' => $pid));
         return $query->result();
