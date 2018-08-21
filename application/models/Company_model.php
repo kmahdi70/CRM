@@ -303,6 +303,11 @@ class Company_model extends CI_Model{
             return '1';
     }
 
+    public function company_update_legal(){
+        print_r($_POST);
+        log_message('debug', json_encode($_POST));
+    }
+
     public function update_company($cid){
 
         $Data = array(

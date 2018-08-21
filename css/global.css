@@ -71,3 +71,6 @@ body {
 .Links a{
    margin-bottom: 3px;
 }
+select{
+    height: 30px !important;
+}

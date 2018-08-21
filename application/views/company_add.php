@@ -447,12 +447,12 @@ $this->load->view($menu.'_menu');
 <script src="<?php echo base_url().'js/bootstrap.min.js'; ?>"></script>
 <script src="<?php echo base_url().'js/functions.js';?>"></script>
 <script>
-    var i_agent=0;
-    var i_label=0;
-    var i_tell=0;
     var i_ctell=0;
-    var i_fax=0;
     var i_cfax=0;
+    var i_label=0;
+    var i_agent=0;
+    var i_tell=0;
+    var i_fax=0;
     var i_int=0;
     var i_email=0;
     var i_mobile=0;

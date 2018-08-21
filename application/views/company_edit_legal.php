@@ -13,6 +13,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </head>
 <body>
 <?php
+print_r($Agent);
 $data = array('Msg' => $Msg);
 $this->load->view('fa_error', $data);
 $menu = $this->session->userdata('MENU');
@@ -46,17 +47,27 @@ $this->load->view($menu.'_menu');
                             <label for="category">نوع شرکت</label>
                             <input type="text" id="category" class="form-control" readonly value="<?php echo $Company->Category; ?>">
                         </div>
-                        <div class="position-absolute" style="left: 15px;display: none" onclick="Delete_Label(this);" id="Delete_Label_Icon">
+                        <div class="position-absolute" style="left: 15px;display: none" onclick="Delete_CLabel(this);" id="Delete_CLabel_Icon">
                             <button type="button" class="btn btn-outline-danger p-0">
                                 <i class="fas fa-times fa-lg fa-fw position-relative" style="top: 2px"></i>
                             </button>
                         </div>
-                        <div class="position-absolute" style="left: 15px;display: none" onclick="Delete_Tell(this);" id="Delete_Tell_Icon">
+                        <div class="position-absolute" style="left:0;display: none" onclick="Delete_CTell(this);" id="Delete_CTell_Icon">
                             <button type="button" class="btn btn-outline-danger p-0">
                                 <i class="fas fa-times fa-lg fa-fw position-relative" style="top: 2px"></i>
                             </button>
                         </div>
-                        <!--***************************************************************************** Agent_Base Start -->
+                        <div class="position-absolute" style="left:0;display: none" onclick="Delete_CFax(this);" id="Delete_CFax_Icon">
+                            <button type="button" class="btn btn-outline-danger p-0">
+                                <i class="fas fa-times fa-lg fa-fw position-relative" style="top: 2px"></i>
+                            </button>
+                        </div>
+                        <div class="position-absolute" style="left:0;display: none" onclick="Delete_ATell(this);" id="Delete_ATell_Icon">
+                            <button type="button" class="btn btn-outline-danger p-0">
+                                <i class="fas fa-times fa-lg fa-fw position-relative" style="top: 2px"></i>
+                            </button>
+                        </div>
+                        <!--***************************************************************************** Agent_Base -->
                         <div class="row" id="Agent_Base" style="display: none;">
                             <div class="col-12">
                                 <hr>
@@ -142,7 +153,7 @@ $this->load->view($menu.'_menu');
                                 <button type="button" onclick="Add_Agent();" data-toggle="tooltip" title="افزودن پرسنل" class="btn btn-outline-success"><i class="fas fa-plus fa-lg fa-fw" style="top: 2px;position: relative"></i></button>
                             </div>
                         </div>
-                        <!--***************************************************************************** Agent_Base End -->
+                        <!--***************************************************************************** Address_Base -->
                         <div class="row" id="Address_Base" style="display: none;">
                             <div class="col-12">
                                 <hr>
@@ -175,7 +186,7 @@ $this->load->view($menu.'_menu');
                                 <button type="button" onclick="Add_Address();" data-toggle="tooltip" title="افزودن آدرس" class="btn btn-outline-success"><i class="fas fa-plus fa-lg fa-fw" style="top: 2px;position: relative"></i></button>
                             </div>
                         </div>
-                        <!--***************************************************************************** Address_Base End -->
+                        <!--***************************************************************************** Company -->
                         <div class="row" id="Company">
                             <div class="col-md-12 col-lg-3 form-group text-right">
                                 <label for="name" class="F">* نام شرکت</label>
@@ -249,19 +260,23 @@ $this->load->view($menu.'_menu');
                                 if($len == 0){
                                     $i_label = 0;
                                     ?>
-                                    <div class="position-absolute" style="left: 15px;display: none" onclick="Delete_Label(this);" id="del_label_0">
-                                        <button type="button" class="btn btn-outline-danger p-0">
-                                            <i class="fas fa-times fa-lg fa-fw position-relative" style="top: 2px"></i>
-                                        </button>
-                                    </div>
-
+                                    <select class="form-control p-1 mb-1" id="label_0">
+                                        <option value="0">انتخاب برچسب</option>
+                                        <?php
+                                        foreach ($Company_Label as $row) {
+                                            ?>
+                                            <option value="<?php echo $row->LID; ?>"><?php echo $row->Title; ?></option>
+                                            <?php
+                                        }
+                                        ?>
+                                    </select>
                                     <?php
                                 }
                                 else {
                                     for ($i_label = 0; $i_label < $len; $i_label++) {
                                         if ($i_label > 0) {
                                             ?>
-                                            <div class="position-absolute" style="left: 15px;display: none" onclick="Delete_Label(this);" id="del_label_<?php echo $i_label; ?>">
+                                            <div class="position-absolute" style="left: 15px;display: none" onclick="Delete_CLabel(this);" id="del_label_<?php echo $i_label; ?>">
                                                 <button type="button" class="btn btn-outline-danger p-0">
                                                     <i class="fas fa-times fa-lg fa-fw position-relative" style="top: 2px"></i>
                                                 </button>
@@ -305,15 +320,26 @@ $this->load->view($menu.'_menu');
                                 else {
                                     for ($i_ctell = 0; $i_ctell < $len; $i_ctell++) {
                                         ?>
-                                        <div class="input-group ltr mb-1">
+                                        <div class="input-group ltr mb-1" onmouseover="Show_Delete_CTell(this);">
+                                            <?php
+                                            if($i_ctell>0){
+                                                ?>
+                                                <div class="position-absolute" style="top: 0px;display: none" onclick="Delete_CTell(this);" id="Delete_CTell_<?php echo $i_ctell; ?>">
+                                                    <button type="button" class="btn btn-outline-danger p-0">
+                                                        <i class="fas fa-times fa-lg fa-fw position-relative" style="top: 2px"></i>
+                                                    </button>
+                                                </div>
+                                                <?php
+                                            }
+                                            ?>
                                             <div class="input-group-prepend">
-                                                <span class="input-group-text">
+                                                <span class="input-group-text" style="border-bottom-left-radius: 4px;border-top-left-radius: 4px">
                                                     <input class="input-group-text p-0 border-0" placeholder="کد" id="ctcode_<?php echo $i_ctell; ?>" size="1" value="<?php echo $Tell[$i_ctell]->Code; ?>">
                                                 </span>
                                             </div>
                                             <input type="text" class="form-control p-1" placeholder="تلفن" id="ctell_<?php echo $i_ctell; ?>" value="<?php echo $Tell[$i_ctell]->Tell; ?>">
                                         </div>
-                                        <?php
+                                    <?php
                                     }
                                 }
                                 ?>
@@ -354,9 +380,20 @@ $this->load->view($menu.'_menu');
                                 else {
                                     for ($i_cfax = 0; $i_cfax < $len; $i_cfax++) {
                                         ?>
-                                        <div class="input-group ltr mb-1">
+                                        <div class="input-group ltr mb-1" onmouseover="Show_Delete_CFax(this);">
+                                            <?php
+                                            if($i_cfax>0){
+                                                ?>
+                                                <div class="position-absolute" style="top: 0px;display: none" onclick="Delete_CFax(this);" id="Delete_CFax_<?php echo $i_cfax; ?>">
+                                                    <button type="button" class="btn btn-outline-danger p-0">
+                                                        <i class="fas fa-times fa-lg fa-fw position-relative" style="top: 2px"></i>
+                                                    </button>
+                                                </div>
+                                                <?php
+                                            }
+                                            ?>
                                             <div class="input-group-prepend">
-                                                <span class="input-group-text">
+                                                <span class="input-group-text" style="border-bottom-left-radius: 4px;border-top-left-radius: 4px">
                                                     <input class="input-group-text p-0 border-0" placeholder="کد" id="cfcode_<?php echo $i_cfax; ?>" size="1" value="<?php echo $Fax[$i_cfax]->Code; ?>">
                                                 </span>
                                             </div>
@@ -541,9 +578,20 @@ $this->load->view($menu.'_menu');
                                         else{
                                             for($i_tell=0; $i_tell<$len_t; $i_tell++){
                                                 ?>
-                                                <div class="input-group ltr mb-1">
+                                                <div class="input-group ltr mb-1" onmouseover="Show_Delete_ATell(this);">
+                                                    <?php
+                                                    if($i_tell>0){
+                                                        ?>
+                                                        <div class="position-absolute" style="top: 0px;display: none" onclick="Delete_ATell(this);" id="Delete_ATell_<?php echo $i_tell; ?>">
+                                                            <button type="button" class="btn btn-outline-danger p-0">
+                                                                <i class="fas fa-times fa-lg fa-fw position-relative" style="top: 2px"></i>
+                                                            </button>
+                                                        </div>
+                                                        <?php
+                                                    }
+                                                    ?>
                                                     <div class="input-group-prepend">
-                                                        <span class="input-group-text">
+                                                        <span class="input-group-text" style="border-bottom-left-radius: 4px;border-top-left-radius: 4px">
                                                             <input class="input-group-text p-0 border-0" placeholder="کد" id="tcode_<?php echo $i_tell;?>" size="1" value="<?php echo $Agent[$i_agent]['Tell'][$i_tell]->Code; ?>">
                                                         </span>
                                                     </div>
@@ -569,9 +617,23 @@ $this->load->view($menu.'_menu');
                                             <?php
                                         }
                                         else{
+                                            echo $len;
                                             for($i_int=0; $i_int<$len_i; $i_int++) {
                                                 ?>
-                                                <input type="text" class="form-control ltr text-left mb-1" placeholder="داخلی" id="int_<?php echo $i_int;?>" value="<?php echo $Agent[$i_agent]['Internal'][$i_int]->Internal; ?>">
+                                                <div class="position-relative">
+                                                    <?php
+                                                    if($i_int>0){
+                                                        ?>
+                                                        <div class="position-absolute" style="top: 0px;left:0;display:none" onclick="Delete_ATell(this);" id="Delete_ATell_<?php echo $i_int; ?>">
+                                                            <button type="button" class="btn btn-outline-danger p-0">
+                                                                <i class="fas fa-times fa-lg fa-fw position-relative" style="top: 2px"></i>
+                                                            </button>
+                                                        </div>
+                                                        <?php
+                                                    }
+                                                    ?>
+                                                    <input type="text" onmouseover="Show_Delete_AInt(this);" class="form-control ltr text-left mb-1" placeholder="داخلی" id="int_<?php echo $i_int;?>" value="<?php echo $Agent[$i_agent]['Internal'][$i_int]->Internal; ?>">
+                                                </div>
                                                 <?php
                                             }
                                         }
@@ -808,7 +870,7 @@ $this->load->view($menu.'_menu');
                         ?>
                         <div class="row">
                             <div class="col-md-12 col-lg-12 form-group text-right">
-                                <button type="button" onclick="return Submit_Legal_Form();" id="Save_Legal" class="btn btn-info">ایجاد شرکت و ثبت جزئیات</button>
+                                <button type="button" onclick="return Submit_Legal_Form();" id="Save_Legal" class="btn btn-info">ذخیره تغییرات شرکت</button>
                             </div>
                         </div>
                     </div>
@@ -909,14 +971,14 @@ $this->load->view($menu.'_menu');
         var div =$(obj).parent();
         var sel = $(div).children('select').first();
         var val = sel.val();
-        $('#Delete_Label_Icon').clone().appendTo(div);
+        $('#Delete_CLabel_Icon').clone().appendTo(div);
 
         $(sel).clone().appendTo(div);
         $(div).children('select').last().val(val);
         $(sel).focus();
         i_label++;
         $(div).children('select').last().attr('id','label_'+i_label);
-        $(div).children('select').last().prev('#Delete_Label_Icon').attr('id','del_label_'+i_label);
+        $(div).children('select').last().prev('#Delete_CLabel_Icon').attr('id','del_label_'+i_label);
     }
     function Add_Tell(obj) {
         var div =$(obj).parent();
@@ -927,9 +989,15 @@ $this->load->view($menu.'_menu');
         $(last).find('#tcode_0').attr('id','tcode_'+i_tell);
         $(last).find('#tell_0').attr('id','tell_'+i_tell);
 
-        $('#Agent_0 #tcode_0').val('');
-        $('#Agent_0 #tell_0').val('');
-        $('#Agent_0 #tcode_0').focus();
+        var Del = $('#Delete_ATell_Icon').clone();
+        $(last).prepend(Del);
+        $(last).children().first('#Delete_ATell_Icon').attr('id','Delete_ATell_'+i_ctell);
+
+        var id = $(obj).parent().parent().attr('id');
+
+        $('#'+id+' #tcode_0').val('');
+        $('#'+id+' #tell_0').val('');
+        $('#'+id+' #tcode_0').focus();
     }
     function Add_CTell(obj) {
         var div =$(obj).parent();
@@ -939,6 +1007,10 @@ $this->load->view($menu.'_menu');
         var last = $(div).children('div').last();
         $(last).find('#ctcode_0').attr('id','ctcode_'+i_ctell);
         $(last).find('#ctell_0').attr('id','ctell_'+i_ctell);
+
+        var Del = $('#Delete_CTell_Icon').clone();
+        $(last).prepend(Del);
+        $(last).children().first('#Delete_CTell_Icon').attr('id','Delete_CTell_'+i_ctell);
 
         $('#ctcode_0').val('');
         $('#ctell_0').val('');
@@ -954,14 +1026,16 @@ $this->load->view($menu.'_menu');
     }
     function Add_Int(obj) {
         var div =$(obj).parent();
-        var sel = $(div).children('input').first();
-        var val = sel.val();
-        $(sel).clone().appendTo(div);
-        $(div).children('input').last().val(val);
+        var sel = div.children('div').first();
+        var val = sel.children('input').first().val();
+        $(sel).clone().insertAfter(div.children('div').last());
+        var Del = $('#Delete_ATell_Icon').clone();
+        div.children('div').last().prepend(Del);
         i_int++;
-        $(div).children('input').last().attr('id','int_'+i_int);
-        $('#Agent_0 #int_0').val('');
-        $('#Agent_0 #int_0').focus();
+
+        $(div).children('div').last().find('input').first().attr('id','int_'+i_int);
+        //$('#Agent_0 #int_0').val('');
+        //$('#Agent_0 #int_0').focus();
     }
     function Add_Fax(obj) {
         var div =$(obj).parent();
@@ -984,6 +1058,10 @@ $this->load->view($menu.'_menu');
         var last = $(div).children('div').last();
         $(last).find('#cfcode_0').attr('id','cfcode_'+i_cfax);
         $(last).find('#cfax_0').attr('id','cfax_'+i_cfax);
+
+        var Del = $('#Delete_CFax_Icon').clone();
+        $(last).prepend(Del);
+        $(last).children().first('#Delete_CFax_Icon').attr('id','Delete_CFax_'+i_cfax);
 
         $('#cfcode_0').val('');
         $('#cfax_0').val('');
@@ -1205,9 +1283,9 @@ $this->load->view($menu.'_menu');
             Address:Addresses
         };
 
-        $('#Save_Legal').html('در حال ذخیره, کمی تأمل فرمایید...');
+        $('#Save_Legal').html('در حال بروز رسانی, کمی تأمل فرمایید...');
         $('#Save_Legal').addClass('disabled');
-        var URL = '<?php echo base_url().'company_add/insert_legal'; ?>';
+        var URL = '<?php echo base_url().'company_add/update_legal'; ?>';
         $.post(URL, Parameters, function (res, ret) {
             if(ret == 'success'){
                 if(res == '1'){
@@ -1227,9 +1305,37 @@ $this->load->view($menu.'_menu');
     function Show_Delete(obj){
         $(obj).prev().fadeIn('slow');
     }
-    function Delete_Label(obj) {
+    function Show_Delete_CTell(obj){
+        $(obj).children().first().fadeIn('slow');
+    }
+    function Show_Delete_ATell(obj){
+        $(obj).children().first().fadeIn('slow');
+    }
+    function Show_Delete_AInt(obj){
+        $(obj).prev().fadeIn('slow');
+    }
+    function Show_Delete_CFax(obj){
+        $(obj).children().first().fadeIn('slow');
+    }
+    function Delete_CLabel(obj) {
         $(obj).next().remove();
         $(obj).remove();
+    }
+    function Delete_CTell(obj) {
+        var id = $(obj).attr('id');
+        $(obj).parent().remove();
+        var num = id.substr(id.length - 1);
+        $('#ttitle_'+num).remove();
+    }
+    function Delete_ATell(obj) {
+        var id = $(obj).attr('id');
+        $(obj).parent().remove();
+    }
+    function Delete_CFax(obj) {
+        var id = $(obj).attr('id');
+        $(obj).parent().remove();
+        var num = id.substr(id.length - 1);
+        $('#ftitle_'+num).remove();
     }
 </script>
 <?php

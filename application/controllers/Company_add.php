@@ -52,4 +52,9 @@ class Company_add extends CI_Controller {
         $res = $this->company_model->company_add_real();
         echo $res;
     }
+    public function update_legal(){
+        $res = $this->company_model->company_update_legal();
+        echo $res;
+    }
+
 }
