@@ -237,7 +237,7 @@ $this->load->view($menu.'_menu');
                                     <input type="text" class="form-control" autocomplete="off" id="comp_desc" placeholder="توضیحات">
                                 </div>
                                 <div class="col-md-12 col-lg-3 form-group text-right">
-                                    <button type="button" onclick="Add_Label(this);" class="btn btn-outline-info p-0"><i class="fas fa-plus fa-lg fa-fw position-relative" style="top: 2px"></i></button>
+                                    <button type="button" onclick="Add_CLabel(this);" class="btn btn-outline-info p-0"><i class="fas fa-plus fa-lg fa-fw position-relative" style="top: 2px"></i></button>
                                     <label for="label_0">برچسب</label>
                                     <select class="form-control p-1 mb-1" id="label_0">
                                         <option value="0">انتخاب برچسب</option>
@@ -451,11 +451,10 @@ $this->load->view($menu.'_menu');
     var i_cfax=0;
     var i_label=0;
     var i_agent=0;
-    var i_tell=0;
-    var i_fax=0;
-    var i_int=0;
-    var i_email=0;
-    var i_mobile=0;
+
+    var Node = [{}];
+    Node[i_agent] = {i_tell:0,i_int:0,i_fax:0,i_email:0,i_mobile:0};
+
     var i_address=0;
 
     $(document).ready(function(){
@@ -482,7 +481,7 @@ $this->load->view($menu.'_menu');
                 });
 
             }
-        });
+        },'text');
     }
     function FeedCounty(val,obj) {
         var Add = $(obj).parent().parent();
@@ -499,7 +498,7 @@ $this->load->view($menu.'_menu');
             }
         });
     }
-    function Add_Label(obj) {
+    function Add_CLabel(obj) {
         var div =$(obj).parent();
         var sel = $(div).children('select').first();
         var val = sel.val();
@@ -510,13 +509,16 @@ $this->load->view($menu.'_menu');
         $(sel).attr('id','label_'+i_label);
     }
     function Add_Tell(obj) {
+        var id = $(obj).parent().parent().attr('id');
+        var res = id.split('_');
+        var num = res[1];
         var div =$(obj).parent();
-        var sel = $(div).children('div').first();
+        var sel = div.children('div').first();
         $(sel).clone().appendTo(div);
-        i_tell++;
-        var last = $(div).children('div').last();
-        $(last).find('#tcode_0').attr('id','tcode_'+i_tell);
-        $(last).find('#tell_0').attr('id','tell_'+i_tell);
+        Node[num].i_tell++;
+        var last = div.children('div').last();
+        $(last).find('#tcode_0').attr('id','tcode_'+Node[num].i_tell);
+        $(last).find('#tell_0').attr('id','tell_'+Node[num].i_tell);
 
         $('#Agent_0 #tcode_0').val('');
         $('#Agent_0 #tell_0').val('');
@@ -544,24 +546,30 @@ $this->load->view($menu.'_menu');
 
     }
     function Add_Int(obj) {
+        var id = $(obj).parent().parent().attr('id');
+        var res = id.split('_');
+        var num = res[1];
         var div =$(obj).parent();
-        var sel = $(div).children('input').first();
+        var sel = div.children('input').first();
         var val = sel.val();
         $(sel).clone().appendTo(div);
-        $(div).children('input').last().val(val);
-        i_int++;
-        $(div).children('input').last().attr('id','int_'+i_int);
+        div.children('input').last().val(val);
+        Node[num].i_int++;
+        div.children('input').last().attr('id','int_'+Node[num].i_int);
         $('#Agent_0 #int_0').val('');
         $('#Agent_0 #int_0').focus();
     }
     function Add_Fax(obj) {
+        var id = $(obj).parent().parent().attr('id');
+        var res = id.split('_');
+        var num = res[1];
         var div =$(obj).parent();
-        var sel = $(div).children('div').first();
+        var sel = div.children('div').first();
         $(sel).clone().appendTo(div);
-        i_fax++;
-        var last = $(div).children('div').last();
-        $(last).find('#fcode_0').attr('id','fcode_'+i_fax);
-        $(last).find('#fax_0').attr('id','fax_'+i_fax);
+        Node[num].i_fax++;
+        var last = div.children('div').last();
+        $(last).find('#fcode_0').attr('id','fcode_'+Node[num].i_fax);
+        $(last).find('#fax_0').attr('id','fax_'+Node[num].i_fax);
 
         $('#Agent_0 #fcode_0').val('');
         $('#Agent_0 #fax_0').val('');
@@ -588,50 +596,55 @@ $this->load->view($menu.'_menu');
         $(last).attr('id','ftitle_'+i_cfax);
     }
     function Add_Email(obj) {
+        var id = $(obj).parent().parent().attr('id');
+        var res = id.split('_');
+        var num = res[1];
         var div =$(obj).parent();
-        var sel = $(div).children('input').first();
+        var sel = div.children('input').first();
         var val = sel.val();
         $(sel).clone().appendTo(div);
-        $(div).children('input').last().val(val);
-        i_email++;
-        $(div).children('input').last().attr('id','a_email_'+i_email);
+        div.children('input').last().val(val);
+        Node[num].i_email++;
+        div.children('input').last().attr('id','a_email_'+Node[num].i_email);
         $('#Agent_0 #a_email_0').val('');
         $('#Agent_0 #a_email_0').focus();
     }
     function Add_Mobile(obj) {
+        var id = $(obj).parent().parent().attr('id');
+        var res = id.split('_');
+        var num = res[1];
         var div =$(obj).parent();
-        var sel = $(div).children('input').first();
+        var sel = div.children('input').first();
         var val = sel.val();
         $(sel).clone().appendTo(div);
-        $(div).children('input').last().val(val);
-        i_mobile++;
-        $(div).children('input').last().attr('id','mobile_'+i_mobile);
+        div.children('input').last().val(val);
+        Node[num].i_mobile++;
+        div.children('input').last().attr('id','mobile_'+Node[num].i_mobile);
         $('#Agent_0 #mobile_0').val('');
         $('#Agent_0 #mobile_0').focus();
     }
     function Add_Agent() {
         $('[data-toggle="tooltip"]').tooltip("hide");
         i_agent++;
+        Node[i_agent] = Node[0];
+        Node[0] = {i_tell:0,i_int:0,i_fax:0,i_email:0,i_mobile:0};
 
-        $('#Agent_0 #tell_count').val(i_tell+1);
-        i_tell=0;
+        $('#Agent_0 #tell_count').val((Node[i_agent].i_tell)+1);
 
-        $('#Agent_0 #int_count').val(i_int+1);
-        i_int=0;
+        $('#Agent_0 #int_count').val((Node[i_agent].i_int)+1);
 
-        $('#Agent_0 #fax_count').val(i_fax+1);
-        i_fax=0;
+        $('#Agent_0 #fax_count').val((Node[i_agent].i_fax)+1);
 
-        $('#Agent_0 #email_count').val(i_email+1);
-        i_email=0;
+        $('#Agent_0 #email_count').val((Node[i_agent].i_email)+1);
 
-        $('#Agent_0 #mobile_count').val(i_mobile+1);
-        i_mobile=0;
+        $('#Agent_0 #mobile_count').val((Node[i_agent].i_mobile)+1);
 
         var Current = $('#Agent_0').children().clone();
         $('<div class="row" id="Agent_'+i_agent+'"></div>').insertAfter('#Agent_0');
         $('#Agent_'+i_agent).append(Current);
-        $('#Agent_'+i_agent+' .Add_Agent').html('<label for="desc">حذف</label><span data-toggle="modal" data-target="#ConfirmDellAgent" ><button type="button" onclick="ConfirmDelete(\''+i_agent+'\');" data-toggle="tooltip" title="حذف پرسنل" class="btn btn-outline-danger"><i class="far fa-trash-alt fa-lg fa-fw" style="top: 2px;position: relative"></i></button></span>');
+        $('#Agent_'+i_agent+' .Add_Agent').html('<label for="desc">حذف</label><span data-toggle="modal" data-target="#ConfirmDellAgent" >'+
+            '<button type="button" onclick="ConfirmDelete(\''+i_agent+'\');" data-toggle="tooltip" title="حذف پرسنل" class="btn btn-outline-danger">'+
+            '<i class="far fa-trash-alt fa-lg fa-fw" style="top: 2px;position: relative"></i></button></span>');
         $('#Agent_'+i_agent+' #department').val($('#Agent_0 #department').val());
         var Agent = $('#Agent_Base').children().clone();
         $('#Agent_0').html(Agent);
@@ -641,6 +654,7 @@ $this->load->view($menu.'_menu');
         $('#ConfirmDellAgent').modal('hide');
         var i = $('#DellID').val();
         $('#Agent_'+i).remove();
+        Node[i] = {i_tell:0,i_int:0,i_fax:0,i_email:0,i_mobile:0};
     }
     function Dell_Address(){
         $('#ConfirmDellAddress').modal('hide');
@@ -670,11 +684,11 @@ $this->load->view($menu.'_menu');
             return false;
         }
 
-        $('#Agent_0 #tell_count').val(i_tell+1);
-        $('#Agent_0 #int_count').val(i_int+1);
-        $('#Agent_0 #fax_count').val(i_fax+1);
-        $('#Agent_0 #email_count').val(i_email+1);
-        $('#Agent_0 #mobile_count').val(i_mobile+1);
+        $('#Agent_0 #tell_count').val((Node[0].i_tell)+1);
+        $('#Agent_0 #int_count').val((Node[0].i_int)+1);
+        $('#Agent_0 #fax_count').val((Node[0].i_fax)+1);
+        $('#Agent_0 #email_count').val((Node[0].i_email)+1);
+        $('#Agent_0 #mobile_count').val((Node[0].i_mobile)+1);
 
         var i,j,len;
         var labels = [];

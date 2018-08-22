@@ -13,6 +13,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </head>
 <body>
 <?php
+print_r($Company);
 print_r($Agent);
 $data = array('Msg' => $Msg);
 $this->load->view('fa_error', $data);
@@ -253,12 +254,12 @@ $this->load->view($menu.'_menu');
                                 <input type="text" class="form-control" autocomplete="off" id="comp_desc" placeholder="توضیحات" value="<?php echo $Company->Description; ?>">
                             </div>
                             <div class="col-md-12 col-lg-3 form-group text-right">
-                                <button type="button" onclick="Add_Label(this);" class="btn btn-outline-info p-0"><i class="fas fa-plus fa-lg fa-fw position-relative" style="top: 2px"></i></button>
+                                <button type="button" onclick="Add_CLabel(this);" class="btn btn-outline-info p-0"><i class="fas fa-plus fa-lg fa-fw position-relative" style="top: 2px"></i></button>
                                 <label for="label_0">برچسب</label>
                                 <?php
                                 $len = count($Label);
                                 if($len == 0){
-                                    $i_label = 0;
+                                    $i_clabel = 0;
                                     ?>
                                     <select class="form-control p-1 mb-1" id="label_0">
                                         <option value="0">انتخاب برچسب</option>
@@ -273,10 +274,10 @@ $this->load->view($menu.'_menu');
                                     <?php
                                 }
                                 else {
-                                    for ($i_label = 0; $i_label < $len; $i_label++) {
-                                        if ($i_label > 0) {
+                                    for ($i_clabel = 0; $i_clabel < $len; $i_clabel++) {
+                                        if ($i_clabel > 0) {
                                             ?>
-                                            <div class="position-absolute" style="left: 15px;display: none" onclick="Delete_CLabel(this);" id="del_label_<?php echo $i_label; ?>">
+                                            <div class="position-absolute" style="left: 15px;display: none" onclick="Delete_CLabel(this);" id="del_label_<?php echo $i_clabel; ?>">
                                                 <button type="button" class="btn btn-outline-danger p-0">
                                                     <i class="fas fa-times fa-lg fa-fw position-relative" style="top: 2px"></i>
                                                 </button>
@@ -284,12 +285,12 @@ $this->load->view($menu.'_menu');
                                             <?php
                                         }
                                         ?>
-                                        <select class="form-control p-1 mb-1" id="label_<?php echo $i_label; ?>" onmouseover="Show_Delete(this);">
+                                        <select class="form-control p-1 mb-1" id="label_<?php echo $i_clabel; ?>" onmouseover="Show_Delete(this);">
                                             <option value="0">انتخاب برچسب</option>
                                             <?php
                                             foreach ($Company_Label as $row) {
                                                 ?>
-                                                <option value="<?php echo $row->LID; ?>" <?php if ($row->LID == $Label[$i_label]->Label_ID) echo 'selected'; ?>><?php echo $row->Title; ?></option>
+                                                <option value="<?php echo $row->LID; ?>" <?php if ($row->LID == $Label[$i_clabel]->Label_ID) echo 'selected'; ?>><?php echo $row->Title; ?></option>
                                                 <?php
                                             }
                                             ?>
@@ -601,7 +602,7 @@ $this->load->view($menu.'_menu');
                                             }
                                         }
                                         ?>
-                                        <input type="hidden" id="tell_count">
+                                        <input type="text" id="tell_count">
                                     </div>
                                     <div class="col-md-12 col-lg-1 form-group text-right p-lg-0">
                                         <button type="button" onclick="Add_Int(this);" class="btn btn-outline-info p-0">
@@ -638,7 +639,7 @@ $this->load->view($menu.'_menu');
                                             }
                                         }
                                         ?>
-                                        <input type="hidden" id="int_count">
+                                        <input type="text" id="int_count">
                                     </div>
                                     <div class="col-md-12 col-lg-2 form-group text-right">
                                         <button type="button" onclick="Add_Fax(this);" class="btn btn-outline-info p-0">
@@ -675,7 +676,7 @@ $this->load->view($menu.'_menu');
                                             }
                                         }
                                         ?>
-                                        <input type="hidden" id="fax_count">
+                                        <input type="text" id="fax_count">
                                     </div>
                                     <div class="col-md-12 col-lg-2 form-group text-right">
                                         <button type="button" onclick="Add_Email(this);" class="btn btn-outline-info p-0">
@@ -698,7 +699,7 @@ $this->load->view($menu.'_menu');
                                             }
                                         }
                                         ?>
-                                        <input type="hidden" id="email_count">
+                                        <input type="text" id="email_count">
                                     </div>
                                     <div class="col-md-12 col-lg-2 form-group text-right">
                                         <button type="button" onclick="Add_Mobile(this);" class="btn btn-outline-info p-0">
@@ -721,7 +722,7 @@ $this->load->view($menu.'_menu');
                                             }
                                         }
                                         ?>
-                                        <input type="hidden" id="mobile_count">
+                                        <input type="text" id="mobile_count">
                                     </div>
                                     <div class="col-md-12 col-lg-2 form-group text-right">
                                         <label for="desc">توضیحات</label>
@@ -919,16 +920,34 @@ $this->load->view($menu.'_menu');
 <script src="<?php echo base_url().'js/bootstrap.min.js'; ?>"></script>
 <script src="<?php echo base_url().'js/functions.js';?>"></script>
 <script>
-    var i_agent=parseInt('<?php echo ($i_agent == 0)?(0):($i_agent-1)?>');
-    var i_label=parseInt('<?php echo ($i_label == 0)?(0):($i_label-1)?>');
-    var i_tell=parseInt('<?php echo ($i_tell == 0)?(0):($i_tell-1)?>');
-    var i_ctell=parseInt('<?php echo ($i_ctell == 0)?(0):($i_ctell-1);?>');
-    var i_fax=parseInt('<?php echo ($i_fax == 0)?(0):($i_fax-1)?>');
-    var i_cfax=parseInt('<?php echo ($i_cfax == 0)?(0):($i_cfax-1);?>');
-    var i_int=parseInt('<?php echo ($i_int == 0)?(0):($i_int-1)?>');
-    var i_email=parseInt('<?php echo ($i_email == 0)?(0):($i_email-1)?>');
-    var i_mobile=parseInt('<?php echo ($i_mobile == 0)?(0):($i_mobile-1)?>');
-    var i_address=parseInt('<?php echo ($i_add == 0)?(0):($i_add-1)?>');
+
+    var CTell = <?php echo json_encode($Tell); ?>;
+    var i_ctell = CTell.length;
+
+    var CFax = <?php echo json_encode($Fax); ?>;
+    var i_cfax = CFax.length;
+
+    var CLabel = <?php echo json_encode($Label); ?>;
+    var i_clabel = CLabel.length;
+
+    var Agent = <?php echo json_encode($Agent);?>;
+    var i_agent = Agent.length;
+
+    var Address = <?php echo json_encode($Address);?>;
+    var i_address = Address.length;
+
+    var Node = [{}];
+    console.log(Agent);
+
+    for(var i=0; i<i_agent; i++){
+        Node[i] = {i_tell:Agent[i].Tell.length,i_int:Agent[i].Internal.length,i_fax:Agent[i].Fax.length,i_email:Agent[i].Email.length,i_mobile:Agent[i].Mobile.length};
+        $('#Agent_'+i+' #tell_count').val(Agent[i].Tell.length);
+        $('#Agent_'+i+' #int_count').val(Agent[i].Internal.length);
+        $('#Agent_'+i+' #fax_count').val(Agent[i].Fax.length);
+        $('#Agent_'+i+' #email_count').val(Agent[i].Email.length);
+        $('#Agent_'+i+' #mobile_count').val(Agent[i].Mobile.length);
+    }
+    console.log(Node);
 
     $(document).ready(function(){
         $('[data-toggle="tooltip"]').tooltip();
@@ -967,31 +986,36 @@ $this->load->view($menu.'_menu');
             }
         });
     }
-    function Add_Label(obj) {
+    function Add_CLabel(obj) {
         var div =$(obj).parent();
-        var sel = $(div).children('select').first();
+        var sel = div.children('select').first();
         var val = sel.val();
         $('#Delete_CLabel_Icon').clone().appendTo(div);
 
-        $(sel).clone().appendTo(div);
-        $(div).children('select').last().val(val);
-        $(sel).focus();
-        i_label++;
-        $(div).children('select').last().attr('id','label_'+i_label);
-        $(div).children('select').last().prev('#Delete_CLabel_Icon').attr('id','del_label_'+i_label);
+        sel.clone().appendTo(div);
+        div.children('select').last().val(val);
+        sel.focus();
+        div.children('select').last().attr('id','label_'+i_clabel);
+        div.children('select').last().prev('#Delete_CLabel_Icon').attr('id','del_label_'+i_clabel);
+        i_clabel++;
     }
     function Add_Tell(obj) {
+        var id = $(obj).parent().parent().attr('id');
+        var res = id.split('_');
+        var num = res[1];
         var div =$(obj).parent();
-        var sel = $(div).children('div').first();
-        $(sel).clone().appendTo(div);
-        i_tell++;
-        var last = $(div).children('div').last();
-        $(last).find('#tcode_0').attr('id','tcode_'+i_tell);
-        $(last).find('#tell_0').attr('id','tell_'+i_tell);
+        var sel = div.children('div').first();
+        var last = div.children('div').last();
+        $(sel).clone().insertAfter(last);
+        Node[num].i_tell++;
+
+
+        $(last).find('#tcode_0').attr('id','tcode_'+Node[num].i_tell);
+        $(last).find('#tell_0').attr('id','tell_'+Node[num].i_tell);
 
         var Del = $('#Delete_ATell_Icon').clone();
         $(last).prepend(Del);
-        $(last).children().first('#Delete_ATell_Icon').attr('id','Delete_ATell_'+i_ctell);
+        $(last).children().first('#Delete_ATell_Icon').attr('id','Delete_ATell_'+Node[num].i_tell);
 
         var id = $(obj).parent().parent().attr('id');
 
@@ -1001,28 +1025,27 @@ $this->load->view($menu.'_menu');
     }
     function Add_CTell(obj) {
         var div =$(obj).parent();
-        var sel = $(div).children('div').first();
-        $(sel).clone().appendTo(div);
+        var sel = div.children('div').first();
+        sel.clone().appendTo(div);
+        var last = div.children('div').last();
+        last.find('#ctcode_0').attr('id','ctcode_'+i_ctell);
+        last.find('#ctell_0').attr('id','ctell_'+i_ctell);
         i_ctell++;
-        var last = $(div).children('div').last();
-        $(last).find('#ctcode_0').attr('id','ctcode_'+i_ctell);
-        $(last).find('#ctell_0').attr('id','ctell_'+i_ctell);
 
         var Del = $('#Delete_CTell_Icon').clone();
-        $(last).prepend(Del);
-        $(last).children().first('#Delete_CTell_Icon').attr('id','Delete_CTell_'+i_ctell);
+        last.prepend(Del);
+        last.children().first('#Delete_CTell_Icon').attr('id','Delete_CTell_'+i_ctell);
 
         $('#ctcode_0').val('');
         $('#ctell_0').val('');
         $('#ctcode_0').focus();
 
-        var next = $(div).next();
-        sel = $(next).children('input').first();
-        $(sel).clone().appendTo(next);
-        $(sel).val('');
-        last = $(next).children('input').last();
-        $(last).attr('id','ttitle_'+i_ctell);
-
+        var next = div.next();
+        sel = next.children('input').first();
+        sel.clone().appendTo(next);
+        sel.val('');
+        last = next.children('input').last();
+        last.attr('id','ttitle_'+(i_ctell-1));
     }
     function Add_Int(obj) {
         var div =$(obj).parent();
@@ -1165,7 +1188,7 @@ $this->load->view($menu.'_menu');
 
         var i,j,len;
         var labels = [];
-        for(i=0; i<=i_label; i++){
+        for(i=0; i<=i_clabel; i++){
             if($('#label_'+i).val() != '0')
                 labels[i] = $('#label_'+i).val();
         }
@@ -1318,16 +1341,47 @@ $this->load->view($menu.'_menu');
         $(obj).children().first().fadeIn('slow');
     }
     function Delete_CLabel(obj) {
-        $(obj).next().remove();
-        $(obj).remove();
+        var id = $(obj).attr('id');
+        var arr = id.split('_');
+        var index = parseInt(arr[2]);
+
+        if(index == (i_clabel-1)){
+            i_clabel--;
+            $(obj).next().remove();
+            $(obj).remove();
+        }
+        else{
+            $(obj).next().remove();
+            $(obj).remove();
+
+            for(var i= index+1; i<i_clabel; i++){
+                $('#del_label_'+i).attr('id','del_label_'+(i-1));
+                $('#label_'+i).attr('id','label_'+(i-1));
+            }
+            i_clabel--;
+        }
     }
     function Delete_CTell(obj) {
         var id = $(obj).attr('id');
-        $(obj).parent().remove();
-        var num = id.substr(id.length - 1);
-        $('#ttitle_'+num).remove();
+        var arr = id.split('_');
+        var index = parseInt(arr[2]);
+
+        if(index == (i_ctell-1)){
+            $(obj).parent().remove();
+            $('#ttitle_'+index).remove();
+            i_ctell--;
+        }
+        else{
+
+        }
     }
     function Delete_ATell(obj) {
+        var agent = $(obj).parent().parent().parent();
+        var id = $(agent).attr('id');
+        var arr = id.split('_');
+        var agent_id = arr[1];
+        Node[agent_id].i_tell--;
+        $('#Agent_'+agent_id+' #tell_count').val(Node[agent_id].i_tell);
         var id = $(obj).attr('id');
         $(obj).parent().remove();
     }
