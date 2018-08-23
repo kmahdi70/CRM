@@ -1015,7 +1015,7 @@ $this->load->view($menu.'_menu');
 
         var Del = $('#Delete_ATell_Icon').clone();
         $(last).prepend(Del);
-        $(last).children().first('#Delete_ATell_Icon').attr('id','Delete_ATell_'+Node[num].i_tell);
+        last.children().first('#Delete_ATell_Icon').attr('id','Delete_ATell_'+Node[num].i_tell);
 
         var id = $(obj).parent().parent().attr('id');
 
@@ -1030,7 +1030,6 @@ $this->load->view($menu.'_menu');
         var last = div.children('div').last();
         last.find('#ctcode_0').attr('id','ctcode_'+i_ctell);
         last.find('#ctell_0').attr('id','ctell_'+i_ctell);
-        i_ctell++;
 
         var Del = $('#Delete_CTell_Icon').clone();
         last.prepend(Del);
@@ -1045,7 +1044,8 @@ $this->load->view($menu.'_menu');
         sel.clone().appendTo(next);
         sel.val('');
         last = next.children('input').last();
-        last.attr('id','ttitle_'+(i_ctell-1));
+        last.attr('id','ttitle_'+i_ctell);
+        i_ctell++;
     }
     function Add_Int(obj) {
         var div =$(obj).parent();
@@ -1075,27 +1075,27 @@ $this->load->view($menu.'_menu');
     }
     function Add_CFax(obj) {
         var div =$(obj).parent();
-        var sel = $(div).children('div').first();
-        $(sel).clone().appendTo(div);
-        i_cfax++;
-        var last = $(div).children('div').last();
-        $(last).find('#cfcode_0').attr('id','cfcode_'+i_cfax);
-        $(last).find('#cfax_0').attr('id','cfax_'+i_cfax);
+        var sel = div.children('div').first();
+        sel.clone().appendTo(div);
+        var last = div.children('div').last();
+        last.find('#cfcode_0').attr('id','cfcode_'+i_cfax);
+        last.find('#cfax_0').attr('id','cfax_'+i_cfax);
 
         var Del = $('#Delete_CFax_Icon').clone();
         $(last).prepend(Del);
-        $(last).children().first('#Delete_CFax_Icon').attr('id','Delete_CFax_'+i_cfax);
+        last.children().first('#Delete_CFax_Icon').attr('id','Delete_CFax_'+i_cfax);
 
         $('#cfcode_0').val('');
         $('#cfax_0').val('');
         $('#cfcode_0').focus();
 
-        var next = $(div).next();
-        sel = $(next).children('input').first();
-        $(sel).clone().appendTo(next);
-        $(sel).val('');
-        last = $(next).children('input').last();
-        $(last).attr('id','ftitle_'+i_cfax);
+        var next = div.next();
+        sel = next.children('input').first();
+        sel.clone().appendTo(next);
+        sel.val('');
+        last = next.children('input').last();
+        last.attr('id','ftitle_'+i_cfax);
+        i_cfax++;
     }
     function Add_Email(obj) {
         var div =$(obj).parent();
@@ -1345,7 +1345,7 @@ $this->load->view($menu.'_menu');
         var arr = id.split('_');
         var index = parseInt(arr[2]);
 
-        if(index == (i_clabel-1)){
+        if(index === (i_clabel-1)){
             i_clabel--;
             $(obj).next().remove();
             $(obj).remove();
@@ -1362,17 +1362,25 @@ $this->load->view($menu.'_menu');
         }
     }
     function Delete_CTell(obj) {
-        var id = $(obj).attr('id');
-        var arr = id.split('_');
-        var index = parseInt(arr[2]);
+        let id = $(obj).attr('id');
+        let arr = id.split('_');
+        let index = parseInt(arr[2]);
 
-        if(index == (i_ctell-1)){
+        if(index === (i_ctell-1)){
             $(obj).parent().remove();
             $('#ttitle_'+index).remove();
             i_ctell--;
         }
         else{
-
+            $(obj).parent().remove();
+            $('#ttitle_'+index).remove();
+            for(let i= index+1; i<i_ctell; i++){
+                $('#ctell_'+i).attr('id','ctell_'+(i-1));
+                $('#ctcode_'+i).attr('id','ctcode_'+(i-1));
+                $('#ttitle_'+i).attr('id','ttitle_'+(i-1));
+                $('#Delete_CTell_'+i).attr('id','Delete_CTell_'+(i-1));
+            }
+            i_ctell--;
         }
     }
     function Delete_ATell(obj) {
@@ -1386,10 +1394,26 @@ $this->load->view($menu.'_menu');
         $(obj).parent().remove();
     }
     function Delete_CFax(obj) {
-        var id = $(obj).attr('id');
-        $(obj).parent().remove();
-        var num = id.substr(id.length - 1);
-        $('#ftitle_'+num).remove();
+        let id = $(obj).attr('id');
+        let arr = id.split('_');
+        let index = parseInt(arr[2]);
+
+        if(index === (i_cfax-1)){
+            $(obj).parent().remove();
+            $('#ftitle_'+index).remove();
+            i_cfax--;
+        }
+        else{
+            $(obj).parent().remove();
+            $('#ftitle_'+index).remove();
+            for(let i= index+1; i<i_cfax; i++){
+                $('#cfax_'+i).attr('id','cfax_'+(i-1));
+                $('#cfcode_'+i).attr('id','cfcode_'+(i-1));
+                $('#ftitle_'+i).attr('id','ftitle_'+(i-1));
+                $('#Delete_CFax_'+i).attr('id','Delete_CFax_'+(i-1));
+            }
+            i_cfax--;
+        }
     }
 </script>
 <?php
