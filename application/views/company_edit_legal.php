@@ -1002,26 +1002,23 @@ $this->load->view($menu.'_menu');
     function Add_Tell(obj) {
         var id = $(obj).parent().parent().attr('id');
         var res = id.split('_');
-        var num = res[1];
+        var agent_id = res[1];
+
         var div =$(obj).parent();
         var sel = div.children('div').first();
         var last = div.children('div').last();
-        $(sel).clone().insertAfter(last);
-        Node[num].i_tell++;
-
-
-        $(last).find('#tcode_0').attr('id','tcode_'+Node[num].i_tell);
-        $(last).find('#tell_0').attr('id','tell_'+Node[num].i_tell);
-
+        sel.clone().insertAfter(last);
         var Del = $('#Delete_ATell_Icon').clone();
-        $(last).prepend(Del);
-        last.children().first('#Delete_ATell_Icon').attr('id','Delete_ATell_'+Node[num].i_tell);
-
-        var id = $(obj).parent().parent().attr('id');
-
-        $('#'+id+' #tcode_0').val('');
-        $('#'+id+' #tell_0').val('');
-        $('#'+id+' #tcode_0').focus();
+        last = div.children('div').last();
+        last.find('#tcode_0').attr('id','tcode_'+Node[agent_id].i_tell);
+        last.find('#tell_0').attr('id','tell_'+Node[agent_id].i_tell);
+        last.prepend(Del);
+        last.children().first('#Delete_ATell_Icon').attr('id','Delete_ATell_'+Node[agent_id].i_tell);
+        Node[agent_id].i_tell++;
+        sel.find('#tcode_0').val('');
+        sel.find('#tell_0').val('');
+        sel.find('#tcode_0').focus();
+        $(obj).parent().find('#tell_count').val(Node[agent_id].i_tell);
     }
     function Add_CTell(obj) {
         var div =$(obj).parent();
@@ -1388,10 +1385,26 @@ $this->load->view($menu.'_menu');
         var id = $(agent).attr('id');
         var arr = id.split('_');
         var agent_id = arr[1];
-        Node[agent_id].i_tell--;
-        $('#Agent_'+agent_id+' #tell_count').val(Node[agent_id].i_tell);
-        var id = $(obj).attr('id');
-        $(obj).parent().remove();
+        var num = $(obj).attr('id');
+        var arr = num.split('_');
+        var num = parseInt(arr[2]);
+
+        if((num+1) === Node[agent_id].i_tell){
+            Node[agent_id].i_tell--;
+            $('#Agent_'+agent_id+' #tell_count').val(Node[agent_id].i_tell);
+            $(obj).parent().remove();
+        }
+        else{
+            $(obj).parent().remove();
+            for(var i=(num+1); i<Node[agent_id].i_tell; i++){
+                $('#Agent_'+agent_id+' #Delete_ATell_'+(i)).attr('id','Delete_ATell_'+(i-1));
+                $('#Agent_'+agent_id+' #tcode_'+(i)).attr('id','tcode_'+(i-1));
+                $('#Agent_'+agent_id+' #tell_'+(i)).attr('id','tell_'+(i-1));
+            }
+            Node[agent_id].i_tell--;
+            $('#Agent_'+agent_id+' #tell_count').val(Node[agent_id].i_tell);
+        }
+
     }
     function Delete_CFax(obj) {
         let id = $(obj).attr('id');
