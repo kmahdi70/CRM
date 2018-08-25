@@ -13,8 +13,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </head>
 <body>
 <?php
-print_r($Company);
-print_r($Agent);
 $data = array('Msg' => $Msg);
 $this->load->view('fa_error', $data);
 $menu = $this->session->userdata('MENU');
@@ -64,6 +62,26 @@ $this->load->view($menu.'_menu');
                             </button>
                         </div>
                         <div class="position-absolute" style="left:0;display: none" onclick="Delete_ATell(this);" id="Delete_ATell_Icon">
+                            <button type="button" class="btn btn-outline-danger p-0">
+                                <i class="fas fa-times fa-lg fa-fw position-relative" style="top: 2px"></i>
+                            </button>
+                        </div>
+                        <div class="position-absolute" style="left:0;display: none" onclick="Delete_AInt(this);" id="Delete_AInt_Icon">
+                            <button type="button" class="btn btn-outline-danger p-0">
+                                <i class="fas fa-times fa-lg fa-fw position-relative" style="top: 2px"></i>
+                            </button>
+                        </div>
+                        <div class="position-absolute" style="left:0;display: none" onclick="Delete_AFax(this);" id="Delete_AFax_Icon">
+                            <button type="button" class="btn btn-outline-danger p-0">
+                                <i class="fas fa-times fa-lg fa-fw position-relative" style="top: 2px"></i>
+                            </button>
+                        </div>
+                        <div class="position-absolute" style="left:0;display: none" onclick="Delete_AEmail(this);" id="Delete_AEmail_Icon">
+                            <button type="button" class="btn btn-outline-danger p-0">
+                                <i class="fas fa-times fa-lg fa-fw position-relative" style="top: 2px"></i>
+                            </button>
+                        </div>
+                        <div class="position-absolute" style="left:0;display: none" onclick="Delete_AMobile(this);" id="Delete_AMobile_Icon">
                             <button type="button" class="btn btn-outline-danger p-0">
                                 <i class="fas fa-times fa-lg fa-fw position-relative" style="top: 2px"></i>
                             </button>
@@ -564,7 +582,6 @@ $this->load->view($menu.'_menu');
                                         <?php
                                         $len_t = count($Agent[$i_agent]['Tell']);
                                         if($len_t == 0){
-                                            $i_tell = 0;
                                             ?>
                                             <div class="input-group ltr mb-1">
                                                 <div class="input-group-prepend">
@@ -612,20 +629,18 @@ $this->load->view($menu.'_menu');
                                         <?php
                                         $len_i = count($Agent[$i_agent]['Internal']);
                                         if($len_i == 0){
-                                            $i_int = 0;
                                             ?>
                                             <input type="text" class="form-control ltr text-left mb-1" placeholder="داخلی" id="int_0">
                                             <?php
                                         }
                                         else{
-                                            echo $len;
                                             for($i_int=0; $i_int<$len_i; $i_int++) {
                                                 ?>
                                                 <div class="position-relative">
                                                     <?php
                                                     if($i_int>0){
                                                         ?>
-                                                        <div class="position-absolute" style="top: 0px;left:0;display:none" onclick="Delete_ATell(this);" id="Delete_ATell_<?php echo $i_int; ?>">
+                                                        <div class="position-absolute" style="top: 0px;left:0;display:none" onclick="Delete_AInt(this);" id="Delete_AInt_<?php echo $i_int; ?>">
                                                             <button type="button" class="btn btn-outline-danger p-0">
                                                                 <i class="fas fa-times fa-lg fa-fw position-relative" style="top: 2px"></i>
                                                             </button>
@@ -649,7 +664,6 @@ $this->load->view($menu.'_menu');
                                         <?php
                                         $len_f = count($Agent[$i_agent]['Fax']);
                                         if($len_f == 0){
-                                            $i_fax = 0;
                                             ?>
                                             <div class="input-group ltr mb-1">
                                                 <div class="input-group-prepend">
@@ -664,9 +678,20 @@ $this->load->view($menu.'_menu');
                                         else{
                                             for($i_fax=0; $i_fax<$len_f; $i_fax++){
                                                 ?>
-                                                <div class="input-group ltr mb-1">
+                                                <div class="input-group ltr mb-1" onmouseover="Show_Delete_AFax(this);">
+                                                    <?php
+                                                    if($i_fax>0){
+                                                        ?>
+                                                        <div class="position-absolute" style="top: 0px;display: none" onclick="Delete_AFax(this);" id="Delete_AFax_<?php echo $i_fax; ?>">
+                                                            <button type="button" class="btn btn-outline-danger p-0">
+                                                                <i class="fas fa-times fa-lg fa-fw position-relative" style="top: 2px"></i>
+                                                            </button>
+                                                        </div>
+                                                        <?php
+                                                    }
+                                                    ?>
                                                     <div class="input-group-prepend">
-                                                        <span class="input-group-text">
+                                                        <span class="input-group-text" style="border-bottom-left-radius: 4px;border-top-left-radius: 4px">
                                                             <input class="input-group-text p-0 border-0" placeholder="کد" id="fcode_<?php echo $i_fax;?>" size="1" value="<?php echo $Agent[$i_agent]['Fax'][$i_fax]->Code; ?>">
                                                         </span>
                                                     </div>
@@ -686,7 +711,6 @@ $this->load->view($menu.'_menu');
                                         <?php
                                         $len_e = count($Agent[$i_agent]['Email']);
                                         if($len_e == 0) {
-                                            $i_email = 0;
                                             ?>
                                             <input type="text" class="form-control ltr text-left mb-1" placeholder="ایمیل" id="a_email_0">
                                             <?php
@@ -694,8 +718,21 @@ $this->load->view($menu.'_menu');
                                         else{
                                             for($i_email=0; $i_email<$len_e; $i_email++){
                                                 ?>
-                                                <input type="text" class="form-control ltr text-left mb-1" placeholder="ایمیل" id="a_email_<?php echo $i_email;?>" value="<?php echo $Agent[$i_agent]['Email'][$i_email]->Email; ?>">
-                                            <?php
+                                                <div class="position-relative">
+                                                    <?php
+                                                    if($i_email>0){
+                                                        ?>
+                                                        <div class="position-absolute" style="top: 0px;left:0;display:none" onclick="Delete_AEmail(this);" id="Delete_AEmail_<?php echo $i_email; ?>">
+                                                            <button type="button" class="btn btn-outline-danger p-0">
+                                                                <i class="fas fa-times fa-lg fa-fw position-relative" style="top: 2px"></i>
+                                                            </button>
+                                                        </div>
+                                                        <?php
+                                                    }
+                                                    ?>
+                                                    <input type="text" onmouseover="Show_Delete_AEmail(this);" class="form-control ltr text-left mb-1" placeholder="ایمیل" id="email_<?php echo $i_email;?>" value="<?php echo $Agent[$i_agent]['Email'][$i_email]->Email; ?>">
+                                                </div>
+                                                <?php
                                             }
                                         }
                                         ?>
@@ -717,7 +754,20 @@ $this->load->view($menu.'_menu');
                                         else{
                                             for($i_mobile=0; $i_mobile<$len_m; $i_mobile++){
                                                 ?>
-                                                <input type="text" class="form-control ltr text-left mb-1" placeholder="همراه" id="mobile_<?php echo $i_mobile;?>" value="<?php echo $Agent[$i_agent]['Mobile'][$i_mobile]->Mobile; ?>">
+                                                <div class="position-relative">
+                                                    <?php
+                                                    if($i_mobile>0){
+                                                        ?>
+                                                        <div class="position-absolute" style="top: 0px;left:0;display:none" onclick="Delete_AMobile(this);" id="Delete_AMobile_<?php echo $i_mobile; ?>">
+                                                            <button type="button" class="btn btn-outline-danger p-0">
+                                                                <i class="fas fa-times fa-lg fa-fw position-relative" style="top: 2px"></i>
+                                                            </button>
+                                                        </div>
+                                                        <?php
+                                                    }
+                                                    ?>
+                                                    <input type="text" onmouseover="Show_Delete_AMobile(this);" class="form-control ltr text-left mb-1" placeholder="موبایل" id="mobile_<?php echo $i_mobile;?>" value="<?php echo $Agent[$i_agent]['Mobile'][$i_mobile]->Mobile; ?>">
+                                                </div>
                                                 <?php
                                             }
                                         }
@@ -856,7 +906,7 @@ $this->load->view($menu.'_menu');
                                         <div class="col-md-12 col-lg-1 form-group Add_Address">
                                             <label for="desc">حذف</label>
                                             <span data-toggle="modal" data-target="#ConfirmDellAddress">
-                                                <button type="button" onclick="ConfirmDelete('<?php echo $i_add; ?>');" data-toggle="tooltip" title="حذف آدرس" class="btn btn-outline-danger">
+                                                <button type="button" id="Delete_Address_Icon" onclick="ConfirmDelete('<?php echo $i_add; ?>');" data-toggle="tooltip" title="حذف آدرس" class="btn btn-outline-danger">
                                                     <i class="far fa-trash-alt fa-lg fa-fw" style="top: 2px;position: relative"></i>
                                                 </button>
                                             </span>
@@ -939,13 +989,41 @@ $this->load->view($menu.'_menu');
     var Node = [{}];
     console.log(Agent);
 
+    let tell,int,fax,email,mobile;
     for(var i=0; i<i_agent; i++){
-        Node[i] = {i_tell:Agent[i].Tell.length,i_int:Agent[i].Internal.length,i_fax:Agent[i].Fax.length,i_email:Agent[i].Email.length,i_mobile:Agent[i].Mobile.length};
-        $('#Agent_'+i+' #tell_count').val(Agent[i].Tell.length);
-        $('#Agent_'+i+' #int_count').val(Agent[i].Internal.length);
-        $('#Agent_'+i+' #fax_count').val(Agent[i].Fax.length);
-        $('#Agent_'+i+' #email_count').val(Agent[i].Email.length);
-        $('#Agent_'+i+' #mobile_count').val(Agent[i].Mobile.length);
+        //***********************************************
+        if(Agent[i].Tell.length == 0)
+            tell = 1;
+        else
+            tell = Agent[i].Tell.length;
+        //***********************************************
+        if(Agent[i].Internal.length == 0)
+            int = 1;
+        else
+            int = Agent[i].Internal.length;
+        //***********************************************
+        if(Agent[i].Fax.length == 0)
+            fax = 1;
+        else
+            fax = Agent[i].Fax.length;
+        //***********************************************
+        if(Agent[i].Email.length == 0)
+            email = 1;
+        else
+            email = Agent[i].Email.length;
+        //***********************************************
+        if(Agent[i].Mobile.length == 0)
+            mobile = 1;
+        else
+            mobile = Agent[i].Mobile.length;
+        //***********************************************
+
+        Node[i] = {i_tell:tell,i_int:int,i_fax:fax,i_email:email,i_mobile:mobile};
+        $('#Agent_'+i+' #tell_count').val(tell);
+        $('#Agent_'+i+' #int_count').val(int);
+        $('#Agent_'+i+' #fax_count').val(fax);
+        $('#Agent_'+i+' #email_count').val(email);
+        $('#Agent_'+i+' #mobile_count').val(mobile);
     }
     console.log(Node);
 
@@ -1045,30 +1123,44 @@ $this->load->view($menu.'_menu');
         i_ctell++;
     }
     function Add_Int(obj) {
+        var id = $(obj).parent().parent().attr('id');
+        var res = id.split('_');
+        var agent_id = res[1];
+        console.log(agent_id);
         var div =$(obj).parent();
         var sel = div.children('div').first();
-        var val = sel.children('input').first().val();
         $(sel).clone().insertAfter(div.children('div').last());
-        var Del = $('#Delete_ATell_Icon').clone();
-        div.children('div').last().prepend(Del);
-        i_int++;
 
-        $(div).children('div').last().find('input').first().attr('id','int_'+i_int);
-        //$('#Agent_0 #int_0').val('');
-        //$('#Agent_0 #int_0').focus();
+        var Del = $('#Delete_AInt_Icon').clone();
+        div.children('div').last().prepend(Del);
+        div.children('div').last().find('#Delete_AInt_Icon').attr('id','Delete_AInt_'+Node[agent_id].i_int);
+        div.children('div').last().find('input').first().attr('id','int_'+Node[agent_id].i_int);
+
+        $('#Agent_'+agent_id+' #int_0').val('');
+        $('#Agent_'+agent_id+' #int_0').focus();
+        Node[agent_id].i_int++;
+        $('#Agent_'+agent_id+' #int_count').val(Node[agent_id].i_int);
     }
     function Add_Fax(obj) {
-        var div =$(obj).parent();
-        var sel = $(div).children('div').first();
-        $(sel).clone().appendTo(div);
-        i_fax++;
-        var last = $(div).children('div').last();
-        $(last).find('#fcode_0').attr('id','fcode_'+i_fax);
-        $(last).find('#fax_0').attr('id','fax_'+i_fax);
+        var id = $(obj).parent().parent().attr('id');
+        var res = id.split('_');
+        var agent_id = res[1];
 
-        $('#Agent_0 #fcode_0').val('');
-        $('#Agent_0 #fax_0').val('');
-        $('#Agent_0 #fcode_0').focus();
+        var div =$(obj).parent();
+        var sel = div.children('div').first();
+        var last = div.children('div').last();
+        sel.clone().insertAfter(last);
+        var Del = $('#Delete_AFax_Icon').clone();
+        last = div.children('div').last();
+        last.find('#fcode_0').attr('id','fcode_'+Node[agent_id].i_fax);
+        last.find('#fax_0').attr('id','fax_'+Node[agent_id].i_fax);
+        last.prepend(Del);
+        last.children().first('#Delete_AFax_Icon').attr('id','Delete_AFax_'+Node[agent_id].i_fax);
+        Node[agent_id].i_fax++;
+        sel.find('#fcode_0').val('');
+        sel.find('#fax_0').val('');
+        sel.find('#fcode_0').focus();
+        $(obj).parent().find('#fax_count').val(Node[agent_id].i_fax);
     }
     function Add_CFax(obj) {
         var div =$(obj).parent();
@@ -1095,45 +1187,43 @@ $this->load->view($menu.'_menu');
         i_cfax++;
     }
     function Add_Email(obj) {
+        var id = $(obj).parent().parent().attr('id');
+        var res = id.split('_');
+        var agent_id = res[1];
+
         var div =$(obj).parent();
-        var sel = $(div).children('input').first();
-        var val = sel.val();
-        $(sel).clone().appendTo(div);
-        $(div).children('input').last().val(val);
-        i_email++;
-        $(div).children('input').last().attr('id','a_email_'+i_email);
-        $('#Agent_0 #a_email_0').val('');
-        $('#Agent_0 #a_email_0').focus();
+        var sel = div.children('div').first();
+        $(sel).clone().insertAfter(div.children('div').last());
+        var Del = $('#Delete_AEmail_Icon').clone();
+        div.children('div').last().prepend(Del);
+        div.children('div').last().find('#Delete_AEmail_Icon').attr('id','Delete_AEmail_'+Node[agent_id].i_email);
+        div.children('div').last().find('input').first().attr('id','email_'+Node[agent_id].i_email);
+
+        $('#Agent_'+agent_id+' #email_0').val('');
+        $('#Agent_'+agent_id+' #email_0').focus();
+        Node[agent_id].i_email++;
+        $('#Agent_'+agent_id+' #email_count').val(Node[agent_id].i_email);
     }
     function Add_Mobile(obj) {
+        var id = $(obj).parent().parent().attr('id');
+        var res = id.split('_');
+        var agent_id = res[1];
+
         var div =$(obj).parent();
-        var sel = $(div).children('input').first();
-        var val = sel.val();
-        $(sel).clone().appendTo(div);
-        $(div).children('input').last().val(val);
-        i_mobile++;
-        $(div).children('input').last().attr('id','mobile_'+i_mobile);
-        $('#Agent_0 #mobile_0').val('');
-        $('#Agent_0 #mobile_0').focus();
+        var sel = div.children('div').first();
+        $(sel).clone().insertAfter(div.children('div').last());
+        var Del = $('#Delete_AMobile_Icon').clone();
+        div.children('div').last().prepend(Del);
+        div.children('div').last().find('#Delete_AMobile_Icon').attr('id','Delete_AMobile_'+Node[agent_id].i_mobile);
+        div.children('div').last().find('input').first().attr('id','mobile_'+Node[agent_id].i_mobile);
+
+        $('#Agent_'+agent_id+' #mobile_0').val('');
+        $('#Agent_'+agent_id+' #mobile_0').focus();
+        Node[agent_id].i_mobile++;
+        $('#Agent_'+agent_id+' #mobile_count').val(Node[agent_id].i_mobile);
     }
     function Add_Agent() {
         $('[data-toggle="tooltip"]').tooltip("hide");
-        i_agent++;
-
-        $('#Agent_0 #tell_count').val(i_tell+1);
-        i_tell=0;
-
-        $('#Agent_0 #int_count').val(i_int+1);
-        i_int=0;
-
-        $('#Agent_0 #fax_count').val(i_fax+1);
-        i_fax=0;
-
-        $('#Agent_0 #email_count').val(i_email+1);
-        i_email=0;
-
-        $('#Agent_0 #mobile_count').val(i_mobile+1);
-        i_mobile=0;
 
         var Current = $('#Agent_0').children().clone();
         $('<div class="row" id="Agent_'+i_agent+'"></div>').insertAfter('#Agent_0');
@@ -1143,29 +1233,58 @@ $this->load->view($menu.'_menu');
         var Agent = $('#Agent_Base').children().clone();
         $('#Agent_0').html(Agent);
         $('[data-toggle="tooltip"]').tooltip();
+
+        Node[i_agent] = {i_tell:Node[0].i_tell,i_int:Node[0].i_int,i_fax:Node[0].i_fax,i_email:Node[0].i_email,i_mobile:Node[0].i_mobile};
+        Node[0] = {i_tell:1,i_int:1,i_fax:1,i_email:1,i_mobile:1};
+        i_agent++;
     }
     function Dell_Agent(){
         $('#ConfirmDellAgent').modal('hide');
-        var i = $('#DellID').val();
-        $('#Agent_'+i).remove();
+        var num = parseInt($('#DellID').val());
+
+        if((i_agent-1) === num){
+            $('#Agent_'+num).remove();
+            Node.splice(num,1);
+            i_agent--;
+        }
+        else{
+            for(let i=(num+1); i<i_agent; i++){
+                $('#Agent_'+num).remove();
+                Node[i-1] = Node[i];
+                Node.splice(i,1);
+            }
+            i_agent--;
+        }
     }
     function Dell_Address(){
         $('#ConfirmDellAddress').modal('hide');
-        var i = $('#DellID').val();
-        $('#Address_'+i).remove();
+        let num = parseInt($('#DellID').val());
+
+        if((num+1) === i_address){
+            $('#Address_'+num).remove();
+            i_address--;
+        }
+        else{
+            $('#Address_'+num).remove();
+            for(let i=(num+1); i<i_address; i++){
+                $('#Address_'+i).attr('id','Address_'+(i-1));
+                $('#Address_'+(i-1)).children('div').last().find('#Delete_Address_Icon').attr('onclick','ConfirmDelete("'+(i-1)+'");');
+            }
+            i_address--;
+        }
     }
     function Add_Address() {
         $('[data-toggle="tooltip"]').tooltip("hide");
         var Current = $('#Address_0').children().clone();
-        i_address++;
         $('<div class="row" id="Address_'+i_address+'"></div>').insertAfter('#Address_0');
         $('#Address_'+i_address).append(Current);
-        $('#Address_'+i_address+' .Add_Address').html('<label for="desc">حذف</label><span data-toggle="modal" data-target="#ConfirmDellAddress"><button type="button" onclick="ConfirmDelete(\''+i_address+'\');" data-toggle="tooltip" title="حذف آدرس" class="btn btn-outline-danger"><i class="far fa-trash-alt fa-lg fa-fw" style="top: 2px;position: relative"></i></button></span>');
+        $('#Address_'+i_address+' .Add_Address').html('<label for="desc">حذف</label><span data-toggle="modal" data-target="#ConfirmDellAddress"><button type="button" id="Delete_Address_Icon" onclick="ConfirmDelete(\''+i_address+'\');" data-toggle="tooltip" title="حذف آدرس" class="btn btn-outline-danger"><i class="far fa-trash-alt fa-lg fa-fw" style="top: 2px;position: relative"></i></button></span>');
         $('#Address_'+i_address+' #province').val($('#Address_0 #province').val());
         $('#Address_'+i_address+' #city').val($('#Address_0 #city').val());
         var AddBase = $('#Address_Base').children().clone();
         $('#Address_0').html(AddBase);
         $('[data-toggle="tooltip"]').tooltip();
+        i_address++;
     }
     function Submit_Legal_Form() {
         if($.trim($('#name').val()) == ''){
@@ -1334,6 +1453,15 @@ $this->load->view($menu.'_menu');
     function Show_Delete_AInt(obj){
         $(obj).prev().fadeIn('slow');
     }
+    function Show_Delete_AEmail(obj){
+        $(obj).prev().fadeIn('slow');
+    }
+    function Show_Delete_AMobile(obj){
+        $(obj).prev().fadeIn('slow');
+    }
+    function Show_Delete_AFax(obj){
+        $(obj).children().first().fadeIn('slow');
+    }
     function Show_Delete_CFax(obj){
         $(obj).children().first().fadeIn('slow');
     }
@@ -1403,6 +1531,107 @@ $this->load->view($menu.'_menu');
             }
             Node[agent_id].i_tell--;
             $('#Agent_'+agent_id+' #tell_count').val(Node[agent_id].i_tell);
+        }
+
+    }
+    function Delete_AInt(obj) {
+        var agent = $(obj).parent().parent().parent();
+        var id = $(agent).attr('id');
+        var arr = id.split('_');
+        var agent_id = arr[1];
+
+        var num = $(obj).attr('id');
+        var arr = num.split('_');
+        var num = parseInt(arr[2]);
+
+        if((num+1) === Node[agent_id].i_int){
+            Node[agent_id].i_int--;
+            $('#Agent_'+agent_id+' #int_count').val(Node[agent_id].i_int);
+            $(obj).parent().remove();
+        }
+        else{
+            $(obj).parent().remove();
+            for(var i=(num+1); i<Node[agent_id].i_int; i++){
+                $('#Agent_'+agent_id+' #Delete_AInt_'+(i)).attr('id','Delete_AInt_'+(i-1));
+                $('#Agent_'+agent_id+' #int_'+i).attr('id','int_'+(i-1));
+            }
+            Node[agent_id].i_int--;
+            $('#Agent_'+agent_id+' #int_count').val(Node[agent_id].i_int);
+        }
+    }
+    function Delete_AEmail(obj) {
+        var agent = $(obj).parent().parent().parent();
+        var id = $(agent).attr('id');
+        var arr = id.split('_');
+        var agent_id = arr[1];
+
+        var num = $(obj).attr('id');
+        var arr = num.split('_');
+        var num = parseInt(arr[2]);
+
+        if((num+1) === Node[agent_id].i_email){
+            Node[agent_id].i_email--;
+            $('#Agent_'+agent_id+' #email_count').val(Node[agent_id].i_email);
+            $(obj).parent().remove();
+        }
+        else{
+            $(obj).parent().remove();
+            for(var i=(num+1); i<Node[agent_id].i_email; i++){
+                $('#Agent_'+agent_id+' #Delete_AEmail_'+(i)).attr('id','Delete_AEmail_'+(i-1));
+                $('#Agent_'+agent_id+' #email_'+i).attr('id','email_'+(i-1));
+            }
+            Node[agent_id].i_email--;
+            $('#Agent_'+agent_id+' #email_count').val(Node[agent_id].i_email);
+        }
+    }
+    function Delete_AMobile(obj) {
+        var agent = $(obj).parent().parent().parent();
+        var id = $(agent).attr('id');
+        var arr = id.split('_');
+        var agent_id = arr[1];
+
+        var num = $(obj).attr('id');
+        var arr = num.split('_');
+        var num = parseInt(arr[2]);
+
+        if((num+1) === Node[agent_id].i_mobile){
+            Node[agent_id].i_mobile--;
+            $('#Agent_'+agent_id+' #mobile_count').val(Node[agent_id].i_mobile);
+            $(obj).parent().remove();
+        }
+        else{
+            $(obj).parent().remove();
+            for(var i=(num+1); i<Node[agent_id].i_mobile; i++){
+                $('#Agent_'+agent_id+' #Delete_AMobile_'+(i)).attr('id','Delete_AMobile_'+(i-1));
+                $('#Agent_'+agent_id+' #mobile_'+i).attr('id','mobile_'+(i-1));
+            }
+            Node[agent_id].i_mobile--;
+            $('#Agent_'+agent_id+' #mobile_count').val(Node[agent_id].i_mobile);
+        }
+    }
+    function Delete_AFax(obj) {
+        var agent = $(obj).parent().parent().parent();
+        var id = $(agent).attr('id');
+        var arr = id.split('_');
+        var agent_id = arr[1];
+        var num = $(obj).attr('id');
+        var arr = num.split('_');
+        var num = parseInt(arr[2]);
+
+        if((num+1) === Node[agent_id].i_fax){
+            Node[agent_id].i_fax--;
+            $('#Agent_'+agent_id+' #fax_count').val(Node[agent_id].i_fax);
+            $(obj).parent().remove();
+        }
+        else{
+            $(obj).parent().remove();
+            for(let i=(num+1); i<Node[agent_id].i_fax; i++){
+                $('#Agent_'+agent_id+' #Delete_AFax_'+(i)).attr('id','Delete_AFax_'+(i-1));
+                $('#Agent_'+agent_id+' #fcode_'+(i)).attr('id','fcode_'+(i-1));
+                $('#Agent_'+agent_id+' #fax_'+(i)).attr('id','fax_'+(i-1));
+            }
+            Node[agent_id].i_fax--;
+            $('#Agent_'+agent_id+' #fax_count').val(Node[agent_id].i_fax);
         }
 
     }
