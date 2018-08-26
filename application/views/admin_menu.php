@@ -20,9 +20,28 @@
                     کاربران
                 </a>
                 <div class="dropdown-menu text-right" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="#">ایجاد کاربر</a>
+                    <a class="dropdown-item" href="<?php echo base_url() . 'user_add'; ?>">ایجاد بازاریاب</a>
                     <a class="dropdown-item" href="#">ویرایش کاربران</a>
                     <a class="dropdown-item" href="#">حذف کاربران</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle SMenu" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    کارپردازی
+                </a>
+                <div class="dropdown-menu text-right" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="<?php echo base_url() . 'dev_add'; ?>">ایجاد کارپردازی</a>
+                    <a class="dropdown-item" href="<?php echo base_url() . 'dev_find'; ?>">مدیریت کارپردازی</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle SMenu" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    وظایف
+                </a>
+                <div class="dropdown-menu text-right" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="<?php echo base_url() . 'dev_find'; ?>">ایجاد</a>
+                    <a class="dropdown-item" href="#">ویرایش</a>
+                    <a class="dropdown-item" href="#">حذف</a>
                 </div>
             </li>
             <li class="nav-item dropdown">
@@ -30,6 +49,7 @@
                     پروژه ها
                 </a>
                 <div class="dropdown-menu text-right" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="<?php echo base_url(). 'project_add'; ?>">ایجاد</a>
                     <a class="dropdown-item" href="<?php echo base_url(). 'Companyadd'; ?>">گزارشات</a>
                     <a class="dropdown-item" href="<?php echo base_url(). 'Companyadd'; ?>">نمایش</a>
                     <a class="dropdown-item" href="<?php echo base_url().'dell_company'; ?>">مدیریت</a>

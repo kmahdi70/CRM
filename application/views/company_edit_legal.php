@@ -921,7 +921,7 @@ $this->load->view($menu.'_menu');
                         ?>
                         <div class="row">
                             <div class="col-md-12 col-lg-12 form-group text-right">
-                                <button type="button" onclick="return Submit_Legal_Form();" id="Save_Legal" class="btn btn-info">ذخیره تغییرات شرکت</button>
+                                <button type="button" id="Save_Legal" class="btn btn-info">ذخیره تغییرات شرکت</button>
                             </div>
                         </div>
                     </div>

@@ -6,6 +6,22 @@ class Company_model extends CI_Model{
         parent::__construct();
     }
 
+    public function get_companies(){
+        $this->db->select('company.CID,
+                            company.`Name`,
+                            company.`Brand`,
+                            company.Category,
+                            company.Type,
+                            subcategory.Title as `Sub`,
+                            category.Title as `Cat`');
+        $this->db->from('company');
+        $this->db->join('subcategory','company.SubCategory_ID = subcategory.SCID');
+        $this->db->join('category','subcategory.Category_ID = category.CID');
+        $this->db->order_by('CID','desc');
+        $query = $this->db->get();
+        return $query->result();
+    }
+
     public function company_add_legal(){
         $flag = 0;
         $this->db->trans_start();
@@ -446,12 +462,10 @@ class Company_model extends CI_Model{
         }
     }
 
-
     public function get_company_city($pid){
         $query = $this->db->get_where('county',array('province_id' => $pid));
         return $query->result();
     }
-
 
     public function get_company_tells($cid){
          if($cid AND $cid != 0){
@@ -596,6 +610,7 @@ class Company_model extends CI_Model{
         return json_encode($arr);
 
     }
+
     public function Button($id){
         return ('<span class="btn" data-toggle="tooltip" title="ویرایش" id="DellSpan" style="padding: 0;">
                      <a href="'.base_url().'company_edit/'.$id.'"><i class="far fa-edit fa-fw fa-2x"></i></a>
@@ -604,5 +619,4 @@ class Company_model extends CI_Model{
                     <i class="far fa-trash-alt fa-fw fa-2x text-danger" data-toggle="modal" data-target="#ConfirmDell"></i>
                  </span>');
     }
-
 }

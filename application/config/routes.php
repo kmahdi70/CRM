@@ -50,6 +50,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |		my-controller/my-method	-> my_controller/my_method
 */
 $route['company_add/([GRY]+_(:num))'] = 'company_add/index/$1';
+$route['project_add/([GRY]+_(:num))'] = 'project_add/index/$1';
+$route['user_add/([GRY]+_(:num))'] = 'user_add/index/$1';
+$route['dev_add/([GRY]+_(:num))'] = 'dev_add/index/$1';
+$route['task_add/(:num)'] = 'task_add/index/$1';
 $route['company_edit/(:num)'] = 'company_edit/index/$1';
 $route['default_controller'] = 'login';
 $route['404_override'] = '';
