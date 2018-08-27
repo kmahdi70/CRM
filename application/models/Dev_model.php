@@ -141,13 +141,14 @@ class Dev_model extends CI_Model{
 
     public function get_dev_info($did){
         $this->db->select('development.DID,
-                            development.Description,
+                            development.Description as `desc`,
                             project.`Name` as `proj`,
                             dev_states.Title,
                             users.FN,
                             users.LN,
                             company.`Name` as `company`,
-                            company.Brand');
+                            company.Brand,
+                            development.Created as `date`');
         $this->db->from('development');
         $this->db->join('company','development.Company_ID = company.CID');
         $this->db->join('users','development.User_ID = users.UID');

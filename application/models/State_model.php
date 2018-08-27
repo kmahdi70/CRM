@@ -15,4 +15,9 @@ class State_model extends CI_Model{
         $query = $this->db->get('dev_states');
         return $query->result();
     }
+
+    public function get_task_states(){
+        $query = $this->db->get('task_states');
+        return $query->result();
+    }
 }

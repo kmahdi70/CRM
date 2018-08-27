@@ -10,14 +10,28 @@ class Task_add extends CI_Controller {
             redirect(base_url() . 'login');
 
         $this->load->model('dev_model');
+        $this->load->model('priority_model');
+        $this->load->model('state_model');
+        $this->load->model('task_model');
     }
 
     public function index($did = null, $Msg=0){
         $data['Title'] = 'CRM - ایجاد وظیفه';
         $data['Msg'] = $Msg;
 
+        $res = $this->priority_model->get_priority();
+        $data['Priority'] = $res;
+
+        $res = $this->state_model->get_task_states();
+        $data['Task_State'] = $res;
+
+        $res = $this->task_model->get_task_types();
+        $data['Task_Type'] = $res;
+
         $res = $this->dev_model->get_dev_info($did);
         $data['Info'] = $res;
+
+
         $this->load->view('task_add', $data);
     }
 
@@ -72,12 +86,12 @@ echo $this->input->post('project');
     }
 
     public function insert(){
-        $res = $this->dev_model->dev_add();
-        if($res == '1'){
-            redirect(base_url() . 'dev_add/G_125');
+        $res = $this->task_model->task_add();
+        if($res != '-1'){
+            redirect(base_url() . 'task_add/'.$res.'/G_137');
         }
         else{
-            redirect(base_url() . 'dev_add/R_108');
+            redirect(base_url() . 'task_add/'.$res.'/R_108');
         }
     }
 }
