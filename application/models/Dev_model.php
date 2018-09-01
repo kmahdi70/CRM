@@ -7,20 +7,50 @@ class Dev_model extends CI_Model{
     }
 
     public function dev_add(){
-        $Data = array(
-            'Project_ID' => $this->input->post("project"),
-            'State_ID' => $this->input->post("state"),
-            'User_ID' => $this->input->post("user"),
-            'Company_ID' => $this->input->post("company"),
-            'Description' => $this->input->post("desc")
+        $flag = 0;
+        $this->db->trans_start();
+        foreach($this->input->post("company") as $company){
+            $Data = array(
+                'Project_ID' => $this->input->post("project"),
+                'State_ID' => $this->input->post("state"),
+                'User_ID' => $this->input->post("user"),
+                'Company_ID' => $company,
+                'Description' => $this->input->post("desc")
             );
+            if($this->db->insert('development', $Data)){
+                $did = $this->db->insert_id();
+                $this->log_db->log();
+            }
+            else
+                $flag = 1;
 
-        if($this->db->insert('development', $Data)){
-            $this->log_db->log();
+            if($this->input->post("state") == '1'){
+
+                $Data = array(
+                    'Develop_ID' => $did,
+                    'Date' => gmdate("Y-m-d", time()).' 00:00:00',
+                    'Task' => 'ارسال نامه',
+                    'TaskType_ID' => '1',
+                    'State_ID' => '1',
+                    'Priority_ID' => '1'
+                );
+
+                if($this->db->insert('tasks', $Data)){
+                    $this->log_db->log();
+                }
+                else
+                    $flag = 1;
+            }
+        }
+
+        if($flag == 0){
+            $this->db->trans_commit();
             return '1';
         }
-        else
+        else{
+            $this->db->trans_rollback();
             return '-1';
+        }
     }
 
     public function dev_list(){

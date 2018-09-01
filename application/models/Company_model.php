@@ -17,7 +17,7 @@ class Company_model extends CI_Model{
         $this->db->from('company');
         $this->db->join('subcategory','company.SubCategory_ID = subcategory.SCID');
         $this->db->join('category','subcategory.Category_ID = category.CID');
-        $this->db->order_by('CID','desc');
+        $this->db->order_by('Cat','desc');
         $query = $this->db->get();
         return $query->result();
     }

@@ -40,6 +40,8 @@ class Dev_add extends CI_Controller {
     }
 
     public function insert(){
+
+        //print_r($_POST);die();
         $res = $this->dev_model->dev_add();
         if($res == '1'){
             redirect(base_url() . 'dev_add/G_125');

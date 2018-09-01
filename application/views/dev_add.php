@@ -9,7 +9,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="<?php echo base_url().'css/bootstrap.min.css';?>">
     <link rel="stylesheet" href="<?php echo base_url().'css/all.css';?>">
+    <link rel="stylesheet" href="<?php echo base_url().'css/jquery.multiselect.css';?>">
     <link rel="stylesheet" href="<?php echo base_url().'css/global.css';?>">
+
 </head>
 <body>
 <?php
@@ -54,12 +56,27 @@ $this->load->view($menu.'_menu');
                             </div>
                             <div class="col-md-12 col-lg-3 form-group text-right">
                                 <label for="company">شرکت</label>
-                                <select class="form-control" id="company" name="company">
+                                <select class="form-control active" id="company" name="company[]" multiple="multiple">
+                                    <?php
+                                    $gr = $Company[0]->Cat;
+                                    ?>
+                                    <optgroup label="<?php echo $gr;?>">
                                     <?php
                                     foreach ($Company as $row){
-                                        ?>
-                                        <option value="<?php echo $row->CID; ?>"><?php echo $row->Name.(($row->Brand != '')?(' - '.$row->Brand):('')); ?></option>
-                                        <?php
+                                        if($row->Cat != $gr){
+                                            $gr = $row->Cat;
+                                            ?>
+                                            </optgroup>
+                                            <optgroup label="<?php echo $gr;?>">
+                                                <option value="<?php echo $row->CID; ?>"><?php echo $row->Name.(($row->Brand != '')?(' - '.$row->Brand):('')); ?></option>
+                                            <?php
+                                        }
+                                        else{
+                                            ?>
+                                            <option value="<?php echo $row->CID; ?>"><?php echo $row->Name.(($row->Brand != '')?(' - '.$row->Brand):('')); ?></option>
+                                            <?php
+                                        }
+
                                     }
                                     ?>
                                 </select>
@@ -96,14 +113,28 @@ $this->load->view($menu.'_menu');
 <script src="<?php echo base_url().'js/jquery-3.3.1.min.js';?>"></script>
 <script src="<?php echo base_url().'js/popper.min.js'; ?>"></script>
 <script src="<?php echo base_url().'js/bootstrap.min.js'; ?>"></script>
+<script src="<?php echo base_url().'js/jquery.multiselect.js';?>"></script>
 <script src="<?php echo base_url().'js/functions.js';?>"></script>
 <script>
     $(document).ready(function(){
         $('[data-toggle="tooltip"]').tooltip();
         $('[id^=MsgDiv_]').fadeOut(5000);
         $('#name').focus();
+
+
+        $(function () {
+            $('select[multiple].active').multiselect({
+                columns: 1,
+                search: true,
+                searchOptions: {
+                    showOptGroups: true,
+                },
+                selectAll: true,
+                selectGroup : true
+            });
+        });
     });
-    
+
     function Check_Form() {
         if($('#name').val() == ''){
             $('#name').attr('placeholder','نام پروژه الزامیست');
