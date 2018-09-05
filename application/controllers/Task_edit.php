@@ -25,13 +25,35 @@ class Task_edit extends CI_Controller {
 
         $this->load->view('task_edit', $data);
     }
+
+    public function code($TID = null, $Msg=0){
+        $tid = base64_decode(strtr($TID, '._-', '+/='));
+        $data['Title'] = 'CRM - ایجاد وظیفه';
+        $data['Msg'] = $Msg;
+
+        $res = $this->state_model->get_task_states();
+        $data['Task_State'] = $res;
+
+        $res = $this->task_model->get_task_info($tid);
+        $data['Task'] = $res;
+
+        $this->load->view('task_edit', $data);
+    }
+
     public function update(){
+
+        //print_r($_POST);die();
+
         $res = $this->task_model->task_update();
+        $str = strtr(base64_encode($res), '+/=', '._-');
         if($res != '-1'){
-            redirect(base_url() . 'task_dev_find/'.$res.'/G_128');
+            if($this->input->post('state') == '3')
+                redirect(base_url() . 'task_add/code/'.$str.'/G_128');
+            else
+                redirect(base_url() . 'task_dev_find/code/'.$str.'/G_128');
         }
         else{
-            redirect(base_url() . 'task_add/'.$res.'/R_108');
+            redirect(base_url() . 'task_edit/code/'.$str.'/R_108');
         }
     }
 

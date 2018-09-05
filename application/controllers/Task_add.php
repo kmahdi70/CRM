@@ -31,6 +31,26 @@ class Task_add extends CI_Controller {
         $res = $this->dev_model->get_dev_info($did);
         $data['Info'] = $res;
 
+        $this->load->view('task_add', $data);
+    }
+
+    public function code($DID = null, $Msg=0){
+        $did = base64_decode(strtr($DID, '._-', '+/='));
+
+        $data['Title'] = 'CRM - ایجاد وظیفه';
+        $data['Msg'] = $Msg;
+
+        $res = $this->priority_model->get_priority();
+        $data['Priority'] = $res;
+
+        $res = $this->state_model->get_task_states();
+        $data['Task_State'] = $res;
+
+        $res = $this->task_model->get_task_types();
+        $data['Task_Type'] = $res;
+
+        $res = $this->dev_model->get_dev_info($did);
+        $data['Info'] = $res;
 
         $this->load->view('task_add', $data);
     }

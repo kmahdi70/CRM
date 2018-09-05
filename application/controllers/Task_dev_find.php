@@ -23,6 +23,19 @@ class Task_dev_find extends CI_Controller {
         $this->load->view('task_dev_find', $data);
 	}
 
+	public function code($DID, $Msg=0)
+	{
+        $did = base64_decode(strtr($DID, '._-', '+/='));
+        $data['Title'] = 'CRM - ویرایش وظایف';
+        $data['Msg'] = $Msg;
+
+        $res = $this->dev_model->get_dev_info($did);
+        $data['dev_info'] = $res;
+
+        $data['DID'] = $did;
+        $this->load->view('task_dev_find', $data);
+	}
+
     public function task_dev_list($did)
     {
         $this->load->model('task_model');

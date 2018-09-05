@@ -66,8 +66,9 @@ class Task_model extends CI_Model{
     }
 
     public function Button($id){
+        $str = strtr(base64_encode($id), '+/=', '._-');
         return ('<span class="btn" data-toggle="tooltip" title="ویرایش" id="DellSpan" style="padding: 0;">
-                     <a href="'.base_url().'task_edit/'.$id.'"><i class="far fa-edit fa-fw fa-2x"></i></a>
+                     <a href="'.base_url().'task_edit/code/'.$str.'"><i class="far fa-edit fa-fw fa-2x"></i></a>
                  </span>');
     }
 
@@ -102,7 +103,7 @@ class Task_model extends CI_Model{
     }
 
     public function task_dev_list($did){
-
+        //$did = base64_decode(strtr($DID, '._-', '+/='));
         $this->db->select('tasks.TID,
                         tasks.Date,
                         tasks.Task,
@@ -136,6 +137,11 @@ class Task_model extends CI_Model{
             'State_ID' => $this->input->post('state'),
             'Description' => $this->input->post('task_desc')
         );
+
+        if($this->input->post('state') == '3'){
+
+        }
+
 
         $this->db->where('TID', $this->input->post('tid'));
         if($this->db->update('tasks', $data)){

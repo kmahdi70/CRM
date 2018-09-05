@@ -104,11 +104,12 @@ class Dev_model extends CI_Model{
         $this->db->where('UID',$this->session->userdata('UID'));
         $this->db->order_by('Date');
         $query = $this->db->get();
+        $this->load->library('j_date_time');
         $arr = array();
-        $i=1;
+        //$i=1;
         foreach ($query->result() as $Res){
             $arr['data'][] = array(
-                $i++,
+                $this ->j_date_time->convertFormatToFormat('Y/m/d', 'Y-m-d H:i:s', $Res->Date),
                 $Res->Name,
                 ($Res->Brand != '')?($Res->Company.' - '.$Res->Brand):($Res->Company),
                 $Res->Title,
@@ -120,14 +121,15 @@ class Dev_model extends CI_Model{
     }
 
     public function Button($id){
+        $str = strtr(base64_encode($id), '+/=', '._-');
         return ('<span class="btn" data-toggle="tooltip" title="ایجاد وظیفه" style="padding: 0;">
-                     <a href="'.base_url().'task_add/'.$id.'"><i class="fas fa-tasks fa-fw fa-2x text-primary"></i></a>
+                     <a href="'.base_url().'task_add/code/'.$str.'"><i class="fas fa-tasks fa-fw fa-2x text-primary"></i></a>
                  </span>
                  <span class="btn" data-toggle="tooltip" title="ویرایش" style="padding: 0;">
-                     <a href="'.base_url().'dev_edit/'.$id.'"><i class="far fa-edit fa-fw fa-2x text-warning"></i></a>
+                     <a href="'.base_url().'dev_edit/code/'.$str.'"><i class="far fa-edit fa-fw fa-2x text-warning"></i></a>
                  </span>
                  <span class="btn" data-toggle="tooltip" title="وظایف" style="padding: 0;">
-                    <a href="'.base_url().'task_dev_find/'.$id.'"><i class="far fa-eye fa-fw fa-2x text-success"></i></a>
+                    <a href="'.base_url().'task_dev_find/code/'.$str.'"><i class="far fa-eye fa-fw fa-2x text-success"></i></a>
                  </span>');
     }
 
@@ -136,20 +138,6 @@ class Dev_model extends CI_Model{
         $this->db->from('development');
         $this->db->join('project','development.Project_ID = project.PID');
         $this->db->group_by('project.PID');
-        $query = $this->db->get();
-        return $query->result();
-    }
-
-    public function get_dev_info1(){
-
-        $this->db->select('company.`Name` as `Company`,
-                        company.Brand,
-                        dev_states.Title,
-                        project.`Name` as `Proj`');
-        $this->db->from('development');
-        $this->db->join('project','development.Project_ID = project.PID');
-        $this->db->join('dev_states','development.State_ID = dev_states.SID');
-        $this->db->join('company','development.Company_ID = company.CID');
         $query = $this->db->get();
         return $query->result();
     }
@@ -222,6 +210,7 @@ class Dev_model extends CI_Model{
                             development.Description as `desc`,
                             project.`Name` as `proj`,
                             dev_states.Title,
+                            dev_states.SID,
                             users.FN,
                             users.LN,
                             company.`Name` as `company`,
@@ -237,7 +226,17 @@ class Dev_model extends CI_Model{
         return $query->row();
     }
 
-    public function dev_company(){
+    public function dev_update(){
+        $data = array(
+            'State_ID' => $this->input->post('state'),
+            'Description' => $this->input->post('desc')
+        );
+
+        $this->db->where('DID', $this->input->post('did'));
+        if($this->db->update('development', $data))
+            return ($this->input->post('did'));
+        else
+            return '-1';
 
     }
 }

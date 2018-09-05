@@ -19,6 +19,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </head>
 <body>
 <?php
+
+//echo urlencode('22');
+//echo base64_encode('12');
+//echo base64_decode('MTI=');
+//$a =  urlencode(base_url().'task_add/'.'12');
+//echo urldecode($a);
+//print_r(parse_url(base_url().'/12'));
+
 $data = array('Msg' => $Msg);
 $this->load->view('fa_error', $data);
 $menu = $this->session->userdata('MENU');
