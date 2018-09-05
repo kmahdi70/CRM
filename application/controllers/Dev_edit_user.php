@@ -1,3 +1,4 @@
+<li>آموزش استفاده از Fontawesome در پروژه</li>
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
