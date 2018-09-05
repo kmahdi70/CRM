@@ -10,7 +10,7 @@
                     پروژه ها
                 </a>
                 <div class="dropdown-menu text-right" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="<?php echo base_url().''; ?>">مدیریت</a>
+                    <a class="dropdown-item" href="<?php echo base_url().'dev_find_user'; ?>">مدیریت</a>
                     <a class="dropdown-item" href="<?php echo base_url(). ''; ?>">گزارشات</a>
                     <a class="dropdown-item" href="<?php echo base_url(). ''; ?>">نمایش</a>
                 </div>
@@ -21,7 +21,7 @@
                 </a>
                 <div class="dropdown-menu text-right" aria-labelledby="navbarDropdownMenuLink">
                     <a class="dropdown-item" href="<?php echo base_url() . 'task_find_user'; ?>">نمایش</a>
-                    <a class="dropdown-item" href="<?php echo base_url() . 'dev_find_user'; ?>">ایجاد</a>
+                    <a class="dropdown-item" href="<?php echo base_url() . 'dev_find_user'; ?>">مدیریت</a>
                 </div>
             </li>
             <li class="nav-item dropdown">

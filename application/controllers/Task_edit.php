@@ -42,8 +42,6 @@ class Task_edit extends CI_Controller {
 
     public function update(){
 
-        //print_r($_POST);die();
-
         $res = $this->task_model->task_update();
         $str = strtr(base64_encode($res), '+/=', '._-');
         if($res != '-1'){

@@ -60,6 +60,7 @@ $route['task_dev_find/(:num)/([GRY]+_(:num))'] = 'task_dev_find/index/$1/$2';
 $route['company_edit/(:num)'] = 'company_edit/index/$1';
 $route['dev_edit/(:num)'] = 'dev_edit/index/$1';
 $route['dev_find/([GRY]+_(:num))'] = 'dev_find/index/$1';
+$route['dev_find_user/([GRY]+_(:num))'] = 'dev_find_user/index/$1';
 //$route['task_edit/(:num)'] = 'task_edit/index/$1';
 $route['default_controller'] = 'login';
 $route['404_override'] = '';
