@@ -18,7 +18,6 @@ class Login_model extends CI_Model{
             $tb = 'admins';
 
         $query = $this->db->get_where($tb, array('User_ID' => $uid, 'Password' => sha1($pass)));
-
         return $query->result();
     }
 }

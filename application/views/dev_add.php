@@ -15,6 +15,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </head>
 <body>
 <?php
+//print_r($Company);
 $data = array('Msg' => $Msg);
 $this->load->view('fa_error', $data);
 $menu = $this->session->userdata('MENU');
@@ -54,31 +55,112 @@ $this->load->view($menu.'_menu');
                                     ?>
                                 </select>
                             </div>
-                            <div class="col-md-12 col-lg-3 form-group text-right">
+                            <!--<div class="col-md-12 col-lg-6 form-group text-right">
+                                <div onclick="Show_Company();">
+                                    <label>شرکت</label>
+                                    <i class="far fa-address-card fa-lg fa-fw text-primary" id="Choose_Company"></i>
+                                </div>
+                                <input type="text" class="form-control" id="Selected" readonly value="هیچ شرکتی انتخاب نشده">
+                            </div>-->
+                            <!--<div class="col-md-12 col-lg-12 form-group text-right" id="Sel_Comp_TB" style="display: none">
+                                <div class="form-control">
+                                    <table class="table table-hover table-striped" id="Sel_Company">
+                                        <thead>
+                                            <tr>
+                                                <th colspan="7"><input type="checkbox"> انتخاب همه شرکتها </th>
+                                            </tr>
+                                        </thead>
+                                        <thead>
+                                        <tr id="THead">
+                                            <th>نام</th>
+                                            <th>نام خانوادگی</th>
+                                            <th>شرکت</th>
+                                            <th>برند</th>
+                                            <th>گروه</th>
+                                            <th>زیر گروه</th>
+                                            <th width="40"><input type="checkbox"></th>
+                                        </tr>
+                                        </thead>
+                                        <?php
+/*                                        $NA = $Company['NA'];
+                                        foreach ($NA as $row){
+                                            */?>
+                                            <tr>
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td><?php /*echo $row->Name; */?></td>
+                                                <td><?php /*echo $row->Brand; */?></td>
+                                                <td><?php /*echo $row->Cat; */?></td>
+                                                <td><?php /*echo $row->Sub; */?></td>
+                                                <td><input type="checkbox" class="form-control"></td>
+                                            </tr>
+                                        <?php
+/*                                        }
+                                        */?>
+                                        <thead>
+                                        <tr id="THead">
+                                            <th>نام</th>
+                                            <th>نام خانوادگی</th>
+                                            <th>شرکت</th>
+                                            <th>برند</th>
+                                            <th>گروه</th>
+                                            <th>زیر گروه</th>
+                                            <th width="40"><input type="checkbox"></th>
+                                        </tr>
+                                        </thead>
+
+                                        <?php
+/*                                        $A = $Company['A'];
+                                        foreach ($A as $row){
+                                            */?>
+                                            <tr>
+                                                <td><?php /*echo $row->FN; */?></td>
+                                                <td><?php /*echo $row->LN; */?></td>
+                                                <td><?php /*echo $row->Name; */?></td>
+                                                <td><?php /*echo $row->Brand; */?></td>
+                                                <td><?php /*echo $row->Cat; */?></td>
+                                                <td><?php /*echo $row->Sub; */?></td>
+                                                <td><input type="checkbox" class="form-control"></td>
+                                            </tr>
+                                        <?php
+/*                                        }
+                                        */?>
+                                    </table>
+
+                                </div>
+                            </div>-->
+                            <div class="col-md-12 col-lg-6 form-group text-right">
+                                <?php
+                                $NA = array();
+                                $A = array();
+
+                                foreach ($Company as $row){
+                                    if($row->LN == '')
+                                        $NA[] = $row;
+                                    else
+                                        $A[] = $row;
+                                }
+                                ?>
                                 <label for="company">شرکت</label>
                                 <select class="form-control active" id="company" name="company[]" multiple="multiple">
+                                    <optgroup label="بدون Account Manager">
                                     <?php
-                                    $gr = $Company[0]->Cat;
-                                    ?>
-                                    <optgroup label="<?php echo $gr;?>">
-                                    <?php
-                                    foreach ($Company as $row){
-                                        if($row->Cat != $gr){
-                                            $gr = $row->Cat;
-                                            ?>
-                                            </optgroup>
-                                            <optgroup label="<?php echo $gr;?>">
-                                                <option value="<?php echo $row->CID; ?>"><?php echo $row->Name.(($row->Brand != '')?(' - '.$row->Brand):('')); ?></option>
-                                            <?php
-                                        }
-                                        else{
-                                            ?>
-                                            <option value="<?php echo $row->CID; ?>"><?php echo $row->Name.(($row->Brand != '')?(' - '.$row->Brand):('')); ?></option>
-                                            <?php
-                                        }
-
+                                    foreach ($NA as $row){
+                                        ?>
+                                        <option value="<?php echo $row->CID; ?>"><?php echo $row->Name.(($row->Brand != '')?(' - '.$row->Brand):('')).' ,'.$row->Cat.', '.$row->Sub; ?></option>
+                                        <?php
                                     }
                                     ?>
+                                    </optgroup>
+                                    <optgroup label="دارای Account Manager">
+                                    <?php
+                                    foreach ($A as $row){
+                                        ?>
+                                        <option value="<?php echo $row->CID; ?>"><?php echo $row->FN.' ,'.$row->LN.' ,'.$row->Name.(($row->Brand != '')?(' - '.$row->Brand):('')).' ,'.$row->Cat.', '.$row->Sub; ?></option>
+                                        <?php
+                                    }
+                                    ?>
+                                    </optgroup>
                                 </select>
                             </div>
                             <div class="col-md-12 col-lg-3 form-group text-right">
@@ -93,8 +175,7 @@ $this->load->view($menu.'_menu');
                                     ?>
                                 </select>
                             </div>
-
-                            <div class="col-md-12 col-lg-12 form-group text-right">
+                            <div class="col-md-12 col-lg-9 form-group text-right">
                                 <label for="comp_desc">توضیحات</label>
                                 <input type="text" class="form-control" autocomplete="off" name="desc" placeholder="توضیحات">
                             </div>
@@ -116,11 +197,28 @@ $this->load->view($menu.'_menu');
 <script src="<?php echo base_url().'js/jquery.multiselect.js';?>"></script>
 <script src="<?php echo base_url().'js/functions.js';?>"></script>
 <script>
+    let Sel_Comp = 0;
     $(document).ready(function(){
         $('[data-toggle="tooltip"]').tooltip();
         $('[id^=MsgDiv_]').fadeOut(5000);
         $('#name').focus();
 
+        $('#Sel_Company tr:not("#THead")').click(function(event) {
+            if (event.target.type !== 'checkbox') {
+                $(':checkbox', this).trigger('click');
+            }
+            else{
+                if($(this).find('input[type="checkbox"]').prop('checked') == true){
+                    Sel_Comp++;
+                    $('#Selected').val(Sel_Comp +' شرکت انتخاب شده');
+                }
+                else{
+                    Sel_Comp--;
+                    $('#Selected').val(Sel_Comp +' شرکت انتخاب شده');
+
+                }
+            }
+        });
 
         $(function () {
             $('select[multiple].active').multiselect({
@@ -142,6 +240,10 @@ $this->load->view($menu.'_menu');
             return false;
         }
         return true;
+    }
+    
+    function Show_Company() {
+        $('#Sel_Comp_TB').fadeToggle('slow');
     }
 </script>
 <?php

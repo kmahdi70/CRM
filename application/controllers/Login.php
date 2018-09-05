@@ -34,7 +34,11 @@ class Login extends CI_Controller {
                 $arr = $this->login_model->get_user();
                 if (count($arr) == 1) {
                     $menu = $this->input->post("type");
-                    $sess_data = array('login' => TRUE, 'UID' => $arr[0]->User_ID, 'PROJECT' => 'CRM', 'FN' => $arr[0]->FN, 'LN' => $arr[0]->LN, 'MENU' => $menu);
+                    if($menu == 'admin')
+                        $sess_data = array('login' => TRUE, 'UID' => $arr[0]->AID,'User_ID' => $arr[0]->User_ID, 'PROJECT' => 'CRM', 'FN' => $arr[0]->FN, 'LN' => $arr[0]->LN, 'MENU' => $menu);
+                    else
+                        $sess_data = array('login' => TRUE, 'UID' => $arr[0]->UID,'User_ID' => $arr[0]->User_ID, 'PROJECT' => 'CRM', 'FN' => $arr[0]->FN, 'LN' => $arr[0]->LN, 'MENU' => $menu);
+
                     $this->session->set_userdata($sess_data);
                     redirect(base_url() . 'home?Msg=G_103');
                 } else {

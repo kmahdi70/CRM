@@ -55,6 +55,7 @@ class Dev_model extends CI_Model{
 
     public function dev_list(){
         $this->db->select('development.DID,
+                            development.Created as `Date`,
                             project.`Name`,
                             dev_states.Title,
                             users.FN,
@@ -68,13 +69,12 @@ class Dev_model extends CI_Model{
         $this->db->join('dev_states','development.State_ID = dev_states.SID');
         $this->db->join('users','development.User_ID = users.UID');
         $this->db->join('company','development.Company_ID = company.CID');
-        $this->db->order_by('Date');
         $query = $this->db->get();
         $arr = array();
-        $i=1;
+        $this->load->library('j_date_time');
         foreach ($query->result() as $Res){
             $arr['data'][] = array(
-                $i++,
+                $this ->j_date_time->convertFormatToFormat('Y/m/d', 'Y-m-d H:i:s', $Res->Date),
                 $Res->Name,
                 ($Res->Brand != '')?($Res->Company.' - '.$Res->Brand):($Res->Company),
                 ($Res->LN != '')?($Res->FN.' - '.$Res->LN):($Res->FN),
@@ -86,14 +86,48 @@ class Dev_model extends CI_Model{
 
     }
 
+    public function dev_list_user(){
+        $this->db->select('development.DID,
+                            project.`Name`,
+                            dev_states.Title,
+                            users.FN,
+                            users.LN,
+                            company.`Name` as `Company`,
+                            company.Brand,
+                            development.Description as `Desc`,
+                            development.Created as `Date`');
+        $this->db->from('development');
+        $this->db->join('project','development.Project_ID = project.PID');
+        $this->db->join('dev_states','development.State_ID = dev_states.SID');
+        $this->db->join('users','development.User_ID = users.UID');
+        $this->db->join('company','development.Company_ID = company.CID');
+        $this->db->where('UID',$this->session->userdata('UID'));
+        $this->db->order_by('Date');
+        $query = $this->db->get();
+        $arr = array();
+        $i=1;
+        foreach ($query->result() as $Res){
+            $arr['data'][] = array(
+                $i++,
+                $Res->Name,
+                ($Res->Brand != '')?($Res->Company.' - '.$Res->Brand):($Res->Company),
+                $Res->Title,
+                $Res->Desc,
+                $this->Button($Res->DID));
+        }
+        return json_encode($arr);
+
+    }
+
     public function Button($id){
-        return ('<span class="btn" data-toggle="tooltip" title="ایجاد وظیفه" id="Add_Task" style="padding: 0;">
-                     <a href="'.base_url().'task_add/'.$id.'"><i class="fas fa-tasks fa-fw fa-2x text-success"></i></a>
-                 </span><span class="btn" data-toggle="tooltip" title="ویرایش" id="DellSpan" style="padding: 0;">
-                     <a href="'.base_url().'company_edit/'.$id.'"><i class="far fa-edit fa-fw fa-2x"></i></a>
+        return ('<span class="btn" data-toggle="tooltip" title="ایجاد وظیفه" style="padding: 0;">
+                     <a href="'.base_url().'task_add/'.$id.'"><i class="fas fa-tasks fa-fw fa-2x text-primary"></i></a>
                  </span>
-                 <span class="btn" data-toggle="tooltip" title="حذف" id="DellSpan" onclick="ConfirmDelete(\''.$id.'\');" style="padding: 0;">
-                    <i class="far fa-trash-alt fa-fw fa-2x text-danger" data-toggle="modal" data-target="#ConfirmDell"></i>
+                 <span class="btn" data-toggle="tooltip" title="ویرایش" style="padding: 0;">
+                     <a href="'.base_url().'dev_edit/'.$id.'"><i class="far fa-edit fa-fw fa-2x text-warning"></i></a>
+                 </span>
+                 <span class="btn" data-toggle="tooltip" title="وظایف" style="padding: 0;">
+                    <a href="'.base_url().'task_dev_find/'.$id.'"><i class="far fa-eye fa-fw fa-2x text-success"></i></a>
                  </span>');
     }
 
@@ -102,6 +136,20 @@ class Dev_model extends CI_Model{
         $this->db->from('development');
         $this->db->join('project','development.Project_ID = project.PID');
         $this->db->group_by('project.PID');
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    public function get_dev_info1(){
+
+        $this->db->select('company.`Name` as `Company`,
+                        company.Brand,
+                        dev_states.Title,
+                        project.`Name` as `Proj`');
+        $this->db->from('development');
+        $this->db->join('project','development.Project_ID = project.PID');
+        $this->db->join('dev_states','development.State_ID = dev_states.SID');
+        $this->db->join('company','development.Company_ID = company.CID');
         $query = $this->db->get();
         return $query->result();
     }
@@ -189,4 +237,7 @@ class Dev_model extends CI_Model{
         return $query->row();
     }
 
+    public function dev_company(){
+
+    }
 }

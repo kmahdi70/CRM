@@ -14,6 +14,7 @@ class Company_add extends CI_Controller {
         $this->load->model('company_model');
         $this->load->model('address_model');
         $this->load->model('label_model');
+        $this->load->model('user_model');
     }
     public function index($Msg=0)
     {
@@ -37,6 +38,9 @@ class Company_add extends CI_Controller {
 
         $res = $this->label_model->get_company_labels();
         $data['Company_Label'] = $res;
+
+        $res = $this->user_model->get_users();
+        $data['AccManager'] = $res;
 
         if($this->input->post('category') AND $this->input->post('category') == 'Real')
             $this->load->view('company_add_real', $data);

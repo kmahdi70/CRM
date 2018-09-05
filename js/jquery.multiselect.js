@@ -46,7 +46,7 @@
         // plugin texts
         texts: {
             placeholder    : 'انتخاب شرکت', // text to use in dummy input
-            search         : 'جستجو',         // search input placeholder text
+            search         : 'بازاریاب, شرکت, برند, دسته, زیردسته',         // search input placeholder text
             selectedOptions: ' انتخاب شده',      // selected suffix text
             selectAll      : 'انتخاب همه',     // select all text
             unselectAll    : 'لغو همه',   // unselect all text
@@ -58,7 +58,7 @@
         selectGroup        : false, // select entire optgroup
         minHeight          : 200,   // minimum height of option overlay
         maxHeight          : 400,  // maximum height of option overlay
-        maxWidth           : 250,  // maximum width of option overlay (or selector)
+        maxWidth           : 520,  // maximum width of option overlay (or selector)
         maxPlaceholderWidth: null,  // maximum width of placeholder button
         maxPlaceholderOpts : 10,    // maximum number of placeholder options to show until "# selected" shown instead
         showCheckbox       : true,  // display the checkbox to the user

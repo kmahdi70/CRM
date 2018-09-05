@@ -30,61 +30,25 @@ $this->load->view($menu.'_menu');
         <div class="col-12 text-center">
             <div class="card Form">
                 <div class="card-header text-right Panel_Title">
-                    <strong>مدیریت کارپردازی </strong><i class="far fa-folder-open Panel_Icon"></i>
+                    <strong>مدیریت وظایف </strong><i class="far fa-folder-open Panel_Icon"></i>
                 </div>
                 <div class="card-body Panel_Body">
                     <div class="row rtl">
                         <div class="col-md-12 col-lg-3 form-group text-right">
                             <label for="company">شرکت</label>
-                            <select class="form-control" id="company" name="company">
-                                <?php
-                                foreach ($dev_company as $row){
-                                    ?>
-                                    <option value="<?php echo $row->DID; ?>"><?php echo $row->Name.' - '.$row->Brand; ?></option>
-                                    <?php
-                                }
-                                ?>
-                            </select>
+                            <input class="form-control" readonly value="<?php echo $dev_info->company.' - '.$dev_info->Brand; ?>">
                         </div>
                         <div class="col-md-12 col-lg-3 form-group text-right">
                             <label for="proj">پروژه</label>
-                            <select class="form-control" id="proj" name="proj">
-                                <?php
-                                foreach ($dev_proj as $row){
-                                    ?>
-                                    <option value="<?php echo $row->DID; ?>"><?php echo $row->Name; ?></option>
-                                    <?php
-                                }
-                                ?>
-                            </select>
+                            <input class="form-control" readonly value="<?php echo $dev_info->proj; ?>">
                         </div>
                         <div class="col-md-12 col-lg-3 form-group text-right">
                             <label for="user">بازاریاب</label>
-                            <select class="form-control" id="user" name="user">
-                                <?php
-                                foreach ($dev_user as $row){
-                                    ?>
-                                    <option value="<?php echo $row->DID; ?>"><?php echo $row->FN.' - '.$row->LN; ?></option>
-                                    <?php
-                                }
-                                ?>
-                            </select>
+                            <input class="form-control" readonly value="<?php echo $dev_info->FN.' - '.$dev_info->LN; ?>">
                         </div>
-                        <div class="col-md-12 col-lg-2 form-group text-right">
+                        <div class="col-md-12 col-lg-3 form-group text-right">
                             <label for="state">وضعیت</label>
-                            <select class="form-control" id="state" name="state">
-                                <?php
-                                foreach ($dev_state as $row){
-                                    ?>
-                                    <option value="<?php echo $row->DID; ?>"><?php echo $row->Title; ?></option>
-                                    <?php
-                                }
-                                ?>
-                            </select>
-                        </div>
-                        <div class="col-md-12 col-lg-1 form-group">
-                            <label for="">وظیفه</label>
-                            <button type="submit" class="form-control btn btn-info">ایجاد</button>
+                            <input class="form-control" readonly value="<?php echo $dev_info->Title; ?>">
                         </div>
                     </div>
                     <hr>
@@ -93,24 +57,22 @@ $this->load->view($menu.'_menu');
                             <table id="EditCompanyTB" class="display" width="100%" cellspacing="0" style="direction: rtl">
                                 <thead>
                                 <tr>
-                                    <th width="30">ایجاد</th>
-                                    <th>پروژه</th>
-                                    <th>شرکت</th>
-                                    <th>بازاریاب</th>
+                                    <th width="30">تاریخ</th>
+                                    <th>شرح وظیفه</th>
+                                    <th>نوع</th>
                                     <th>وضعیت</th>
-                                    <th>توضیحات</th>
+                                    <th>اولویت</th>
                                     <th width="80">عملیات</th>
                                 </tr>
                                 </thead>
                                 <tfoot>
                                 <tr>
-                                    <th width="30">ایجاد</th>
-                                    <th>پروژه</th>
-                                    <th>شرکت</th>
-                                    <th>بازاریاب</th>
+                                    <th width="30">تاریخ</th>
+                                    <th>شرح وظیفه</th>
+                                    <th>نوع</th>
                                     <th>وضعیت</th>
-                                    <th>توضیحات</th>
-                                    <th>عملیات</th>
+                                    <th>اولویت</th>
+                                    <th width="80">عملیات</th>
                                 </tr>
                                 </tfoot>
                             </table>
@@ -145,7 +107,7 @@ $this->load->view($menu.'_menu');
 <script src="<?php echo base_url().'js/functions.js';?>"></script>
 <script>
     $('#EditCompanyTB').DataTable( {
-        "ajax":"<?php echo base_url().'dev_find/dev_list'; ?>",
+        "ajax":"<?php echo base_url().'task_dev_find/task_dev_list/'.$DID; ?>",
         "drawCallback": function() {
             $('[data-toggle="tooltip"]').tooltip();
         }

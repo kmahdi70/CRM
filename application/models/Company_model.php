@@ -7,19 +7,73 @@ class Company_model extends CI_Model{
     }
 
     public function get_companies(){
+
+        $this->db->select('company_id');
+        $this->db->from('development');
+        $this->db->group_by('Company_ID');
+        $inside = $this->db->get();
+        $arr = array();
+        foreach($inside->result() as $row)
+            $arr[] = $row->company_id;
+
         $this->db->select('company.CID,
                             company.`Name`,
-                            company.`Brand`,
-                            company.Category,
-                            company.Type,
+                            company.Brand,
+                            subcategory.Title as `Sub`,
+                            category.Title as `Cat`,
+                            company.AccountManager_ID as `AM`,
+                            users.FN,
+                            users.LN');
+        $this->db->from('company');
+        $this->db->join('subcategory','company.SubCategory_ID = subcategory.SCID');
+        $this->db->join('category','subcategory.Category_ID = category.CID');
+        $this->db->join('users','company.AccountManager_ID = users.UID','left');
+        $this->db->where_not_in('company.CID',$arr);
+        $this->db->order_by('users.LN');
+        $company = $this->db->get();
+        return $company->result();
+
+
+/*
+        $this->db->select('company_id');
+        $this->db->from('development');
+        $this->db->group_by('Company_ID');
+        $inside = $this->db->get();
+        $arr = array();
+        foreach($inside->result() as $row)
+            $arr[] = $row->company_id;
+
+        $this->db->select('company.CID,
+                            company.`Name`,
+                            company.Brand,
                             subcategory.Title as `Sub`,
                             category.Title as `Cat`');
         $this->db->from('company');
         $this->db->join('subcategory','company.SubCategory_ID = subcategory.SCID');
         $this->db->join('category','subcategory.Category_ID = category.CID');
-        $this->db->order_by('Cat','desc');
-        $query = $this->db->get();
-        return $query->result();
+        $this->db->where_not_in('company.CID',$arr);
+        $this->db->order_by('Cat, Sub');
+        $not_assigned = $this->db->get();
+
+        $this->db->select('company.CID,
+                            company.`Name`,
+                            company.Brand,
+                            users.FN,
+                            users.LN,
+                            category.Title as `Cat`,
+                            subcategory.Title as `Sub`');
+        $this->db->from('company');
+        $this->db->join('subcategory','company.SubCategory_ID = subcategory.SCID');
+        $this->db->join('category','company.SubCategory_ID = subcategory.SCID');
+        $this->db->join('development','development.Company_ID = company.CID');
+        $this->db->join('users','development.User_ID = users.UID');
+        $this->db->where_in('company.CID',$arr);
+        $this->db->group_by('company.CID');
+        $this->db->order_by('Cat, Sub');
+        $assigned = $this->db->get();
+
+        $Ret = array('NA' => $not_assigned->result(),'A' => $assigned->result());
+        return $Ret;*/
     }
 
     public function company_add_legal(){
@@ -34,7 +88,8 @@ class Company_model extends CI_Model{
             'Site' => $this->input->post("Site"),
             'SubCategory_ID' => $this->input->post("SubCat"),
             'Category' => 'شخص حقوقی',
-            'Description' => $this->input->post("Desc")
+            'Description' => $this->input->post("Desc"),
+            'AccountManager_ID' => $this->input->post("AccMngr")
             );
 
         if($this->db->insert('company', $Data)){

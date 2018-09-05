@@ -74,3 +74,6 @@ body {
 select{
     height: 30px !important;
 }
+#Choose_Company{
+    cursor: pointer;
+}
