@@ -163,6 +163,16 @@ class Dev_model extends CI_Model{
         return $query->result();
     }
 
+    public function dev_task_states(){
+        $this->db->select('task_states.Title,task_states.SID');
+        $this->db->from('development');
+        $this->db->join('tasks','tasks.Develop_ID = development.DID');
+        $this->db->join('task_states','tasks.State_ID = task_states.SID');
+        $this->db->group_by('task_states.SID');
+        $query = $this->db->get();
+        return $query->result();
+    }
+
     public function get_dev_user(){
         $this->db->select('development.DID,users.FN,users.LN');
         $this->db->from('development');
@@ -240,32 +250,56 @@ class Dev_model extends CI_Model{
 
     public function dev_update(){
         $did = $this->input->post('did');
-        $this->db->select('development.State_ID as `State`');
-        $this->db->from('development');
-        $this->db->where('development.DID',$did);
-        $query = $this->db->get();
-        $row = $query->row();
+        $state = $this->input->post('state');
 
-        $old_state = $row->State;
-        $new_state = $this->input->post('state');
+        $this->db->trans_start();
 
-        if($new_state > $old_state){
+        if($state == '8'){
             $data = array('State_ID' => '4');
             $this->db->where('Develop_ID', $did);
             $this->db->where('State_ID !=', '3');
             $this->db->update('tasks', $data);
+            log_message('debug', 'Query=' . $this->db->last_query() . ',User=' . $this->session->userdata('MENU') . ',Time=' . time());
         }
 
         $data = array(
-            'State_ID' => $new_state,
+            'State_ID' => $state,
             'Description' => $this->input->post('desc')
         );
 
         $this->db->where('DID', $did);
-        if($this->db->update('development', $data))
-            return $did;
-        else
-            return '-1';
+        $this->db->update('development', $data);
+        log_message('debug', 'Query=' . $this->db->last_query() . ',User=' . $this->session->userdata('MENU') . ',Time=' . time());
 
+        //MK70 todo if state = 5 teymoori make task
+
+        $this->db->trans_complete();
+
+        if ($this->db->trans_status() === FALSE)
+            return '-1';
+        else
+            return $did;
     }
+
+    public function fetch_company(){
+        $this->db->select('company.CID,
+                        company.`Name` AS Company,
+                        company.`Brand` AS Brand,
+                        project.PID,
+                        subcategory.Title as `Sub`,
+                        category.Title as `Cat`,
+                        users.FN,
+                        users.LN');
+        $this->db->from('company');
+        $this->db->join('development','development.Company_ID = company.CID','left');
+        $this->db->join('project','development.Project_ID = project.PID','left');
+        $this->db->join('subcategory','company.SubCategory_ID = subcategory.SCID');
+        $this->db->join('category','subcategory.Category_ID = category.CID');
+        $this->db->join('users','company.AccountManager_ID = users.UID','left');
+        $this->db->where_not_in('project.PID',$this->input->post('PID'));
+        $this->db->or_where('project.PID is null',null, false);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
 }

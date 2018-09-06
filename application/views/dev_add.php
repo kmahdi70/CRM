@@ -33,7 +33,8 @@ $this->load->view($menu.'_menu');
                         <div class="row">
                             <div class="col-md-12 col-lg-3 form-group text-right">
                                 <label for="project">پروژه</label>
-                                <select class="form-control" id="project" name="project">
+                                <select class="form-control" id="project" name="project" onchange="Feed_Company_Proj(this.value);">
+                                    <option value="0">انتخاب پروژه</option>
                                     <?php
                                     foreach ($Projects as $row){
                                         ?>
@@ -197,28 +198,10 @@ $this->load->view($menu.'_menu');
 <script src="<?php echo base_url().'js/jquery.multiselect.js';?>"></script>
 <script src="<?php echo base_url().'js/functions.js';?>"></script>
 <script>
-    let Sel_Comp = 0;
     $(document).ready(function(){
         $('[data-toggle="tooltip"]').tooltip();
         $('[id^=MsgDiv_]').fadeOut(5000);
         $('#name').focus();
-
-        $('#Sel_Company tr:not("#THead")').click(function(event) {
-            if (event.target.type !== 'checkbox') {
-                $(':checkbox', this).trigger('click');
-            }
-            else{
-                if($(this).find('input[type="checkbox"]').prop('checked') == true){
-                    Sel_Comp++;
-                    $('#Selected').val(Sel_Comp +' شرکت انتخاب شده');
-                }
-                else{
-                    Sel_Comp--;
-                    $('#Selected').val(Sel_Comp +' شرکت انتخاب شده');
-
-                }
-            }
-        });
 
         $(function () {
             $('select[multiple].active').multiselect({
@@ -242,9 +225,22 @@ $this->load->view($menu.'_menu');
         return true;
     }
     
-    function Show_Company() {
-        $('#Sel_Comp_TB').fadeToggle('slow');
+    function Feed_Company_Proj(pid) {
+        var URL = '<?php print(base_url().'dev_add/fetch_company');?>';
+        $.post(URL, {PID:pid}, function (res, ret) {
+            if(ret == 'success'){alert(res);
+                $('#company').html('');
+                var Json = $.parseJSON(res);
+                $(Json).each(function(k,v){
+                    if(v['LN'] == '')
+
+                    //$('#company').append('<option value="'+v['CID']+'">'+v['Company']+' - '+v['Brand']+', '+v['Cat']+', '+v['Sub']+'</option>');
+                });
+                $('select[multiple].active').multiselect('reload');
+            }
+        },'text');
     }
+
 </script>
 <?php
 $this->load->view('footer');

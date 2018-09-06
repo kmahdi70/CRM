@@ -30,7 +30,7 @@ $this->load->view($menu.'_menu');
         <div class="col-12 text-center">
             <div class="card Form">
                 <div class="card-header text-right Panel_Title">
-                    <strong>ویرایش شرکت ها </strong><i class="far fa-folder-open Panel_Icon"></i>
+                    <strong>مدیریت وظایف کاربر </strong><i class="far fa-folder-open Panel_Icon"></i>
                 </div>
                 <div class="card-body Panel_Body">
                     <div class="col col-md-12">
@@ -38,24 +38,26 @@ $this->load->view($menu.'_menu');
                             <table id="EditCompanyTB" class="display" width="100%" cellspacing="0" style="direction: rtl">
                                 <thead>
                                 <tr>
-                                    <th width="30">ایجاد</th>
-                                    <th>نام شرکت</th>
-                                    <th>برند</th>
-                                    <th>دسته</th>
-                                    <th>زیردسته</th>
-                                    <th>نوع شرکت</th>
+                                    <th width="50">تاریخ</th>
+                                    <th>شرکت</th>
+                                    <th>پروژه</th>
+                                    <th>وظیفه</th>
+                                    <th>نوع</th>
+                                    <th>وضعیت</th>
+                                    <th>اولویت</th>
                                     <th width="80">عملیات</th>
                                 </tr>
                                 </thead>
                                 <tfoot>
                                 <tr>
-                                    <th>ایجاد</th>
-                                    <th>نام شرکت</th>
-                                    <th>برند</th>
-                                    <th>دسته</th>
-                                    <th>زیردسته</th>
-                                    <th>نوع شرکت</th>
-                                    <th>عملیات</th>
+                                    <th width="50">تاریخ</th>
+                                    <th>شرکت</th>
+                                    <th>پروژه</th>
+                                    <th>وظیفه</th>
+                                    <th>نوع</th>
+                                    <th>وضعیت</th>
+                                    <th>اولویت</th>
+                                    <th width="80">عملیات</th>
                                 </tr>
                                 </tfoot>
                             </table>
@@ -71,10 +73,10 @@ $this->load->view($menu.'_menu');
         <div class="modal-content">
             <div class="modal-header rtl">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" style="">حذف شرکت، نمایندگان، آدرسها و تلفنها</h4>
+                <h4 class="modal-title" style="">حذف کارپردازی</h4>
             </div>
             <div class="modal-body text-right">
-                <p>آیا از پاک کردن شرکت و کلیه متعلقات آن اطمینان دارید؟</p>
+                <p>آیا از پاک کردن کارپردازی اطمینان دارید؟</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">انصراف</button>
@@ -90,17 +92,17 @@ $this->load->view($menu.'_menu');
 <script src="<?php echo base_url().'js/functions.js';?>"></script>
 <script>
     $('#EditCompanyTB').DataTable( {
-        "ajax":"<?php echo base_url().'company_details/list_company'; ?>",
+        "ajax":"<?php echo base_url().'task_find/task_list'; ?>",
         "drawCallback": function() {
             $('[data-toggle="tooltip"]').tooltip();
         }
     });
     function ConfirmDelete(cid){
-        $('#DellCompany').attr('href','<?php echo base_url().'dell_company/dell_cid/'; ?>'+cid);
+        $('#DellCompany').attr('href','<?php echo base_url().'dell_/dell_cid/'; ?>'+cid);
     }
 
     function DeleteCompany() {
-        var URL = '<?php print(base_url().'dell_company/delete');?>';
+        var URL = '<?php print(base_url().'dell_/delete');?>';
         var cid = $('#DellID').val();
         $.post(URL, {CID:cid}, function (res, ret) {
             if(ret == 'success'){

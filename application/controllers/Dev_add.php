@@ -40,8 +40,6 @@ class Dev_add extends CI_Controller {
     }
 
     public function insert(){
-
-        //print_r($_POST);die();
         $res = $this->dev_model->dev_add();
         if($res == '1'){
             redirect(base_url() . 'dev_add/G_125');
@@ -49,5 +47,11 @@ class Dev_add extends CI_Controller {
         else{
             redirect(base_url() . 'dev_add/R_108');
         }
+    }
+
+    public function fetch_company(){
+        $res = $this->dev_model->fetch_company();
+        echo json_encode($res);
+
     }
 }

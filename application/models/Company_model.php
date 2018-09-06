@@ -7,14 +7,14 @@ class Company_model extends CI_Model{
     }
 
     public function get_companies(){
-
+        /*
         $this->db->select('company_id');
         $this->db->from('development');
         $this->db->group_by('Company_ID');
         $inside = $this->db->get();
         $arr = array();
         foreach($inside->result() as $row)
-            $arr[] = $row->company_id;
+            $arr[] = $row->company_id;*/
 
         $this->db->select('company.CID,
                             company.`Name`,
@@ -28,7 +28,7 @@ class Company_model extends CI_Model{
         $this->db->join('subcategory','company.SubCategory_ID = subcategory.SCID');
         $this->db->join('category','subcategory.Category_ID = category.CID');
         $this->db->join('users','company.AccountManager_ID = users.UID','left');
-        $this->db->where_not_in('company.CID',$arr);
+        //$this->db->where_not_in('company.CID',$arr);
         $this->db->order_by('users.LN');
         $company = $this->db->get();
         return $company->result();

@@ -39,6 +39,8 @@ $this->load->view($menu.'_menu');
                                 <thead>
                                 <tr>
                                     <th width="50">تاریخ</th>
+                                    <th>شرکت</th>
+                                    <th>پروژه</th>
                                     <th>وظیفه</th>
                                     <th>نوع</th>
                                     <th>وضعیت</th>
@@ -49,6 +51,8 @@ $this->load->view($menu.'_menu');
                                 <tfoot>
                                 <tr>
                                     <th width="50">تاریخ</th>
+                                    <th>شرکت</th>
+                                    <th>پروژه</th>
                                     <th>وظیفه</th>
                                     <th>نوع</th>
                                     <th>وضعیت</th>

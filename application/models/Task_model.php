@@ -10,6 +10,7 @@ class Task_model extends CI_Model{
         $query = $this->db->get('task_types');
         return $query->result();
     }
+
     public function task_add(){
         $Data = array(
             'Develop_ID' => $this->input->post("did"),
@@ -38,7 +39,10 @@ class Task_model extends CI_Model{
                         task_states.Title as `State`,
                         priority.Title as `Pri`,
                         task_types.Type,
-                        task_states.SID
+                        task_states.SID,
+                        project.`Name` as `Proj`,
+                        company.Brand,
+                        company.`Name` as `Company`
                         ');
         $this->db->from('tasks');
         $this->db->join('development','tasks.Develop_ID = development.DID');
@@ -46,6 +50,8 @@ class Task_model extends CI_Model{
         $this->db->join('task_states','tasks.State_ID = task_states.SID');
         $this->db->join('priority','tasks.Priority_ID = priority.PID');
         $this->db->join('task_types','tasks.TaskType_ID = task_types.TID');
+        $this->db->join('project','development.Project_ID = project.PID');
+        $this->db->join('company','development.Company_ID = company.CID');
         $this->db->where('users.UID',$this->session->userdata('UID'));
         $this->db->order_by('Date');
         $query = $this->db->get();
@@ -56,6 +62,49 @@ class Task_model extends CI_Model{
             $str = $this ->j_date_time->convertFormatToFormat('Y/m/d', 'Y-m-d H:i:s', $Res->Date);
             $arr['data'][] = array(
                 $str,
+                $Res->Company.', '.$Res->Brand,
+                $Res->Proj,
+                $Res->Task,
+                $Res->Type,
+                $Res->State,
+                $Res->Pri,
+                $this->Button($Res->TID));
+        }
+        return json_encode($arr);
+    }
+
+    public function task_list(){
+        $this->db->select('tasks.TID,
+                        tasks.Date,
+                        tasks.Task,
+                        task_states.Title as `State`,
+                        priority.Title as `Pri`,
+                        task_types.Type,
+                        task_states.SID,
+                        project.`Name` as `Proj`,
+                        company.Brand,
+                        company.`Name` as `Company`
+                        ');
+        $this->db->from('tasks');
+        $this->db->join('development','tasks.Develop_ID = development.DID');
+        $this->db->join('users','development.User_ID = users.UID');
+        $this->db->join('task_states','tasks.State_ID = task_states.SID');
+        $this->db->join('priority','tasks.Priority_ID = priority.PID');
+        $this->db->join('task_types','tasks.TaskType_ID = task_types.TID');
+        $this->db->join('project','development.Project_ID = project.PID');
+        $this->db->join('company','development.Company_ID = company.CID');
+        $this->db->order_by('Date');
+        $query = $this->db->get();
+        log_message('debug', $this->db->last_query());
+        $arr = array();
+        $i=1;
+        $this->load->library('j_date_time');
+        foreach ($query->result() as $Res){
+            $str = $this ->j_date_time->convertFormatToFormat('Y/m/d', 'Y-m-d H:i:s', $Res->Date);
+            $arr['data'][] = array(
+                $str,
+                $Res->Company.', '.$Res->Brand,
+                $Res->Proj,
                 $Res->Task,
                 $Res->Type,
                 $Res->State,
@@ -153,5 +202,10 @@ class Task_model extends CI_Model{
         else
             return '-1';
 
+    }
+
+    public function task_state(){
+        $query = $this->db->get('task_states');
+        return $query->result();
     }
 }

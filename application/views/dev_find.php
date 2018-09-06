@@ -54,7 +54,7 @@ $this->load->view($menu.'_menu');
                                 ?>
                             </select>
                         </div>
-                        <div class="col-md-12 col-lg-3 form-group text-right">
+                        <div class="col-md-12 col-lg-2 form-group text-right">
                             <label for="proj">پروژه</label>
                             <select class="form-control" id="proj" name="proj">
                                 <?php
@@ -66,7 +66,7 @@ $this->load->view($menu.'_menu');
                                 ?>
                             </select>
                         </div>
-                        <div class="col-md-12 col-lg-3 form-group text-right">
+                        <div class="col-md-12 col-lg-2 form-group text-right">
                             <label for="user">بازاریاب</label>
                             <select class="form-control" id="user" name="user">
                                 <?php
@@ -79,12 +79,24 @@ $this->load->view($menu.'_menu');
                             </select>
                         </div>
                         <div class="col-md-12 col-lg-2 form-group text-right">
-                            <label for="state">وضعیت</label>
+                            <label for="state">وضعیت پروژه</label>
                             <select class="form-control" id="state" name="state">
                                 <?php
                                 foreach ($dev_state as $row){
                                     ?>
                                     <option value="<?php echo $row->DID; ?>"><?php echo $row->Title; ?></option>
+                                    <?php
+                                }
+                                ?>
+                            </select>
+                        </div>
+                        <div class="col-md-12 col-lg-2 form-group text-right">
+                            <label for="state">مرحله وظیفه</label>
+                            <select class="form-control" id="state" name="state">
+                                <?php
+                                foreach ($task_state as $row){
+                                    ?>
+                                    <option value="<?php echo $row->SID; ?>"><?php echo $row->Title; ?></option>
                                     <?php
                                 }
                                 ?>

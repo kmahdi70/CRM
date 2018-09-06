@@ -20,7 +20,9 @@
                     وظایف
                 </a>
                 <div class="dropdown-menu text-right" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="<?php echo base_url() . 'task_find_user'; ?>">نمایش</a>
+                    <a class="dropdown-item" href="<?php echo base_url() . 'task_find_user'; ?>">همه وظایف</a>
+                    <a class="dropdown-item" href="<?php echo base_url() . 'task_find_user'; ?>">وظایف انجام نشده</a>
+                    <a class="dropdown-item" href="<?php echo base_url() . 'task_find_user'; ?>">وظایف انجام شده</a>
                     <a class="dropdown-item" href="<?php echo base_url() . 'dev_find_user'; ?>">مدیریت</a>
                 </div>
             </li>

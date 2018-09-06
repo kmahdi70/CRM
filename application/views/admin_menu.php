@@ -50,9 +50,8 @@
                     وظایف
                 </a>
                 <div class="dropdown-menu text-right" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="<?php echo base_url() . 'dev_find'; ?>">ایجاد</a>
-                    <a class="dropdown-item" href="#">ویرایش</a>
-                    <a class="dropdown-item" href="#">حذف</a>
+                    <a class="dropdown-item" href="<?php echo base_url() . 'dev_find'; ?>">مدیریت</a>
+                    <a class="dropdown-item" href="<?php echo base_url() . 'task_find'; ?>">نمایش</a>
                 </div>
             </li>
             <li class="nav-item dropdown">

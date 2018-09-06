@@ -10,20 +10,19 @@ class Task_find extends CI_Controller {
             redirect(base_url() . 'login');
     }
 
-	public function index($Msg=0)
-	{
-        $data['Title'] = 'CRM - ویرایش وظایف';
+    public function index($Msg=0)
+    {
+        $data['Title'] = 'CRM - جستجوی وظایف';
         $data['Msg'] = $Msg;
 
         $this->load->view('task_find', $data);
-	}
+    }
 
-    public function delete($Msg=0)
+    public function task_list()
     {
-        $data['Title'] = 'CRM - ویرایش شرکت';
-        $data['Msg'] = $Msg;
+        $this->load->model('task_model');
+        print($this->task_model->task_list());
 
-        $this->load->view('edit_company', $data);
     }
 
 }
