@@ -228,15 +228,37 @@ $this->load->view($menu.'_menu');
     function Feed_Company_Proj(pid) {
         var URL = '<?php print(base_url().'dev_add/fetch_company');?>';
         $.post(URL, {PID:pid}, function (res, ret) {
-            if(ret == 'success'){alert(res);
+            if(ret == 'success'){//alert(res);
                 $('#company').html('');
                 var Json = $.parseJSON(res);
+                var NA = [];
+                var A = [];
+                var i=0;
+                var len = Json.length;
                 $(Json).each(function(k,v){
-                    if(v['LN'] == '')
+                    if(v['LN'] == null){
+                        NA.push(v);
+                    }
+                    else{
+                        A.push(v);
+                    }
+                    i++;
+                    if(i == len){
+                        $('#company').append('<optgroup label="بدون Account Manager">');
+                        $(NA).each(function(K,V){
+                            $('#company').append('<option value="'+V['CID']+'">'+V['Company']+' - '+V['Brand']+', '+V['Cat']+', '+V['Sub']+'</option>');
+                        });
+                        $('#company').append('</optgroup>');
 
-                    //$('#company').append('<option value="'+v['CID']+'">'+v['Company']+' - '+v['Brand']+', '+v['Cat']+', '+v['Sub']+'</option>');
+                        $('#company').append('<optgroup label="دارای Account Manager">');
+                        $(A).each(function(K,V){
+                            $('#company').append('<option value="'+V['CID']+'">'+V['FN']+', '+V['LN']+', '+V['Company']+' - '+V['Brand']+', '+V['Cat']+', '+V['Sub']+'</option>');
+                        });
+                        $('#company').append('</optgroup>');
+                        $('select[multiple].active').multiselect('reload');
+                    }
                 });
-                $('select[multiple].active').multiselect('reload');
+
             }
         },'text');
     }

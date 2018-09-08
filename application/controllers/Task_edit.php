@@ -37,6 +37,9 @@ class Task_edit extends CI_Controller {
         $res = $this->task_model->get_task_info($tid);
         $data['Task'] = $res;
 
+        $res = $this->task_model->get_task_post($tid);
+        $data['Post'] = $res;
+
         $this->load->view('task_edit', $data);
     }
 

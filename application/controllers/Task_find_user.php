@@ -14,14 +14,24 @@ class Task_find_user extends CI_Controller {
 	{
         $data['Title'] = 'CRM - جستجوی وظایف';
         $data['Msg'] = $Msg;
+        $data['SID'] = '';
 
         $this->load->view('task_find_user', $data);
 	}
 
-    public function task_list()
+	public function code($sid=null, $Msg=0)
+	{
+        $data['Title'] = 'CRM - جستجوی وظایف';
+        $data['Msg'] = $Msg;
+        $data['SID'] = $sid;
+
+        $this->load->view('task_find_user', $data);
+	}
+
+    public function task_list($sid=null)
     {
         $this->load->model('task_model');
-        print($this->task_model->task_list_user());
+        print($this->task_model->task_list_user($sid));
 
     }
 

@@ -271,7 +271,10 @@ class Dev_model extends CI_Model{
         $this->db->update('development', $data);
         log_message('debug', 'Query=' . $this->db->last_query() . ',User=' . $this->session->userdata('MENU') . ',Time=' . time());
 
-        //MK70 todo if state = 5 teymoori make task
+        if($state == '5'){
+
+
+        }
 
         $this->db->trans_complete();
 

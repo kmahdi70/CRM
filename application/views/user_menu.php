@@ -21,8 +21,10 @@
                 </a>
                 <div class="dropdown-menu text-right" aria-labelledby="navbarDropdownMenuLink">
                     <a class="dropdown-item" href="<?php echo base_url() . 'task_find_user'; ?>">همه وظایف</a>
-                    <a class="dropdown-item" href="<?php echo base_url() . 'task_find_user'; ?>">وظایف انجام نشده</a>
-                    <a class="dropdown-item" href="<?php echo base_url() . 'task_find_user'; ?>">وظایف انجام شده</a>
+                    <a class="dropdown-item" href="<?php echo base_url() . 'task_find_user/code/'.strtr(base64_encode('4'), '+/=', '._-'); ?>">وظایف نا تمام</a>
+                    <a class="dropdown-item" href="<?php echo base_url() . 'task_find_user/code/'.strtr(base64_encode('3'), '+/=', '._-'); ?>">وظایف انجام شده</a>
+                    <a class="dropdown-item" href="<?php echo base_url() . 'task_find_user/code/'.strtr(base64_encode('1'), '+/=', '._-'); ?>">وظایف انجام نشده</a>
+                    <a class="dropdown-item" href="<?php echo base_url() . 'task_find_user/code/'.strtr(base64_encode('2'), '+/=', '._-'); ?>">وظایف به بعد موکول شده</a>
                     <a class="dropdown-item" href="<?php echo base_url() . 'dev_find_user'; ?>">مدیریت</a>
                 </div>
             </li>

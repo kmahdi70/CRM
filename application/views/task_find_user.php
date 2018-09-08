@@ -25,7 +25,6 @@ $menu = $this->session->userdata('MENU');
 $this->load->view($menu.'_menu');
 ?>
 <div class="container">
-
     <div class="row">
         <div class="col-12 text-center">
             <div class="card Form">
@@ -92,7 +91,7 @@ $this->load->view($menu.'_menu');
 <script src="<?php echo base_url().'js/functions.js';?>"></script>
 <script>
     $('#EditCompanyTB').DataTable( {
-        "ajax":"<?php echo base_url().'task_find_user/task_list'; ?>",
+        "ajax":"<?php echo base_url().'task_find_user/task_list/'.$SID; ?>",
         "drawCallback": function() {
             $('[data-toggle="tooltip"]').tooltip();
         }

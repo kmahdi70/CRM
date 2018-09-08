@@ -62,7 +62,7 @@ $this->load->library('j_date_time');
                             </div>
                             <div class="col-md-12 col-lg-2 form-group text-right">
                                 <label for="state">وضعیت</label>
-                                <select class="form-control" id="state" name="state">
+                                <select class="form-control" id="state" name="state" onchange="Postpone(this.value);">
                                     <?php
                                     foreach ($Task_State as $row){
                                         ?>
@@ -72,18 +72,49 @@ $this->load->library('j_date_time');
                                     ?>
                                 </select>
                             </div>
+                            <div id="Postpone" class="col-lg-12" style="display: none">
+                                <div class="row">
+                                    <div class="col-md-12 col-lg-2 form-group text-right">
+                                        <label for="Post">تاریخ جدید</label>
+                                        <input type="text" class="form-control" autocomplete="off" id="Post">
+                                        <input type="hidden" class="unix" name="post_stamp" id="post_stamp" >
+                                    </div>
+                                    <div class="col-md-12 col-lg-10 form-group text-right">
+                                        <label for="task_desc">توضیحات</label>
+                                        <textarea class="form-control" id="post_desc" name="post_desc" rows="1"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php
+                            foreach($Post as $postpone){
+                                ?>
+                                <div class="col-lg-12">
+                                    <div class="row">
+                                        <div class="col-md-12 col-lg-2 form-group text-right">
+                                            <label>تاریخ سررسید</label>
+                                            <input type="text" disabled="disabled" class="form-control Post" autocomplete="off" value="<?php echo $postpone->Date;?>">
+                                        </div>
+                                        <div class="col-md-12 col-lg-10 form-group text-right">
+                                            <label>توضیحات</label>
+                                            <textarea class="form-control" readonly rows="1"><?php echo $postpone->Description;?></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php
+                            }
+                            ?>
                             <div class="col-md-12 col-lg-2 form-group text-right">
                                 <label for="type">نوع وظیفه</label>
                                 <input type="text" class="form-control" readonly value="<?php echo $Task->Type; ?>">
                             </div>
                             <div class="col-md-12 col-lg-2 form-group text-right">
                                 <label for="Date">تاریخ انجام</label>
-                                <input type="text" readonly class="form-control" autocomplete="off" id="Date" value="<?php echo $Task->Date; ?>">
+                                <input type="text" disabled="disabled" class="form-control" autocomplete="off" id="Date" value="<?php echo $Task->Date; ?>">
                                 <input type="hidden" class="unix" name="date_stamp" id="date_stamp" >
                             </div>
                             <div class="col-md-12 col-lg-2 form-group text-right">
                                 <label for="Alarm">هشدار</label>
-                                <input type="text" readonly class="form-control" autocomplete="off" id="Alarm" value="<?php echo $Task->Alarm; ?>">
+                                <input type="text" disabled="disabled" class="form-control" autocomplete="off" id="Alarm" value="<?php echo $Task->Alarm; ?>">
                                 <input type="hidden" class="unix" name="alarm_stamp" id="alarm_stamp">
 
                             </div>
@@ -94,7 +125,6 @@ $this->load->library('j_date_time');
                             <div class="col-md-12 col-lg-12 form-group text-right">
                                 <label for="task_desc">توضیحات</label>
                                 <textarea class="form-control" id="task_desc" name="task_desc"><?php echo $Task->Description; ?></textarea>
-
                             </div>
                         </div>
                         <div class="row">
@@ -116,14 +146,29 @@ $this->load->library('j_date_time');
 <script src="<?php echo base_url().'js/persian-datepicker.js';?>"></script>
 <script>
     $(document).ready(function(){
+        alert('<?php echo gmdate('Y-m-d h:m:s',time());?>');
+        alert('<?php echo $Post[0]->Date;?>');
         $('[data-toggle="tooltip"]').tooltip();
         $('[id^=MsgDiv_]').fadeOut(5000);
         $('#name').focus();
 
+        $(".Post").persianDatepicker({
+            format: 'YYYY/MM/DD',
+            altField: '#date_stamp',
+            autoClose: true,
+            minDate: new persianDate()
+        });
         $("#Date").persianDatepicker({
             format: 'YYYY/MM/DD',
             altField: '#date_stamp',
             autoClose: true,
+            minDate: new persianDate()
+        });
+        $("#Post").persianDatepicker({
+            format: 'YYYY/MM/DD',
+            altField: '#post_stamp',
+            autoClose: true,
+            initialValue:false,
             minDate: new persianDate()
         });
         $("#Alarm").persianDatepicker({
@@ -141,6 +186,14 @@ $this->load->library('j_date_time');
             return false;
         }
         return true;
+    }
+
+    function Postpone(val) {
+        if(val == '2')
+            $('#Postpone').slideDown('slow');
+        else
+            $('#Postpone').slideUp('slow');
+
     }
 </script>
 <?php

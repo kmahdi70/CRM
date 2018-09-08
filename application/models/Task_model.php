@@ -32,7 +32,7 @@ class Task_model extends CI_Model{
             return '-1';
     }
 
-    public function task_list_user(){
+    public function task_list_user($sid=null){
         $this->db->select('tasks.TID,
                         tasks.Date,
                         tasks.Task,
@@ -53,6 +53,8 @@ class Task_model extends CI_Model{
         $this->db->join('project','development.Project_ID = project.PID');
         $this->db->join('company','development.Company_ID = company.CID');
         $this->db->where('users.UID',$this->session->userdata('UID'));
+        if($sid != null)
+            $this->db->where('task_states.SID',strtr(base64_decode($sid), '._-','+/='));
         $this->db->order_by('Date');
         $query = $this->db->get();
         $arr = array();
@@ -122,7 +124,6 @@ class Task_model extends CI_Model{
     }
 
     public function get_task_info($tid){
-
         $this->db->select('tasks.TID,
                         tasks.Date,
                         tasks.Task,
@@ -149,6 +150,11 @@ class Task_model extends CI_Model{
         $this->db->where('tasks.TID',$tid);
         $query = $this->db->get();
         return $query->row();
+    }
+
+    public function get_task_post($tid){
+        $res = $this->db->get_where('task_postpone',array('Task_ID' => $tid));
+        return $res->result();
     }
 
     public function task_dev_list($did){
@@ -187,10 +193,14 @@ class Task_model extends CI_Model{
             'Description' => $this->input->post('task_desc')
         );
 
-        if($this->input->post('state') == '3'){
-
+        if($this->input->post('state') == '2'){
+            $Data = array(
+                'Task_ID' => $this->input->post("tid"),
+                'Date' => gmdate("Y-m-d", $this->input->post("post_stamp")/1000).' 00:00:00',
+                'Description' => $this->input->post("post_desc")
+            );
+            $this->db->insert('task_postpone', $Data);
         }
-
 
         $this->db->where('TID', $this->input->post('tid'));
         if($this->db->update('tasks', $data)){
