@@ -272,8 +272,11 @@ class Dev_model extends CI_Model{
         log_message('debug', 'Query=' . $this->db->last_query() . ',User=' . $this->session->userdata('MENU') . ',Time=' . time());
 
         if($state == '5'){
-
-
+            $Data = array(
+                'Develop_ID' => $did
+            );
+            if($this->db->insert('finance', $Data))
+                $this->log_db->log();
         }
 
         $this->db->trans_complete();

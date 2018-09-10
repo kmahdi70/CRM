@@ -50,6 +50,7 @@
                     وظایف
                 </a>
                 <div class="dropdown-menu text-right" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="<?php echo base_url() . 'task_mine'; ?>">کارتابل</a>
                     <a class="dropdown-item" href="<?php echo base_url() . 'dev_find'; ?>">مدیریت</a>
                     <a class="dropdown-item" href="<?php echo base_url() . 'task_find'; ?>">نمایش</a>
                 </div>

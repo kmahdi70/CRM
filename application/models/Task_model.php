@@ -116,6 +116,48 @@ class Task_model extends CI_Model{
         return json_encode($arr);
     }
 
+    public function task_mine(){
+        $this->db->select('finance.FID,
+                        finance.Created,
+                        project.`Name` as `Project`,
+                        users.FN,
+                        users.LN,
+                        company.Brand,
+                        company.`Name` as `Company`,
+                        finance.Price,
+                        finance.Cash,
+                        finance.Date');
+        $this->db->from('finance');
+        $this->db->join('development','finance.Develop_ID = development.DID');
+        $this->db->join('users','development.User_ID = users.UID');
+        $this->db->join('project','development.Project_ID = project.PID');
+        $this->db->join('company','development.Company_ID = company.CID');
+        $query = $this->db->get();
+        $arr = array();
+        $this->load->library('j_date_time');
+        foreach ($query->result() as $Res){
+            $str = $this ->j_date_time->convertFormatToFormat('Y/m/d', 'Y-m-d H:i:s', $Res->Created);
+            $date = $this ->j_date_time->convertFormatToFormat('Y/m/d', 'Y-m-d H:i:s', $Res->Date);
+            $arr['data'][] = array(
+                $str,
+                $Res->Company.', '.$Res->Brand,
+                $Res->Project,
+                $Res->FN.' - '.$Res->LN,
+                $Res->Price,
+                $Res->Cash,
+                $date,
+                $this->Button_Mine($Res->FID));
+        }
+        return json_encode($arr);
+    }
+
+    public function Button_Mine($id){
+        $str = strtr(base64_encode($id), '+/=', '._-');
+        return ('<span class="btn" data-toggle="tooltip" title="ویرایش" id="DellSpan" style="padding: 0;">
+                     <a href="'.base_url().'task_mine/code/'.$str.'"><i class="far fa-edit fa-fw fa-2x"></i></a>
+                 </span>');
+    }
+
     public function Button($id){
         $str = strtr(base64_encode($id), '+/=', '._-');
         return ('<span class="btn" data-toggle="tooltip" title="ویرایش" id="DellSpan" style="padding: 0;">
@@ -218,4 +260,45 @@ class Task_model extends CI_Model{
         $query = $this->db->get('task_states');
         return $query->result();
     }
+
+    public function get_task_finance($fid){
+        $FID = base64_decode(strtr($fid, '._-', '+/='));
+        $this->db->select('finance.FID,
+                        finance.Created,
+                        project.`Name` as `Project`,
+                        users.FN,
+                        users.LN,
+                        company.Brand,
+                        company.`Name` as `Company`,
+                        finance.Price,
+                        finance.Cash,
+                        finance.Date,
+                        finance.Description');
+        $this->db->from('finance');
+        $this->db->join('development','finance.Develop_ID = development.DID');
+        $this->db->join('users','development.User_ID = users.UID');
+        $this->db->join('project','development.Project_ID = project.PID');
+        $this->db->join('company','development.Company_ID = company.CID');
+        $this->db->where('finance.FID',$FID);
+        $query = $this->db->get();
+        return $query->row();
+    }
+
+    public function task_mine_update(){
+        $data = array(
+            'Date' => gmdate("Y-m-d", $this->input->post('date_stamp')/1000).' 00:00:00',
+            'Cash' => $this->input->post('cash'),
+            'Price' => $this->input->post('price'),
+            'Description' => $this->input->post('desc')
+        );
+
+        $this->db->where('FID', $this->input->post('fid'));
+        if($this->db->update('finance', $data)){
+            return ($this->input->post('fid'));
+        }
+        else
+            return '-1';
+
+    }
+
 }

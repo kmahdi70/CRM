@@ -11,7 +11,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <link rel="stylesheet" href="<?php echo base_url().'css/all.css';?>">
     <link rel="stylesheet" href="<?php echo base_url().'css/global.css';?>">
     <link rel="stylesheet" href="<?php echo base_url().'css/persian-datepicker.css';?>">
-
+    <link rel="stylesheet" href="<?php echo base_url().'css/chosen.css';?>">
 </head>
 <body>
 <?php
@@ -126,6 +126,24 @@ $this->load->library('j_date_time');
                                 <label for="task_desc">توضیحات</label>
                                 <textarea class="form-control" id="task_desc" name="task_desc"><?php echo $Task->Description; ?></textarea>
                             </div>
+
+                            <div class="col-md-12 col-lg-12 form-group text-left">
+                                <label for="fax_no">شماره فکس</label>
+                                <select data-placeholder="شماره" class="chosen-select form-control" multiple id="fax_no">
+                                    <option value=""></option>
+                                    <option value="United States">United States</option>
+                                    <option value="United Kingdom">United Kingdom</option>
+                                    <option value="Afghanistan">Afghanistan</option>
+                                    <option value="Aland Islands">Aland Islands</option>
+                                    <option value="Albania">Albania</option>
+
+                                </select>
+                            </div>
+
+
+
+
+
                         </div>
                         <div class="row">
                             <div class="col-md-12 col-lg-12 form-group text-right">
@@ -144,14 +162,15 @@ $this->load->library('j_date_time');
 <script src="<?php echo base_url().'js/functions.js';?>"></script>
 <script src="<?php echo base_url().'js/persian-date.js';?>"></script>
 <script src="<?php echo base_url().'js/persian-datepicker.js';?>"></script>
+<script src="<?php echo base_url().'js/chosen.jquery.js';?>"></script>
+<script src="<?php echo base_url().'js/init.js';?>"></script>
 <script>
     $(document).ready(function(){
-        alert('<?php echo gmdate('Y-m-d h:m:s',time());?>');
-        alert('<?php echo $Post[0]->Date;?>');
         $('[data-toggle="tooltip"]').tooltip();
         $('[id^=MsgDiv_]').fadeOut(5000);
         $('#name').focus();
 
+        $(".chosen-select").chosen({rtl: true});
         $(".Post").persianDatepicker({
             format: 'YYYY/MM/DD',
             altField: '#date_stamp',

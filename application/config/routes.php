@@ -61,6 +61,7 @@ $route['company_edit/(:num)'] = 'company_edit/index/$1';
 $route['dev_edit/(:num)'] = 'dev_edit/index/$1';
 $route['dev_find/([GRY]+_(:num))'] = 'dev_find/index/$1';
 $route['dev_find_user/([GRY]+_(:num))'] = 'dev_find_user/index/$1';
+$route['task_mine/([GRY]+_(:num))'] = 'task_mine/index/$1';
 //$route['task_find_user/(:num)'] = 'task_find_user/index/$1';
 //$route['task_edit/(:num)'] = 'task_edit/index/$1';
 $route['default_controller'] = 'login';
