@@ -70,7 +70,7 @@ $this->load->view($menu.'_menu');
                             </div>
                             <div class="col-md-12 col-lg-2 form-group text-right">
                                 <label for="state">وضعیت</label>
-                                <select class="form-control" id="state" name="state" disabled="disabled">
+                                <select class="form-control" id="state" name="state">
                                     <?php
                                     foreach ($Task_State as $row){
                                         ?>

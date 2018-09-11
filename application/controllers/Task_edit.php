@@ -11,6 +11,7 @@ class Task_edit extends CI_Controller {
 
         $this->load->model('state_model');
         $this->load->model('task_model');
+        $this->load->model('fax_model');
     }
 
     public function index($tid = null, $Msg=0){
@@ -31,6 +32,9 @@ class Task_edit extends CI_Controller {
         $data['Title'] = 'CRM - ایجاد وظیفه';
         $data['Msg'] = $Msg;
 
+        $res = $this->fax_model->get_task_fax($tid);
+        $data['Fax'] = $res;
+
         $res = $this->state_model->get_task_states();
         $data['Task_State'] = $res;
 
@@ -44,6 +48,14 @@ class Task_edit extends CI_Controller {
     }
 
     public function update(){
+
+        print_r($_FILES);
+        print_r($_POST);
+        //die();
+        $res = $this->fax_model->fax_send();
+
+
+
 
         $res = $this->task_model->task_update();
         $str = strtr(base64_encode($res), '+/=', '._-');

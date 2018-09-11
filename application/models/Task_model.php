@@ -214,6 +214,7 @@ class Task_model extends CI_Model{
         $this->db->where('tasks.Develop_ID',$did);
         $this->db->order_by('Date');
         $query = $this->db->get();
+        log_message('debug', $this->db->last_query());
         $arr = array();
         $this->load->library('j_date_time');
         foreach ($query->result() as $Res){
@@ -253,7 +254,6 @@ class Task_model extends CI_Model{
         }
         else
             return '-1';
-
     }
 
     public function task_state(){

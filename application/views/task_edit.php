@@ -29,7 +29,7 @@ $this->load->library('j_date_time');
                     <strong>ویرایش وظیفه </strong><i class="far fa-folder-open Panel_Icon"></i>
                 </div>
                 <div class="card-body Panel_Body rtl">
-                    <form method="post" action="<?php echo base_url() . 'task_edit/update'; ?>">
+                    <form method="post" action="<?php echo base_url() . 'task_edit/update'; ?>" enctype="multipart/form-data">
                         <input type="hidden" name="tid" value="<?php echo $Task->TID;?>">
                         <div class="row">
                             <div class="col-md-12 col-lg-3 form-group text-right">
@@ -126,24 +126,58 @@ $this->load->library('j_date_time');
                                 <label for="task_desc">توضیحات</label>
                                 <textarea class="form-control" id="task_desc" name="task_desc"><?php echo $Task->Description; ?></textarea>
                             </div>
+                            <?php
+                            if($Task->Type == 'فکس'){
+                                ?>
+                                <div class="col-md-12 col-lg-12 form-group text-left ltr">
+                                    <label for="fax_no">شماره فکس</label>
+                                    <select data-placeholder="شماره" class="chosen-select form-control" multiple id="fax_no" name="fax_no[]">
+                                        <?php
+                                        if($Fax['company'][0]->Fax != '') {
+                                            ?>
+                                            <optgroup label="شرکت">
+                                                <?php
+                                                foreach ($Fax['company'] as $row) {
+                                                    ?>
+                                                    <option value="<?php echo $row->Code . $row->Fax; ?>"><?php echo $row->Code . $row->Fax . ' - ' . $row->Title . ', ' . $row->Name . ', ' . $row->Brand; ?></option>
+                                                    <?php
+                                                }
+                                                ?>
+                                            </optgroup>
+                                            <?php
+                                        }
+                                        ?>
+                                        <?php
+                                        if($Fax['agent'][0]->Fax != '') {
+                                            ?>
+                                            <optgroup label="نماینده">
+                                                <?php
+                                                foreach ($Fax['agent'] as $row) {
+                                                    ?>
+                                                    <option value="<?php echo $row->Code . $row->Fax; ?>"><?php echo $row->Code . $row->Fax . ' - ' . $row->Title . ', ' . $row->Brand . ', ' . $row->FN.' - '.$row->LN; ?></option>
+                                                    <?php
+                                                }
+                                                ?>
+                                            </optgroup>
+                                            <?php
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="col-md-12 col-lg-12 form-group ltr text-right">
+                                    <label>آپلود فایل</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <label class="btn btn-primary input-group-text" for="File">Browse&hellip; </label>
+                                        </div>
+                                        <input type="file" multiple style="display: none" id="File" name="upload[]">
+                                        <input type="text" class="form-control" readonly placeholder="pdf, docx">
+                                    </div>
+                                </div>
 
-                            <div class="col-md-12 col-lg-12 form-group text-left">
-                                <label for="fax_no">شماره فکس</label>
-                                <select data-placeholder="شماره" class="chosen-select form-control" multiple id="fax_no">
-                                    <option value=""></option>
-                                    <option value="United States">United States</option>
-                                    <option value="United Kingdom">United Kingdom</option>
-                                    <option value="Afghanistan">Afghanistan</option>
-                                    <option value="Aland Islands">Aland Islands</option>
-                                    <option value="Albania">Albania</option>
-
-                                </select>
-                            </div>
-
-
-
-
-
+                                <?php
+                            }
+                            ?>
                         </div>
                         <div class="row">
                             <div class="col-md-12 col-lg-12 form-group text-right">
@@ -170,7 +204,17 @@ $this->load->library('j_date_time');
         $('[id^=MsgDiv_]').fadeOut(5000);
         $('#name').focus();
 
-        $(".chosen-select").chosen({rtl: true});
+        $(':file').on('fileselect', function(event, numFiles, label) {
+            var input = $(this).parents('.input-group').find(':text'),
+                log = numFiles > 1 ? numFiles + ' files selected' : label;
+            if( input.length ) {
+                input.val(log);
+            } else {
+                if( log ) alert(log);
+            }
+        });
+
+
         $(".Post").persianDatepicker({
             format: 'YYYY/MM/DD',
             altField: '#date_stamp',
@@ -214,6 +258,18 @@ $this->load->library('j_date_time');
             $('#Postpone').slideUp('slow');
 
     }
+
+    $(function() {
+        $(document).on('change', ':file',
+            function() {
+                var input = $(this),
+                    numFiles = input.get(0).files ? input.get(0).files.length : 1,
+                    label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+                input.trigger('fileselect', [numFiles, label]);
+            });
+    });
+
+
 </script>
 <?php
 $this->load->view('footer');

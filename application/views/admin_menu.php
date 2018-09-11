@@ -57,10 +57,11 @@
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle SMenu" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    دسترسی ها
+                    فکس
                 </a>
                 <div class="dropdown-menu text-right" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="<?php echo base_url().'category'; ?>">دسترسی کاربران</a>
+                    <a class="dropdown-item" href="<?php echo base_url().'category'; ?>">گزارش فکس</a>
+                    <a class="dropdown-item" href="<?php echo base_url().'category'; ?>">ارسال فکس</a>
                 </div>
             </li>
             <li class="nav-item dropdown">
