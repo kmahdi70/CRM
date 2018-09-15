@@ -88,11 +88,52 @@ class Fax_model extends CI_Model{
 
         foreach($this->input->post('fax_no') as $fax){
 
-            /*
-             * for i=0;i<num.len
-             * Send Fax API
-             * $response = API_RET;
-             * */
+
+
+
+            $curl = curl_init();
+            $curl = curl_init('https://api.fax.ir/v2/accounts/self/files?format=pdf');
+            curl_setopt($curl, CURLOPT_POST, true);
+            curl_setopt(
+                $curl,
+                CURLOPT_POSTFIELDS,
+                array(
+                    'fax_file' => curl_file_create(realpath('/you/full/path/sample.pdf'))
+                ));
+            curl_setopt(
+                $curl,
+                CURLOPT_HTTPHEADER,
+                array(
+                    "Authorization: at2RGc2zcyKKLB5",
+                    "x-fax-clientid: APIK-CQvRA2kXEX",
+                    "Content-Type: multipart/form-data"
+                ));
+
+            // output the response
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+
+            $response = curl_exec($curl);
+            $err = curl_error($curl);
+
+            #"Content-Type: multipart/form-data;",
+            curl_close($curl);
+
+            if ($err) {
+                echo "cURL Error #:" . $err;
+            } else {
+                echo $response;
+            }
+
+
+
+
+
+
+
+
+
+
+
             $response = 0;
 
             $Data = array('Fax_ID' => $fid,

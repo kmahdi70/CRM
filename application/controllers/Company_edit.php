@@ -68,4 +68,10 @@ class Company_edit extends CI_Controller {
             $this->load->view('company_edit_legal', $data);
 
     }
+    public function update_legal(){
+        $res = $this->company_model->company_update_legal();
+        echo $res;
+    }
+
+
 }

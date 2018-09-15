@@ -70,4 +70,7 @@ class Task_edit extends CI_Controller {
         }
     }
 
+    public function fax(){
+        echo 'karimian';
+    }
 }

@@ -60,8 +60,8 @@
                     فکس
                 </a>
                 <div class="dropdown-menu text-right" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="<?php echo base_url().'category'; ?>">گزارش فکس</a>
-                    <a class="dropdown-item" href="<?php echo base_url().'category'; ?>">ارسال فکس</a>
+                    <a class="dropdown-item" href="<?php echo base_url().''; ?>">گزارش فکس</a>
+                    <a class="dropdown-item" href="<?php echo base_url().''; ?>">ارسال فکس</a>
                 </div>
             </li>
             <li class="nav-item dropdown">
@@ -69,9 +69,10 @@
                     بایگانی
                 </a>
                 <div class="dropdown-menu text-right" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="<?php echo base_url().'category'; ?>">فکس</a>
-                    <a class="dropdown-item" href="<?php echo base_url().'category'; ?>">ایمیل</a>
-                    <a class="dropdown-item" href="<?php echo base_url().'category'; ?>">وظایف</a>
+                    <a class="dropdown-item" href="<?php echo base_url().''; ?>">فکس</a>
+                    <a class="dropdown-item" href="<?php echo base_url().''; ?>">ایمیل</a>
+                    <a class="dropdown-item" href="<?php echo base_url().''; ?>">وظایف</a>
+                    <a class="dropdown-item" href="<?php echo base_url().'category'; ?>">گروه</a>
                 </div>
             </li>
             <li class="nav-item">

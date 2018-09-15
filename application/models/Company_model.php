@@ -375,8 +375,208 @@ class Company_model extends CI_Model{
     }
 
     public function company_update_legal(){
-        print_r($_POST);
-        log_message('debug', json_encode($_POST));
+        //log_message('debug', json_encode($_POST));
+        $flag = 0;
+        $this->db->trans_start();
+
+        $id = $this->input->post("CID");
+
+        $this->db->where('Company_ID', $id);
+        $this->db->delete('company_label');
+
+        $this->db->where('Company_ID', $id);
+        $this->db->delete('company_tell');
+
+        $this->db->where('Company_ID', $id);
+        $this->db->delete('company_fax');
+
+        $this->db->where('Company_ID', $id);
+        $this->db->delete('company_address');
+
+        $this->db->select('AID');
+        $this->db->from('company_agent');
+        $this->db->where('Company_ID',$id);
+        $query = $this->db->get();
+
+        foreach($query->result() as $row){
+            $this->db->where('Agent_ID', $row->AID);
+            $this->db->delete('agent_fax');
+
+            $this->db->where('Agent_ID', $row->AID);
+            $this->db->delete('agent_internal');
+
+            $this->db->where('Agent_ID', $row->AID);
+            $this->db->delete('agent_mobile');
+
+            $this->db->where('Agent_ID', $row->AID);
+            $this->db->delete('agent_tell');
+
+            $this->db->where('Agent_ID', $row->AID);
+            $this->db->delete('agent_email');
+        }
+
+        $this->db->where('Company_ID', $id);
+        $this->db->delete('company_agent');
+
+        $Data = array(
+            'Name' => $this->input->post("Name"),
+            'Brand' => $this->input->post("Brand"),
+            'Register' => $this->input->post("Reg"),
+            'Type' => $this->input->post("Type"),
+            'Email' => $this->input->post("Email"),
+            'Site' => $this->input->post("Site"),
+            'SubCategory_ID' => $this->input->post("SubCat"),
+            'Category' => 'شخص حقوقی',
+            'Description' => $this->input->post("Desc"),
+            'AccountManager_ID' => $this->input->post("AccMngr")
+        );
+
+        $this->db->where('CID', $this->input->post("CID"));
+        if($this->db->update('company', $Data)){
+            $this->log_db->log();
+
+            if($this->input->post('Label'))
+                foreach ($this->input->post('Label') as $row){
+                    $Data = array(
+                        'Company_ID' => $id,
+                        'Label_ID' => $row
+                    );
+                    if($this->db->insert('company_label', $Data))
+                        $this->log_db->log();
+                    else
+                        $flag = 1;
+                }
+
+            if($this->input->post('CTell'))
+                foreach ($this->input->post('CTell') as $Tell){
+                    $Data = array(
+                        'Company_ID' => $id,
+                        'Code' => $Tell['Code'],
+                        'Tell' => $Tell['Tell'],
+                        'Title' => $Tell['Title']
+                    );
+                    if($this->db->insert('company_tell', $Data))
+                        $this->log_db->log();
+                    else
+                        $flag = 1;
+                }
+
+            if($this->input->post('CFax'))
+                foreach ($this->input->post('CFax') as $Fax){
+                    $Data = array(
+                        'Company_ID' => $id,
+                        'Code' => $Fax['Code'],
+                        'Fax' => $Fax['Fax'],
+                        'Title' => $Fax['Title']
+                    );
+                    if($this->db->insert('company_fax', $Data))
+                        $this->log_db->log();
+                    else
+                        $flag = 1;
+                }
+
+            if($this->input->post('Agent'))
+                foreach($this->input->post('Agent') as $row){
+                    $Data = array(
+                        'Company_ID' => $id,
+                        'Department_ID' => $row['Department'],
+                        'Post' => $row['Post'],
+                        'Prefix' => $row['Title'],
+                        'FN' => $row['FN'],
+                        'LN' => $row['LN'],
+                        'Description' => $row['Desc']
+                    );
+                    if($this->db->insert('company_agent', $Data)){
+                        $aid = $this->db->insert_id();
+                        $this->log_db->log();
+
+                        if(isset($row['Tell']))
+                            foreach ($row['Tell'] as $ATell){
+                                $Data = array(
+                                    'Agent_ID' => $aid,
+                                    'Code' => $ATell['Code'],
+                                    'Tell' => $ATell['Tell']
+                                );
+                                if($this->db->insert('agent_tell', $Data))
+                                    $this->log_db->log();
+                                else
+                                    $flag = '1';
+                            }
+
+                        if(isset($row['Fax']))
+                            foreach ($row['Fax'] as $AFax){
+                                $Data = array(
+                                    'Agent_ID' => $aid,
+                                    'Code' => $AFax['Code'],
+                                    'Fax' => $AFax['Fax']
+                                );
+                                if($this->db->insert('agent_fax', $Data))
+                                    $this->log_db->log();
+                                else
+                                    $flag = '1';
+                            }
+
+                        if(isset($row['Int']))
+                            foreach ($row['Int'] as $Int){
+                                $Data = array(
+                                    'Agent_ID' => $aid,
+                                    'Internal' => $Int
+                                );
+                                if($this->db->insert('agent_internal', $Data))
+                                    $this->log_db->log();
+                                else
+                                    $flag = '1';
+                            }
+
+                        if(isset($row['Mobile']))
+                            foreach ($row['Mobile'] as $Mobile){
+                                $Data = array(
+                                    'Agent_ID' => $aid,
+                                    'Mobile' => $Mobile
+                                );
+                                if($this->db->insert('agent_mobile', $Data))
+                                    $this->log_db->log();
+                                else
+                                    $flag = '1';
+                            }
+
+                        if(isset($row['Email']))
+                            foreach ($row['Email'] as $Email){
+                                $Data = array(
+                                    'Agent_ID' => $aid,
+                                    'Email' => $Email
+                                );
+                                if($this->db->insert('agent_email', $Data))
+                                    $this->log_db->log();
+                                else
+                                    $flag = '1';
+                            }
+                    }
+                    else
+                        $flag = 1;
+                }
+
+            if($this->input->post('Address'))
+                foreach ($this->input->post('Address') as $row){
+                    $Data = array(
+                        'Company_ID' => $id,
+                        'County_ID' => $row['City'],
+                        'Address' => $row['Address']
+                    );
+                    if($this->db->insert('company_address', $Data))
+                        $this->log_db->log();
+                    else
+                        $flag = 1;
+                }
+        }
+        else
+            $flag = 1;
+
+        $this->db->trans_complete();
+        if($flag == 1)
+            return '-1';
+        else
+            return '1';
     }
 
     public function update_company($cid){

@@ -444,6 +444,7 @@ $this->load->view($menu.'_menu');
                             </div>
                         </div>
                         <?php
+
                         $len = count($Agent);
                         if($len == 0){
                             $i_agent = 0;
@@ -493,13 +494,13 @@ $this->load->view($menu.'_menu');
                                         </div>
                                         <input type="text" class="form-control p-1" placeholder="تلفن" id="tell_0">
                                     </div>
-                                    <input type="hidden" id="tell_count">
+                                    <input type="hidden" id="tell_count" value="1">
                                 </div>
                                 <div class="col-md-12 col-lg-1 form-group text-right p-lg-0">
                                     <button type="button" onclick="Add_Int(this);" class="btn btn-outline-info p-0"><i class="fas fa-plus fa-lg fa-fw position-relative" style="top: 2px"></i></button>
                                     <label for="int">داخلی</label>
                                     <input type="text" class="form-control ltr text-left mb-1" placeholder="داخلی" id="int_0">
-                                    <input type="hidden" id="int_count">
+                                    <input type="hidden" id="int_count" value="1">
                                 </div>
                                 <div class="col-md-12 col-lg-2 form-group text-right">
                                     <button type="button" onclick="Add_Fax(this);" class="btn btn-outline-info p-0"><i class="fas fa-plus fa-lg fa-fw position-relative" style="top: 2px"></i></button>
@@ -510,19 +511,19 @@ $this->load->view($menu.'_menu');
                                         </div>
                                         <input type="text" class="form-control p-1" placeholder="فکس" id="fax_0">
                                     </div>
-                                    <input type="hidden" id="fax_count">
+                                    <input type="hidden" id="fax_count" value="1">
                                 </div>
                                 <div class="col-md-12 col-lg-2 form-group text-right">
                                     <button type="button" onclick="Add_Email(this);" class="btn btn-outline-info p-0"><i class="fas fa-plus fa-lg fa-fw position-relative" style="top: 2px"></i></button>
                                     <label for="a_email">ایمیل</label>
                                     <input type="text" class="form-control ltr text-left mb-1" placeholder="ایمیل" id="a_email_0">
-                                    <input type="hidden" id="email_count">
+                                    <input type="hidden" id="email_count" value="1">
                                 </div>
                                 <div class="col-md-12 col-lg-2 form-group text-right">
                                     <button type="button" onclick="Add_Mobile(this);" class="btn btn-outline-info p-0"><i class="fas fa-plus fa-lg fa-fw position-relative" style="top: 2px"></i></button>
                                     <label for="mobile">همراه</label>
                                     <input type="text" class="form-control ltr text-left mb-1" placeholder="همراه" id="mobile_0">
-                                    <input type="hidden" id="mobile_count">
+                                    <input type="hidden" id="mobile_count" value="1">
                                 </div>
                                 <div class="col-md-12 col-lg-2 form-group text-right">
                                     <label for="desc">توضیحات</label>
@@ -619,7 +620,7 @@ $this->load->view($menu.'_menu');
                                             }
                                         }
                                         ?>
-                                        <input type="text" id="tell_count">
+                                        <input type="hidden" id="tell_count">
                                     </div>
                                     <div class="col-md-12 col-lg-1 form-group text-right p-lg-0">
                                         <button type="button" onclick="Add_Int(this);" class="btn btn-outline-info p-0">
@@ -654,7 +655,7 @@ $this->load->view($menu.'_menu');
                                             }
                                         }
                                         ?>
-                                        <input type="text" id="int_count">
+                                        <input type="hidden" id="int_count">
                                     </div>
                                     <div class="col-md-12 col-lg-2 form-group text-right">
                                         <button type="button" onclick="Add_Fax(this);" class="btn btn-outline-info p-0">
@@ -701,7 +702,7 @@ $this->load->view($menu.'_menu');
                                             }
                                         }
                                         ?>
-                                        <input type="text" id="fax_count">
+                                        <input type="hidden" id="fax_count">
                                     </div>
                                     <div class="col-md-12 col-lg-2 form-group text-right">
                                         <button type="button" onclick="Add_Email(this);" class="btn btn-outline-info p-0">
@@ -736,7 +737,7 @@ $this->load->view($menu.'_menu');
                                             }
                                         }
                                         ?>
-                                        <input type="text" id="email_count">
+                                        <input type="hidden" id="email_count">
                                     </div>
                                     <div class="col-md-12 col-lg-2 form-group text-right">
                                         <button type="button" onclick="Add_Mobile(this);" class="btn btn-outline-info p-0">
@@ -772,7 +773,7 @@ $this->load->view($menu.'_menu');
                                             }
                                         }
                                         ?>
-                                        <input type="text" id="mobile_count">
+                                        <input type="hidden" id="mobile_count">
                                     </div>
                                     <div class="col-md-12 col-lg-2 form-group text-right">
                                         <label for="desc">توضیحات</label>
@@ -921,7 +922,7 @@ $this->load->view($menu.'_menu');
                         ?>
                         <div class="row">
                             <div class="col-md-12 col-lg-12 form-group text-right">
-                                <button type="button" id="Save_Legal" class="btn btn-info">ذخیره تغییرات شرکت</button>
+                                <button type="button" id="Save_Legal" onclick="return Submit_Legal_Form();" class="btn btn-info">ذخیره تغییرات شرکت</button>
                             </div>
                         </div>
                     </div>
@@ -987,6 +988,7 @@ $this->load->view($menu.'_menu');
     var i_address = Address.length;
 
     var Node = [{}];
+    console.log('Agent:');
     console.log(Agent);
 
     let tell,int,fax,email,mobile;
@@ -1126,7 +1128,7 @@ $this->load->view($menu.'_menu');
         var id = $(obj).parent().parent().attr('id');
         var res = id.split('_');
         var agent_id = res[1];
-        console.log(agent_id);
+        //console.log(agent_id);
         var div =$(obj).parent();
         var sel = div.children('div').first();
         $(sel).clone().insertAfter(div.children('div').last());
@@ -1285,161 +1287,6 @@ $this->load->view($menu.'_menu');
         $('#Address_0').html(AddBase);
         $('[data-toggle="tooltip"]').tooltip();
         i_address++;
-    }
-    function Submit_Legal_Form() {
-        if($.trim($('#name').val()) == ''){
-            $('#Msg_R').html('نام شرکت را وارد نمایید');
-            $('#MsgDiv_R').slideDown('slow');
-            $('#MsgDiv_R').slideUp(5000);
-            Scroll();
-            $('#name').focus();
-            return false;
-        }
-
-        $('#Agent_0 #tell_count').val(i_tell+1);
-        $('#Agent_0 #int_count').val(i_int+1);
-        $('#Agent_0 #fax_count').val(i_fax+1);
-        $('#Agent_0 #email_count').val(i_email+1);
-        $('#Agent_0 #mobile_count').val(i_mobile+1);
-
-        var i,j,len;
-        var labels = [];
-        for(i=0; i<=i_clabel; i++){
-            if($('#label_'+i).val() != '0')
-                labels[i] = $('#label_'+i).val();
-        }
-
-        var ctell = [];
-        for(i=0; i<=i_ctell; i++){
-            if($('#ctell_'+i).val() != '')
-                ctell[i] = {Code:$('#ctcode_'+i).val(),Tell:$('#ctell_'+i).val(),Title:$('#ttitle_'+i).val()};
-        }
-        var cfax = [];
-        for(i=0; i<=i_cfax; i++){
-            if($('#cfax_'+i).val() != '')
-                cfax[i] = {Code:$('#cfcode_'+i).val(),Fax:$('#cfax_'+i).val(),Title:$('#ftitle_'+i).val()};
-        }
-
-        var Agents = [];
-        var tell = [];
-        var int = [];
-        var fax = [];
-        var email = [];
-        var mobile = [];
-
-        for(i=0; i<=i_agent; i++){
-            if($('#Agent_'+i+' #fn').val() != '' ||
-                $('#Agent_'+i+' #ln').val() != '' ||
-                $('#Agent_'+i+' #post').val() != '' ||
-                $('#Agent_'+i+' #tell_0').val() != '' ||
-                $('#Agent_'+i+' #int_0').val() != '' ||
-                $('#Agent_'+i+' #fax_0').val() != '' ||
-                $('#Agent_'+i+' #a_email_0').val() != '' ||
-                $('#Agent_'+i+' #mobile_0').val() != ''){
-
-                tell[i] = [];
-                if($('#Agent_'+i+' #tell_count').val() != ""){
-                    len = $('#Agent_'+i+' #tell_count').val();
-                    for(j=0; j<len; j++){
-                        if($('#Agent_'+i+' #tell_'+j).val() != '')
-                            tell[i][j] = {Code:$('#Agent_'+i+' #tcode_'+j).val(),Tell:$('#Agent_'+i+' #tell_'+j).val()};
-                    }
-                }
-                int[i] = [];
-                if($('#Agent_'+i+' #int_count').val() != ""){
-                    len = $('#Agent_'+i+' #int_count').val();
-                    for(j=0; j<len; j++){
-                        if($('#Agent_'+i+' #int_'+j).val() != '')
-                            int[i].push($('#Agent_'+i+' #int_'+j).val());
-                    }
-                }
-                fax[i] = [];
-                if($('#Agent_'+i+' #fax_count').val() != ""){
-                    len = $('#Agent_'+i+' #fax_count').val();
-                    for(j=0; j<len; j++){
-                        if($('#Agent_'+i+' #fax_'+j).val() != '')
-                            fax[i][j] = {Code:$('#Agent_'+i+' #fcode_'+j).val(),Fax:$('#Agent_'+i+' #fax_'+j).val()};
-                    }
-                }
-                email[i] = [];
-                if($('#Agent_'+i+' #email_count').val() != ""){
-                    len = $('#Agent_'+i+' #email_count').val();
-                    for(j=0; j<len; j++){
-                        if($('#Agent_'+i+' #a_email_'+j).val() != '')
-                            email[i].push($('#Agent_'+i+' #a_email_'+j).val());
-                    }
-                }
-                mobile[i] = [];
-                if($('#Agent_'+i+' #mobile_count').val() != ""){
-                    len = $('#Agent_'+i+' #mobile_count').val();
-                    for(j=0; j<len; j++){
-                        if($('#Agent_'+i+' #mobile_'+j).val() != '')
-                            mobile[i].push($('#Agent_'+i+' #mobile_'+j).val());
-                    }
-                }
-
-                Agents[i] = {
-                    Title:$('#Agent_'+i+' #title').val(),
-                    FN:$('#Agent_'+i+' #fn').val(),
-                    LN:$('#Agent_'+i+' #ln').val(),
-                    Post:$('#Agent_'+i+' #post').val(),
-                    Department:$('#Agent_'+i+' #department').val(),
-                    Desc:$('#Agent_'+i+' #desc').val(),
-                    Tell:tell[i],
-                    Int:int[i],
-                    Fax:fax[i],
-                    Email:email[i],
-                    Mobile:mobile[i]
-                };
-            }
-        }
-
-        var Addresses = [];
-        for(i=0; i<=i_address; i++){
-            if($('#Address_'+i+' #province').val() != '0' && $('#Address_'+i+' #city').val() != '0'){
-                Addresses[i] = {
-                    Province:$('#Address_'+i+' #province').val(),
-                    City:$('#Address_'+i+' #city').val(),
-                    Address:$('#Address_'+i+' #address').val()
-                }
-            }
-        }
-
-        var Parameters = {
-            Name:$('#name').val(),
-            Reg:$('#register').val(),
-            Type:$('#type').val(),
-            Brand:$('#brand').val(),
-            Site:$('#site').val(),
-            Email:$('#email').val(),
-            SubCat:$('#subcat').val(),
-            Category:$('#category').val(),
-            Desc:$('#comp_desc').val(),
-            CTell:ctell,
-            CFax:cfax,
-            Label:labels,
-            Agent:Agents,
-            Address:Addresses
-        };
-
-        $('#Save_Legal').html('در حال بروز رسانی, کمی تأمل فرمایید...');
-        $('#Save_Legal').addClass('disabled');
-        var URL = '<?php echo base_url().'company_add/update_legal'; ?>';
-        $.post(URL, Parameters, function (res, ret) {
-            if(ret == 'success'){
-                if(res == '1'){
-                    var url = '<?php echo base_url().'company_add/G_124'; ?>';
-                    $(location).attr('href',url);
-                }
-                else{
-                    $('#Msg_R').html('خطا در ایجاد شرکت');
-                    $('#MsgDiv_R').slideDown('slow',function(){
-                        Scroll();
-                        $('#MsgDiv_R').slideUp(5000);
-                    });
-                }
-            }
-        });
     }
     function Show_Delete(obj){
         $(obj).prev().fadeIn('slow');
@@ -1657,6 +1504,170 @@ $this->load->view($menu.'_menu');
             i_cfax--;
         }
     }
+
+    function Submit_Legal_Form() {
+        if($.trim($('#name').val()) == ''){
+            $('#Msg_R').html('نام شرکت را وارد نمایید');
+            $('#MsgDiv_R').slideDown('slow');
+            $('#MsgDiv_R').slideUp(5000);
+            Scroll();
+            $('#name').focus();
+            return false;
+        }
+
+/*
+        $('#Agent_0 #tell_count').val((Node[0].i_tell)+1);
+        $('#Agent_0 #int_count').val((Node[0].i_int)+1);
+        $('#Agent_0 #fax_count').val((Node[0].i_fax)+1);
+        $('#Agent_0 #email_count').val((Node[0].i_email)+1);
+        $('#Agent_0 #mobile_count').val((Node[0].i_mobile)+1);
+*/
+
+        var cid = '<?php echo $Company->CID; ?>';
+        var i,j,len;
+        var labels = [];
+        for(i=0; i<=i_clabel; i++){
+            if($('#label_'+i).val() != '0')
+                labels[i] = $('#label_'+i).val();
+        }
+
+        var ctell = [];
+        for(i=0; i<=i_ctell; i++){
+            if($('#ctell_'+i).val() != '')
+                ctell[i] = {Code:$('#ctcode_'+i).val(),Tell:$('#ctell_'+i).val(),Title:$('#ttitle_'+i).val()};
+        }
+        var cfax = [];
+        for(i=0; i<=i_cfax; i++){
+            if($('#cfax_'+i).val() != '')
+                cfax[i] = {Code:$('#cfcode_'+i).val(),Fax:$('#cfax_'+i).val(),Title:$('#ftitle_'+i).val()};
+        }
+
+        var Agents = [];
+        var tell = [];
+        var int = [];
+        var fax = [];
+        var email = [];
+        var mobile = [];
+
+        for(i=0; i<=i_agent; i++){
+
+            if($('#Agent_'+i+' #fn').val() != '' ||
+                $('#Agent_'+i+' #ln').val() != '' ||
+                $('#Agent_'+i+' #post').val() != '' ||
+                $('#Agent_'+i+' #tell_0').val() != '' ||
+                $('#Agent_'+i+' #int_0').val() != '' ||
+                $('#Agent_'+i+' #fax_0').val() != '' ||
+                $('#Agent_'+i+' #a_email_0').val() != '' ||
+                $('#Agent_'+i+' #mobile_0').val() != ''){
+                tell[i] = [];
+
+                if($('#Agent_'+i+' #tell_count').val() != ""){
+                    len = $('#Agent_'+i+' #tell_count').val();
+                    for(j=0; j<len; j++){
+                        if($('#Agent_'+i+' #tell_'+j).val() != '')
+                            tell[i][j] = {Code:$('#Agent_'+i+' #tcode_'+j).val(),Tell:$('#Agent_'+i+' #tell_'+j).val()};
+                    }
+                }
+                int[i] = [];
+                if($('#Agent_'+i+' #int_count').val() != ""){
+                    len = $('#Agent_'+i+' #int_count').val();
+                    for(j=0; j<len; j++){
+                        if($('#Agent_'+i+' #int_'+j).val() != '')
+                            int[i].push($('#Agent_'+i+' #int_'+j).val());
+                    }
+                }
+                fax[i] = [];
+                if($('#Agent_'+i+' #fax_count').val() != ""){
+                    len = $('#Agent_'+i+' #fax_count').val();
+                    for(j=0; j<len; j++){
+                        if($('#Agent_'+i+' #fax_'+j).val() != '')
+                            fax[i][j] = {Code:$('#Agent_'+i+' #fcode_'+j).val(),Fax:$('#Agent_'+i+' #fax_'+j).val()};
+                    }
+                }
+                email[i] = [];
+                if($('#Agent_'+i+' #email_count').val() != ""){
+                    len = $('#Agent_'+i+' #email_count').val();
+                    for(j=0; j<len; j++){
+                        if($('#Agent_'+i+' #a_email_'+j).val() != '')
+                            email[i].push($('#Agent_'+i+' #a_email_'+j).val());
+                    }
+                }
+                mobile[i] = [];
+                if($('#Agent_'+i+' #mobile_count').val() != ""){
+                    len = $('#Agent_'+i+' #mobile_count').val();
+                    for(j=0; j<len; j++){
+                        if($('#Agent_'+i+' #mobile_'+j).val() != '')
+                            mobile[i].push($('#Agent_'+i+' #mobile_'+j).val());
+                    }
+                }
+
+                Agents[i] = {
+                    Title:$('#Agent_'+i+' #title').val(),
+                    FN:$('#Agent_'+i+' #fn').val(),
+                    LN:$('#Agent_'+i+' #ln').val(),
+                    Post:$('#Agent_'+i+' #post').val(),
+                    Department:$('#Agent_'+i+' #department').val(),
+                    Desc:$('#Agent_'+i+' #desc').val(),
+                    Tell:tell[i],
+                    Int:int[i],
+                    Fax:fax[i],
+                    Email:email[i],
+                    Mobile:mobile[i]
+                };
+            }
+        }
+
+        var Addresses = [];
+        for(i=0; i<=i_address; i++){
+            if($('#Address_'+i+' #province').val() != '0' && $('#Address_'+i+' #city').val() != '0'){
+                Addresses[i] = {
+                    Province:$('#Address_'+i+' #province').val(),
+                    City:$('#Address_'+i+' #city').val(),
+                    Address:$('#Address_'+i+' #address').val()
+                }
+            }
+        }
+
+        var Parameters = {
+            CID:cid,
+            Name:$('#name').val(),
+            Reg:$('#register').val(),
+            Type:$('#type').val(),
+            Brand:$('#brand').val(),
+            Site:$('#site').val(),
+            Email:$('#email').val(),
+            SubCat:$('#subcat').val(),
+            Category:$('#category').val(),
+            Desc:$('#comp_desc').val(),
+            AccMngr:$('#acc_manager').val(),
+            CTell:ctell,
+            CFax:cfax,
+            Label:labels,
+            Agent:Agents,
+            Address:Addresses
+        };
+
+        $('#Save_Legal').html('در حال ذخیره, کمی تأمل فرمایید...');
+        $('#Save_Legal').addClass('disabled');
+        var URL = '<?php echo base_url().'company_edit/update_legal'; ?>';
+        $.post(URL, Parameters, function (res, ret) {
+            if(ret == 'success'){
+                if(res == '1'){
+                    var url = '<?php echo base_url().'company_find/G_124'; ?>';
+                    $(location).attr('href',url);
+                }
+                else{
+                    $('#Msg_R').html('خطا در بروزرسانی شرکت');
+                    $('#MsgDiv_R').slideDown('slow',function(){
+                        Scroll();
+                        $('#MsgDiv_R').slideUp(5000);
+                    });
+                }
+            }
+        });
+    }
+
+
 </script>
 <?php
 $this->load->view('footer');
