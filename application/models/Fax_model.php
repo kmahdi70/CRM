@@ -64,6 +64,7 @@ class Fax_model extends CI_Model{
 
         $files = $_FILES;
         $Num = count($_FILES['upload']['name']);
+        $uploads = array();
         for($i=0; $i<$Num; $i++) {
             $path_parts = pathinfo($files['upload']['name'][$i]);
             $Ext = strtolower($path_parts['extension']);
@@ -82,6 +83,7 @@ class Fax_model extends CI_Model{
             $_FILES['upload']['size'] = $files['upload']['size'][$i];
 
             $config['upload_path'] = BasePath.'fax/';
+            $uploads[] = BasePath.'fax/'.$Image;
             $this->upload->initialize($config);
             $this->upload->do_upload('upload');
         }
@@ -91,7 +93,7 @@ class Fax_model extends CI_Model{
 
 
 
-            $curl = curl_init();
+            //$curl = curl_init();
             $curl = curl_init('https://api.fax.ir/v2/accounts/self/files?format=pdf');
             curl_setopt($curl, CURLOPT_POST, true);
             curl_setopt(
