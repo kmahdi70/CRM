@@ -74,8 +74,14 @@ $this->load->view($menu.'_menu');
                             <div class="col-md-12 col-lg-1 form-group text-right">
                                 <label for="title">عنوان</label>
                                 <select class="form-control p-0" id="title">
-                                    <option value="آقای">آقای</option>
-                                    <option value="خانم">خانم</option>
+                                    <option value="جناب آقای مهندس">جناب آقای مهندس</option>
+                                    <option value="جناب آقای دکتر">جناب آقای دکتر</option>
+                                    <option value="سرکار خانم مهندس">سرکار خانم مهندس</option>
+                                    <option value="سرکار خانم دکتر">سرکار خانم دکتر</option>
+                                    <option value="سرکار خانم">سرکار خانم</option>
+                                    <option value="جناب آقای">جناب آقای</option>
+                                    <option value="استاد">استاد</option>
+                                    <option value="حاج آقا">حاج آقا</option>
                                 </select>
                             </div>
                             <div class="col-md-12 col-lg-2 form-group text-right">
@@ -301,8 +307,14 @@ $this->load->view($menu.'_menu');
                             <div class="col-md-12 col-lg-1 form-group text-right">
                                 <label for="title">عنوان</label>
                                 <select class="form-control p-0" id="title">
-                                    <option value="آقای">آقای</option>
-                                    <option value="خانم">خانم</option>
+                                    <option value="جناب آقای مهندس">جناب آقای مهندس</option>
+                                    <option value="جناب آقای دکتر">جناب آقای دکتر</option>
+                                    <option value="سرکار خانم مهندس">سرکار خانم مهندس</option>
+                                    <option value="سرکار خانم دکتر">سرکار خانم دکتر</option>
+                                    <option value="سرکار خانم">سرکار خانم</option>
+                                    <option value="جناب آقای">جناب آقای</option>
+                                    <option value="استاد">استاد</option>
+                                    <option value="حاج آقا">حاج آقا</option>
                                 </select>
                             </div>
                             <div class="col-md-12 col-lg-2 form-group text-right">
