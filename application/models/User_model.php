@@ -85,11 +85,13 @@ class User_model extends CI_Model{
 
     public function Button($id,$tb){
         $str = strtr(base64_encode($id), '+/=', '._-');
-        return ('<span class="btn" data-toggle="tooltip" title="تغییر رمز" id="DellSpan" onclick="ConfirmDelete(\''.$str.'\',\''.$tb.'\');" style="padding: 0;">
+        return ('<span class="btn" data-toggle="tooltip" title="تغییر رمز" id="DellSpan" style="padding: 0;">
                     <i class="fas fa-key fa-fw fa-2x text-success"></i>
-                 </span><span class="btn" data-toggle="tooltip" title="ویرایش" id="DellSpan" style="padding: 0;">
-                     <a href="'.base_url().'company_edit/code/'.$str.'"><i class="far fa-edit fa-fw fa-2x"></i></a>
-                 </span><span class="btn" data-toggle="tooltip" title="حذف" id="DellSpan" style="padding: 0;">
+                 </span>
+                 <span class="btn" data-toggle="tooltip" title="ویرایش" id="DellSpan" style="padding: 0;">
+                     <a href="'.base_url().'user_edit/code/'.$str.'"><i class="far fa-edit fa-fw fa-2x"></i></a>
+                 </span>
+                 <span class="btn" data-toggle="tooltip" title="حذف" id="DellSpan" style="padding: 0;" onclick="ConfirmDelete(\''.$str.'\',\''.$tb.'\');" >
                     <i class="far fa-trash-alt fa-fw fa-2x text-danger" data-toggle="modal" data-target="#ConfirmDell"></i>
                  </span>');
     }

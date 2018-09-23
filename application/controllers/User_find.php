@@ -52,7 +52,7 @@ class User_find extends CI_Controller {
         $this->load->model('user_model');
 
         if($this->user_model->dell_user($UID) == '1')
-            redirect(base_url() . 'user_find/G_127');
+            redirect(base_url() . 'user_find/G_138');
         else
             redirect(base_url() . 'user_find/R_108');
     }
@@ -62,7 +62,7 @@ class User_find extends CI_Controller {
         $this->load->model('admin_model');
 
         if($this->admin_model->dell_admin($AID) == '1')
-            redirect(base_url() . 'user_find/G_127');
+            redirect(base_url() . 'user_find/G_138');
         else
             redirect(base_url() . 'user_find/R_108');
     }

@@ -33,9 +33,9 @@
                     بایگانی
                 </a>
                 <div class="dropdown-menu text-right" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="<?php echo base_url().'category'; ?>">فکس</a>
-                    <a class="dropdown-item" href="<?php echo base_url().'category'; ?>">ایمیل</a>
-                    <a class="dropdown-item" href="<?php echo base_url().'category'; ?>">وظایف</a>
+                    <a class="dropdown-item" href="">فکس</a>
+                    <a class="dropdown-item" href="">ایمیل</a>
+                    <a class="dropdown-item" href="">وظایف</a>
                 </div>
             </li>
             <li class="nav-item">

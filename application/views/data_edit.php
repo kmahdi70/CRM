@@ -29,8 +29,8 @@ $this->load->view($menu.'_menu');
                     <div class="row rtl">
                         <div class="col-12 form-group">
                             <a href="<?php echo base_url() . 'company_find'; ?>" class="btn btn-outline-primary">شرکت</a>
-                            <a href="" class="btn btn-outline-primary">گروه</a>
-                            <a href="" class="btn btn-outline-primary">زیرگروه</a>
+                            <a href="<?php echo base_url() . 'category'; ?>" class="btn btn-outline-primary">گروه</a>
+                            <a href="<?php echo base_url() . 'subcategory'; ?>" class="btn btn-outline-primary">زیرگروه</a>
                             <a href="" class="btn btn-outline-primary">دپارتمان</a>
                             <a href="" class="btn btn-outline-primary">اولویت</a>
                             <a href="" class="btn btn-outline-primary">نوع وظایف</a>

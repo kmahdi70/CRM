@@ -12,7 +12,6 @@
                 <div class="dropdown-menu text-right" aria-labelledby="navbarDropdownMenuLink">
                     <a class="dropdown-item" href="<?php echo base_url().'data_add'; ?>">ورود اطلاعات</a>
                     <a class="dropdown-item" href="<?php echo base_url() . 'data_edit'; ?>">ویرایش اطلاعات</a>
-                    <a class="dropdown-item" href="<?php echo base_url() . 'data_delete'; ?>">حذف اطلاعات</a>
                 </div>
             </li>
             <li class="nav-item dropdown">
@@ -38,11 +37,11 @@
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle SMenu" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    کارپردازی
+                    تخصیص
                 </a>
                 <div class="dropdown-menu text-right" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="<?php echo base_url() . 'dev_add'; ?>">ایجاد کارپردازی</a>
-                    <a class="dropdown-item" href="<?php echo base_url() . 'dev_find'; ?>">مدیریت کارپردازی</a>
+                    <a class="dropdown-item" href="<?php echo base_url() . 'dev_add'; ?>">تخصیص پروژه</a>
+                    <a class="dropdown-item" href="<?php echo base_url() . 'dev_find'; ?>">مدیریت تخصیص ها</a>
                 </div>
             </li>
             <li class="nav-item dropdown">
@@ -72,7 +71,6 @@
                     <a class="dropdown-item" href="<?php echo base_url().''; ?>">فکس</a>
                     <a class="dropdown-item" href="<?php echo base_url().''; ?>">ایمیل</a>
                     <a class="dropdown-item" href="<?php echo base_url().''; ?>">وظایف</a>
-                    <a class="dropdown-item" href="<?php echo base_url().'category'; ?>">گروه</a>
                 </div>
             </li>
             <li class="nav-item">
